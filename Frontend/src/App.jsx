@@ -1,15 +1,19 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginSignup from "./components/LoginsSignup/LoginSignup";
+import AddCourse from "./components/AddCourse";
 import Dashboard from "./Pages/Dashboard";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LoginSignup />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
-    </BrowserRouter>
+    
+    <AddCourse />
+    // <BrowserRouter>
+    //   <Routes>
+    //     <Route path="/" element={<LoginSignup />} />
+    //     <Route path="/dashboard" element={<Dashboard />} />
+    //   </Routes>
+    // </BrowserRouter>
+    
   );
 }
 
