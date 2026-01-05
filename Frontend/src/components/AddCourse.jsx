@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
+
 function AddCourse() {
-  import React, { useState } from "react";
   
   function App() {
   
@@ -171,7 +171,6 @@ function AddCourse() {
     );
   }
   
-  export default App;
   
 }
 

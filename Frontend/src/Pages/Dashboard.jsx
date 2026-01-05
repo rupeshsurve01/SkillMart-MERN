@@ -1,14 +1,17 @@
+import {Link} from 'react-router-dom'
+
+
+
 const Dashboard = () => {
   return (
      <div className='bg-[url("https://cdn.wallpapersafari.com/86/91/9i4pqm.jpg")] bg-cover bg-center h-screen'>
       
-      {/* Navbar */}
       <nav>
-        <ul className="flex gap-10 justify-end p-4 text-xl text-white">
-          <li className="cursor-pointer hover:underline">Home</li>
-          <li className="cursor-pointer hover:underline">Contact Us</li>
-          <li className="cursor-pointer hover:underline">Log Out</li>
-        </ul>
+        <div className="flex gap-10 justify-end p-4 text-white text-2xl">
+            <Link className="cursor-pointer hover:underline" to='/dashboard'>Home</Link>
+            <Link className="cursor-pointer hover:underline" to='/contact'>Contact Us</Link>
+            <Link className="cursor-pointer hover:underline" to='/'>Log out</Link>  
+        </div>
       </nav>
 
       {/* Hero Section */}
