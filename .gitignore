@@ -7,3 +7,6 @@ Login Page/
 # Extra package files at root
 package.json
 package-lock.json
+
+node_modules/
+.env
