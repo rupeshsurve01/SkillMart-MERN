@@ -4,21 +4,24 @@ import AddCourse from "./components/AddCourse";
 import Dashboard from "./Pages/Dashboard";
 import Contact from "./Pages/Contact";
 import PageNotFound from "./Pages/PageNotFound";
+import CheckCourses from "./Pages/CheckCourses";
+// import { axios } from 'axios';
+
 
 function App() {
+
+
   return (
     <div>
       <AddCourse />
       <Routes>
-        <Route path="/" element={<LoginSignup />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/login" element={<LoginSignup />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<PageNotFound />} />
+        <Route path="/allcourses" element={<CheckCourses />} />
       </Routes>
-
     </div>
-
-
   );
 }
 
