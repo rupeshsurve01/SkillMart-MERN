@@ -10,10 +10,8 @@ import CheckCourses from "./Pages/CheckCourses";
 
 function App() {
 
-
   return (
     <div>
-      <AddCourse />
       <Routes>
         <Route path="/login" element={<LoginSignup />} />
         <Route path="/" element={<Dashboard />} />

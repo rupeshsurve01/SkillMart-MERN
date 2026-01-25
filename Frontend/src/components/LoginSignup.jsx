@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,6 +11,12 @@ const LoginSignup = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+
+  // ✅ SINGLE SOURCE OF TRUTH
+  const url =
+    action === "Sign Up"
+      ? "http://localhost:5000/api/auth/register"
+      : "http://localhost:5000/api/auth/login";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,11 +30,6 @@ const LoginSignup = () => {
       alert("Email and password are required");
       return;
     }
-
-    const url =
-      action === "Sign Up"
-        ? "http://localhost:5000/signup"
-        : "http://localhost:5000/login";
 
     const body =
       action === "Sign Up"
@@ -46,9 +49,8 @@ const LoginSignup = () => {
       alert(data.message);
 
       if (res.ok) {
-        navigate("/dashboard");
+        navigate("/");
       }
-    // eslint-disable-next-line no-unused-vars
     } catch (error) {
       alert("Server not reachable");
     } finally {
@@ -76,11 +78,10 @@ const LoginSignup = () => {
               key={type}
               type="button"
               onClick={() => setAction(type)}
-              className={`w-1/2 py-2 text-sm font-medium transition ${
-                action === type
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
+              className={`w-1/2 py-2 text-sm font-medium transition ${action === type
+                ? "bg-blue-600 text-white"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
             >
               {type}
             </button>

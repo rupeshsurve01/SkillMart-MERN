@@ -8,17 +8,13 @@ const CheckCourses = () => {
 
   const getData = async () => {
 
-    const response = await axios.get(
-      'https://picsum.photos/v2/list?page=1&limit=10'
-    )
+   const response = await axios.get("http://localhost:5000/api/courses");
+setUserData(response.data);
+
     console.log(response.data) // full array
-    // example: first image URL-->response.data[0].download_url
-    //   console.log(response.data[0].download_url)
+
     setUserData(response.data)
   }
-  // const index = userData.map(function(elem,idx){
-  //   return <div>elem.download_url</div>
-  // })
 
   return (
     <div>

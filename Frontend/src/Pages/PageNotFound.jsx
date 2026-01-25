@@ -1,10 +1,24 @@
 import React from 'react'
+import { Link } from "react-router-dom";
+import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 
 const PageNotFound = () => {
   return (
-    <div>
-      <h1 className='flex justify-center item-center text-amber-800 text-8xl'>4O4 Page Not</h1>
-    </div>
+    <>
+      <section className="notFound">
+        <div className="container">
+          <img src="/notFound.svg" alt="notFound" />
+          <h1>LOOKS LIKE YOU'RE LOST</h1>
+          <p>We can't seem to find you the page you're looking for</p>
+          <Link to={"/"}>
+            Back to Home{" "}
+            <span>
+              <HiOutlineArrowNarrowRight />
+            </span>
+          </Link>
+        </div>
+      </section>
+    </>
   )
 }
 
