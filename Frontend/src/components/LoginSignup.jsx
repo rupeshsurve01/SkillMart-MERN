@@ -12,22 +12,31 @@ const LoginSignup = () => {
 
   const navigate = useNavigate();
 
-  // ✅ SINGLE SOURCE OF TRUTH
   const url =
     action === "Sign Up"
       ? "http://localhost:5000/api/auth/register"
       : "http://localhost:5000/api/auth/login";
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); //Stop page refresh
 
     if (action === "Sign Up" && !name) {
       alert("Name is required");
       return;
     }
 
-    if (!email || !password) {
+    if (!email && !password) {
       alert("Email and password are required");
+      return;
+    }
+
+    if (!email) {
+      alert("Email is required");
+      return;
+    }
+
+    if (!password) {
+      alert("Password is required");
       return;
     }
 

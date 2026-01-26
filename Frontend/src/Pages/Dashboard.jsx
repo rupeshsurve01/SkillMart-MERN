@@ -16,11 +16,16 @@ const Dashboard = () => {
           “Learn smarter. Teach better. Grow together.”
         </span>
 
-        {/* Button at the end of text */}
       
         <Link to="/allcourses">
           <button className="h-10 px-6 bg-amber-300 rounded font-semibold hover:bg-amber-400 transition">
             Check Courses
+          </button>
+        </Link>
+
+        <Link to="/register">
+          <button className="h-10 px-6 bg-amber-300 rounded font-semibold hover:bg-amber-400 transition">
+            Sell Courses
           </button>
         </Link>
 

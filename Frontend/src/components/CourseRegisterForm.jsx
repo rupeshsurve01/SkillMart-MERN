@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 
-function AddCourse() {
+function CourseRegisterForm() {
 
   const [courseData, setCourseData] = useState({
     title: "",
@@ -55,7 +55,6 @@ function AddCourse() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(courseData)
     });
-
   };
 
   return (
@@ -171,4 +170,4 @@ function AddCourse() {
   );
 }
 
-export default AddCourse;
+export default CourseRegisterForm;
