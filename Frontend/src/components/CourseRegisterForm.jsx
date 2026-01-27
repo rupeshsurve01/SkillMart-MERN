@@ -4,6 +4,7 @@ import React, { useState } from "react";
 function CourseRegisterForm() {
   const [courseData, setCourseData] = useState({
     title: "",
+    firm: "",
     shortDesc: "",
     category: "",
     level: "",
@@ -29,6 +30,7 @@ function CourseRegisterForm() {
     const newErrors = {};
 
     if (!courseData.title.trim()) newErrors.title = "Course title is required";
+    if (!courseData.firm.trim()) newErrors.title = "Firm Name is required";
     if (!courseData.shortDesc.trim())
       newErrors.shortDesc = "Short description is required";
     if (!courseData.category) newErrors.category = "Select a category";
@@ -97,6 +99,15 @@ function CourseRegisterForm() {
           className="w-full border px-3 py-2 rounded mb-1"
         />
         {errors.title && <p className="text-red-500">{errors.title}</p>}
+
+        <label className="font-medium">Firm Name</label>
+        <input
+          name="firm"
+          value={courseData.firm}
+          onChange={handleChange}
+          className="w-full border px-3 py-2 rounded mb-1"
+        />
+        {errors.firm && <p className="text-red-500">{errors.title}</p>}
 
         <label className="font-medium">Short Description</label>
         <input
@@ -212,7 +223,7 @@ function CourseRegisterForm() {
 
         <input
           id="thumbnail"
-          name="thumbnail" // ✅ MUST MATCH multer
+          name="thumbnail" 
           type="file"
           accept="image/*"
           className="hidden"

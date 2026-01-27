@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const courseSchema = new mongoose.Schema({
   title: String,
+  firm: String,
   shortDesc: String,
   category: String,
   level: String,
