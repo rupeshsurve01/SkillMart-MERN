@@ -2,20 +2,21 @@ const Course = require("../models/Course");
 
 exports.addCourse = async (req, res) => {
   try {
+    console.log("FILE:", req.file); // 🔍 debug
+
     const course = await Course.create({
       ...req.body,
-      thumbnail: req.file ? req.file.filename : null
+      thumbnail: req.file ? req.file.filename : null,
     });
 
     res.json({
       message: "Course added",
-      course
+      course,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 exports.getCourses = async (req, res) => {
   const courses = await Course.find();
