@@ -10,8 +10,8 @@ const courseSchema = new mongoose.Schema({
   duration: String,
   learn: String,
   lectures: Number,
-  price: Number,
-  thumbnail: String
-}, { timestamps: true });
+  price: Number
+});
+
 
 module.exports = mongoose.model("Course", courseSchema);

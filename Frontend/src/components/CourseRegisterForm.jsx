@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 
 function CourseRegisterForm() {
-
   const [courseData, setCourseData] = useState({
     title: "",
     shortDesc: "",
@@ -14,8 +13,7 @@ function CourseRegisterForm() {
     learn: "",
     lectures: "",
     price: "",
-    discount: "",
-    thumbnail: null
+    thumbnail: null,
   });
 
   const [preview, setPreview] = useState(null);
@@ -31,12 +29,15 @@ function CourseRegisterForm() {
     const newErrors = {};
 
     if (!courseData.title.trim()) newErrors.title = "Course title is required";
-    if (!courseData.shortDesc.trim()) newErrors.shortDesc = "Short description is required";
+    if (!courseData.shortDesc.trim())
+      newErrors.shortDesc = "Short description is required";
     if (!courseData.category) newErrors.category = "Select a category";
     if (!courseData.level) newErrors.level = "Select a level";
     if (!courseData.language) newErrors.language = "Select a language";
-    if (!courseData.syllabus.trim()) newErrors.syllabus = "Course syllabus is required";
-    if (!courseData.duration.trim()) newErrors.duration = "Duration is required";
+    if (!courseData.syllabus.trim())
+      newErrors.syllabus = "Course syllabus is required";
+    if (!courseData.duration.trim())
+      newErrors.duration = "Duration is required";
     if (!courseData.learn.trim()) newErrors.learn = "This field is required";
 
     if (!courseData.lectures || courseData.lectures <= 0)
@@ -50,33 +51,69 @@ function CourseRegisterForm() {
   };
 
   const handleSubmit = async (e) => {
-    await fetch("http://localhost:5000/api/courses", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(courseData)
+    e.preventDefault();
+
+    if (!validate()) return;
+
+    const formData = new FormData();
+
+    Object.keys(courseData).forEach((key) => {
+      if (key !== "thumbnail") {
+        formData.append(key, courseData[key]);
+      }
     });
+
+    if (courseData.thumbnail) {
+      formData.append("thumbnail", courseData.thumbnail);
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/api/courses", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      alert(data.message);
+    } catch (err) {
+      alert("Failed to add course");
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl">
-
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl"
+      >
         <h1 className="text-2xl font-bold mb-6 text-center">Add New Course</h1>
 
         {/* BASIC INFO */}
         <label className="font-medium">Course Title</label>
-        <input name="title" value={courseData.title} onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-1" />
+        <input
+          name="title"
+          value={courseData.title}
+          onChange={handleChange}
+          className="w-full border px-3 py-2 rounded mb-1"
+        />
         {errors.title && <p className="text-red-500">{errors.title}</p>}
 
         <label className="font-medium">Short Description</label>
-        <input name="shortDesc" value={courseData.shortDesc} onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-1" />
+        <input
+          name="shortDesc"
+          value={courseData.shortDesc}
+          onChange={handleChange}
+          className="w-full border px-3 py-2 rounded mb-1"
+        />
         {errors.shortDesc && <p className="text-red-500">{errors.shortDesc}</p>}
 
         <label className="font-medium">Category</label>
-        <select name="category" value={courseData.category} onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-1">
+        <select
+          name="category"
+          value={courseData.category}
+          onChange={handleChange}
+          className="w-full border px-3 py-2 rounded mb-1"
+        >
           <option value="">Select</option>
           <option value="web-development">Web Development</option>
           <option value="app-development">App Development</option>
@@ -86,8 +123,12 @@ function CourseRegisterForm() {
         {errors.category && <p className="text-red-500">{errors.category}</p>}
 
         <label className="font-medium">Level</label>
-        <select name="level" value={courseData.level} onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-4">
+        <select
+          name="level"
+          value={courseData.level}
+          onChange={handleChange}
+          className="w-full border px-3 py-2 rounded mb-4"
+        >
           <option value="">Select</option>
           <option value="beginner">Beginner</option>
           <option value="intermediate">Intermediate</option>
@@ -96,8 +137,12 @@ function CourseRegisterForm() {
 
         {/* LANGUAGE DROPDOWN */}
         <label className="font-medium">Course Language</label>
-        <select name="language" value={courseData.language} onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-1">
+        <select
+          name="language"
+          value={courseData.language}
+          onChange={handleChange}
+          className="w-full border px-3 py-2 rounded mb-1"
+        >
           <option value="">Select</option>
           <option value="English">English</option>
           <option value="Hindi">Hindi</option>
@@ -121,31 +166,53 @@ function CourseRegisterForm() {
 
         {/* COURSE CONTENT */}
         <label className="font-medium">Total Duration</label>
-        <input name="duration" value={courseData.duration} onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-1" />
+        <input
+          name="duration"
+          value={courseData.duration}
+          onChange={handleChange}
+          className="w-full border px-3 py-2 rounded mb-1"
+        />
 
         <label className="font-medium">What You Will Learn</label>
-        <textarea name="learn" value={courseData.learn} onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-1" />
+        <textarea
+          name="learn"
+          value={courseData.learn}
+          onChange={handleChange}
+          className="w-full border px-3 py-2 rounded mb-1"
+        />
 
         <label className="font-medium">Number of Lectures</label>
-        <input type="number" name="lectures" value={courseData.lectures} onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-4" />
+        <input
+          type="number"
+          name="lectures"
+          value={courseData.lectures}
+          onChange={handleChange}
+          className="w-full border px-3 py-2 rounded mb-4"
+        />
 
         {/* PRICE */}
         <label className="font-medium">Price</label>
-        <input type="number" name="price" value={courseData.price} onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-4" />
+        <input
+          type="number"
+          name="price"
+          value={courseData.price}
+          onChange={handleChange}
+          className="w-full border px-3 py-2 rounded mb-4"
+        />
 
         {/* THUMBNAIL */}
         <label className="font-medium block mb-1">Course Thumbnail</label>
 
-        <label htmlFor="thumbnail" className="cursor-pointer bg-gray-200 px-4 py-2 rounded-lg inline-block">
+        <label
+          htmlFor="thumbnail"
+          className="cursor-pointer bg-gray-200 px-4 py-2 rounded-lg inline-block"
+        >
           Upload Thumbnail
         </label>
 
         <input
           id="thumbnail"
+          name="thumbnail" // ✅ MUST MATCH multer
           type="file"
           accept="image/*"
           className="hidden"
@@ -157,14 +224,16 @@ function CourseRegisterForm() {
         />
 
         {preview && (
-          <img src={preview} alt="Preview"
-            className="mt-4 w-48 h-32 object-cover rounded-lg border" />
+          <img
+            src={preview}
+            alt="Preview"
+            className="mt-4 w-48 h-32 object-cover rounded-lg border"
+          />
         )}
 
         <button className="w-full bg-blue-600 text-white py-3 mt-6 rounded-lg">
           Publish Course
         </button>
-
       </form>
     </div>
   );
