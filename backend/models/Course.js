@@ -12,7 +12,12 @@ const courseSchema = new mongoose.Schema({
   learn: String,
   lectures: Number,
   price: Number,
-    thumbnail: String
+    thumbnail: String,
+
+ seller: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }
 }, { timestamps: true });
 
 

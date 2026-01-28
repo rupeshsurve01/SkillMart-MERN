@@ -6,6 +6,7 @@ exports.addCourse = async (req, res) => {
 
     const course = await Course.create({
       ...req.body,
+      seller: seller,
       thumbnail: req.file ? req.file.filename : null,
     });
 
@@ -13,6 +14,7 @@ exports.addCourse = async (req, res) => {
       message: "Course added",
       course,
     });
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

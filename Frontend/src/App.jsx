@@ -5,6 +5,7 @@ import Contact from "./Pages/Contact";
 import PageNotFound from "./Pages/PageNotFound";
 import CheckCourses from "./Pages/CheckCourses";
 import CourseRegisterForm from "./components/CourseRegisterForm";
+import MyCourses from "./Pages/MyCourses";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="*" element={<PageNotFound />} />
         <Route path="/allcourses" element={<CheckCourses />} />
         <Route path="/register" element={<CourseRegisterForm />} />
+        <Route path="/mycourses" element={<MyCourses />} />
       </Routes>
     </div>
   );

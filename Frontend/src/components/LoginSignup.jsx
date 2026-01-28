@@ -58,7 +58,9 @@ const LoginSignup = () => {
       alert(data.message);
 
       if (res.ok) {
+        localStorage.setItem("userId", data.user._id);
         navigate("/");
+
       }
     } catch (error) {
       alert("Server not reachable");

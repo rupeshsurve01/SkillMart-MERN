@@ -57,6 +57,8 @@ function CourseRegisterForm() {
 
     if (!validate()) return;
 
+    const userId = localStorage.getItem("userId");
+
     const formData = new FormData();
 
     Object.keys(courseData).forEach((key) => {
@@ -68,6 +70,8 @@ function CourseRegisterForm() {
     if (courseData.thumbnail) {
       formData.append("thumbnail", courseData.thumbnail);
     }
+
+    formData.append("seller", userId);
 
     try {
       const res = await fetch("http://localhost:5000/api/courses", {
