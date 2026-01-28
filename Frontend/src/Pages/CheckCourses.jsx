@@ -15,6 +15,7 @@ useEffect(() => {
 }, []); 
 
 
+
   return (
     <div>
       <Navbar />
@@ -69,11 +70,16 @@ useEffect(() => {
 
             {/* BOTTOM BUTTONS */}
             <div className="flex flex-col gap-2">
-              <button className="h-9 rounded-lg bg-[#e24e4e] text-white font-semibold">
+              <button onClick={() => {
+                (e) =>{
+                  userData.forEach
+                  console.log(e)
+                }
+              }} className="h-9 rounded-lg bg-[#e24e4e] text-white font-semibold hover:bg-amber-400 active:scale-95 cursor-pointer">
                 View Detail
               </button>
 
-              <button className="h-9 rounded-lg bg-[#e24e4e] text-white font-semibold">
+              <button  className="h-9 rounded-lg bg-[#e24e4e] text-white font-semibold hover:bg-amber-400 cursor-pointer active:scale-95">
                 Add to Compare
               </button>
             </div>
