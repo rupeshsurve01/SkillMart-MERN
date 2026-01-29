@@ -6,9 +6,9 @@ import PageNotFound from "./Pages/PageNotFound";
 import CheckCourses from "./Pages/CheckCourses";
 import CourseRegisterForm from "./components/CourseRegisterForm";
 import MyCourses from "./Pages/MyCourses";
+import ViewDetails from "./Pages/ViewDetails";
 
 function App() {
-
   return (
     <div>
       <Routes>
@@ -19,6 +19,7 @@ function App() {
         <Route path="/allcourses" element={<CheckCourses />} />
         <Route path="/register" element={<CourseRegisterForm />} />
         <Route path="/mycourses" element={<MyCourses />} />
+        <Route path="/view/:id" element={<ViewDetails />} />
       </Routes>
     </div>
   );
