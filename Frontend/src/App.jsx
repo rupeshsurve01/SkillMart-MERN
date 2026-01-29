@@ -7,6 +7,7 @@ import CheckCourses from "./Pages/CheckCourses";
 import CourseRegisterForm from "./components/CourseRegisterForm";
 import MyCourses from "./Pages/MyCourses";
 import ViewDetails from "./Pages/ViewDetails";
+import CompareCourses from "./Pages/CompareCourses";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/register" element={<CourseRegisterForm />} />
         <Route path="/mycourses" element={<MyCourses />} />
         <Route path="/view/:id" element={<ViewDetails />} />
+        <Route path="/compare" element={<CompareCourses />} />
       </Routes>
     </div>
   );

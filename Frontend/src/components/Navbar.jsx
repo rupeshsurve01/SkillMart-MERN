@@ -17,6 +17,10 @@ const Navbar = () => {
         <Link className="cursor-pointer hover:underline" to="/mycourses">
           My Courses
         </Link>
+        <Link to="/compare" className="hover:underline">
+  Compare
+</Link>
+
       </div>
     </nav>
   );

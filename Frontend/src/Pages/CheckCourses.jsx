@@ -8,7 +8,6 @@ const CheckCourses = () => {
 
   const navigate = useNavigate();
 
-
   useEffect(() => {
     const getData = async () => {
       const response = await axios.get("http://localhost:5000/api/courses");
@@ -78,7 +77,33 @@ const CheckCourses = () => {
                 View Detail
               </button>
 
-              <button className="h-9 rounded-lg bg-[#e24e4e] text-white font-semibold hover:bg-amber-400 cursor-pointer active:scale-95">
+              <button
+                onClick={() => {
+                  const existing =
+                    JSON.parse(localStorage.getItem("compareCourses")) || [];
+
+                  // prevent duplicates
+                  if (existing.includes(course._id)) {
+                    alert("Course already added to compare");
+                    return;
+                  }
+
+                  // limit to 3–4 courses
+                  if (existing.length >= 3) {
+                    alert("You can compare max 3 courses");
+                    return;
+                  }
+
+                  const updated = [...existing, course._id];
+                  localStorage.setItem(
+                    "compareCourses",
+                    JSON.stringify(updated),
+                  );
+
+                  alert("Added to compare");
+                }}
+                className="h-9 rounded-lg bg-gray-800 text-white font-semibold hover:bg-black active:scale-95"
+              >
                 Add to Compare
               </button>
             </div>
