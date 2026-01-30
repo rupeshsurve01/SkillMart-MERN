@@ -11,16 +11,18 @@ const Navbar = () => {
         <Link className="cursor-pointer hover:underline" to="/contact">
           Contact Us
         </Link>
+        <Link className="cursor-pointer hover:underline" to="/my-courses">
+          My Courses
+        </Link>
+        <Link className="cursor-pointer hover:underline" to="/my-learning">
+          My Learning
+        </Link>
+        <Link to="/compare" className="hover:underline">
+          Compare
+        </Link>
         <Link className="cursor-pointer hover:underline" to="/login">
           Log out
         </Link>
-        <Link className="cursor-pointer hover:underline" to="/mycourses">
-          My Courses
-        </Link>
-        <Link to="/compare" className="hover:underline">
-  Compare
-</Link>
-
       </div>
     </nav>
   );

@@ -8,6 +8,7 @@ import CourseRegisterForm from "./components/CourseRegisterForm";
 import MyCourses from "./Pages/MyCourses";
 import ViewDetails from "./Pages/ViewDetails";
 import CompareCourses from "./Pages/CompareCourses";
+import MyLearning from "./Pages/MyLearning";
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
         <Route path="*" element={<PageNotFound />} />
         <Route path="/allcourses" element={<CheckCourses />} />
         <Route path="/register" element={<CourseRegisterForm />} />
-        <Route path="/mycourses" element={<MyCourses />} />
+        <Route path="/my-courses" element={<MyCourses />} />
+        <Route path="/my-learning" element={<MyLearning />} />
         <Route path="/view/:id" element={<ViewDetails />} />
         <Route path="/compare" element={<CompareCourses />} />
       </Routes>

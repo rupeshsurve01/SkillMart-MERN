@@ -14,87 +14,106 @@ const ViewDetails = () => {
   }, [id]);
 
   if (!course) return <p>Loading...</p>;
-return (
-  <>
-    <Navbar />
+  return (
+    <>
+      <Navbar />
 
-    <div className="max-w-6xl mx-auto px-4 py-10">
-      
-      {/* COURSE THUMBNAIL */}
-      <div className="w-full h-[380px] rounded-2xl overflow-hidden shadow-lg mb-10">
-        <img
-          src={`http://localhost:5000/uploads/${course.thumbnail}`}
-          alt={course.title}
-          className="w-full h-full object-cover"
-        />
-      </div>
+      <div className="max-w-6xl mx-auto px-4 py-10">
+        {/* COURSE THUMBNAIL */}
+        <div className="w-full h-[380px] rounded-2xl overflow-hidden shadow-lg mb-10">
+          <img
+            src={`http://localhost:5000/uploads/${course.thumbnail}`}
+            alt={course.title}
+            className="w-full h-full object-cover"
+          />
+        </div>
 
-      {/* MAIN CONTENT */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        {/* MAIN CONTENT */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          {/* LEFT SECTION */}
+          <div className="md:col-span-2 space-y-4">
+            <h1 className="text-4xl font-extrabold text-gray-800">
+              {course.title}
+            </h1>
 
-        {/* LEFT SECTION */}
-        <div className="md:col-span-2 space-y-4">
-          <h1 className="text-4xl font-extrabold text-gray-800">
-            {course.title}
-          </h1>
+            <p className="text-lg text-gray-600">{course.shortDesc}</p>
 
-          <p className="text-lg text-gray-600">
-            {course.shortDesc}
-          </p>
+            <div className="flex flex-wrap gap-3 mt-4">
+              <span className="px-4 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+                {course.category}
+              </span>
 
-          <div className="flex flex-wrap gap-3 mt-4">
-            <span className="px-4 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
-              {course.category}
-            </span>
+              <span className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
+                {course.level} Level
+              </span>
 
-            <span className="px-4 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
-              {course.level} Level
-            </span>
+              <span className="px-4 py-1 bg-red-300 text-black-700 rounded-full text-sm font-semibold">
+                {course.language}
+              </span>
+            </div>
 
-            <span className="px-4 py-1 bg-red-300 text-black-700 rounded-full text-sm font-semibold">
-              {course.language}
-            </span>
+            <div className="mt-6">
+              <h2 className="text-xl font-bold mb-2">📚 Course Syllabus</h2>
+              <p className="text-gray-700 whitespace-pre-line">
+                {course.syllabus}
+              </p>
+            </div>
+
+            <div className="mt-6 grid grid-cols-2 gap-4 text-gray-700">
+              <p>
+                🕒 <strong>Duration:</strong> {course.duration}
+              </p>
+              <p>
+                🎥 <strong>Lectures:</strong> {course.lectures}
+              </p>
+              <p>
+                🏢 <strong>Institute:</strong> {course.firm}
+              </p>
+            </div>
           </div>
 
-          <div className="mt-6">
-            <h2 className="text-xl font-bold mb-2">📚 Course Syllabus</h2>
-            <p className="text-gray-700 whitespace-pre-line">
-              {course.syllabus}
+          {/* RIGHT SECTION */}
+          <div className="bg-white rounded-2xl shadow-xl p-6 h-fit sticky top-24">
+            <p className="text-3xl font-extrabold text-gray-900 mb-4">
+              ₹ {course.price}
             </p>
-          </div>
 
-          <div className="mt-6 grid grid-cols-2 gap-4 text-gray-700">
-            <p>🕒 <strong>Duration:</strong> {course.duration}</p>
-            <p>🎥 <strong>Lectures:</strong> {course.lectures}</p>
-            <p>🏢 <strong>Institute:</strong> {course.firm}</p>
-          </div>
-        </div>
+            <button
+              onClick={async () => {
+                const userId = localStorage.getItem("userId");
 
-        {/* RIGHT SECTION */}
-        <div className="bg-white rounded-2xl shadow-xl p-6 h-fit sticky top-24">
-          <p className="text-3xl font-extrabold text-gray-900 mb-4">
-            ₹ {course.price}
-          </p>
+                if (!userId) {
+                  alert("Please login first");
+                  return;
+                }
 
-          <button className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition active:scale-95">
-            Enroll Now
-          </button>
+                const res = await fetch("http://localhost:5000/api/enroll", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    userId,
+                    courseId: course._id,
+                  }),
+                });
 
-          <button className="w-full mt-3 border border-gray-300 py-3 rounded-xl font-semibold hover:bg-gray-100 transition">
-            Add to Wishlist
-          </button>
+                const data = await res.json();
+                alert(data.message);
+              }}
+              className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700"
+            >
+              Enroll Now
+            </button>
 
-          <div className="mt-6 text-sm text-gray-500 space-y-2">
-            <p>✔ Full lifetime access</p>
-            <p>✔ Learn at your own pace</p>
-            <p>✔ Certificate of completion</p>
+            <div className="mt-6 text-sm text-gray-500 space-y-2">
+              <p>✔ Full lifetime access</p>
+              <p>✔ Learn at your own pace</p>
+              <p>✔ Certificate of completion</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </>
-);
-
+    </>
+  );
 };
 
 export default ViewDetails;

@@ -3,6 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 const connectDB = require("./config/db");
 const courseRoutes = require("./routes/courseRoutes");
+const enrollRoutes = require("./routes/enrollRoutes");
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/courses", require("./routes/courseRoutes"));
 app.use("/api/courses", courseRoutes);
+app.use("/api/enroll", enrollRoutes);
 
 app.get("/", (req, res) => {
   res.send("SkillMart Backend Running 🚀");
