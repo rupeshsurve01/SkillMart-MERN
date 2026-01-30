@@ -9,6 +9,7 @@ import MyCourses from "./Pages/MyCourses";
 import ViewDetails from "./Pages/ViewDetails";
 import CompareCourses from "./Pages/CompareCourses";
 import MyLearning from "./Pages/MyLearning";
+import EditCourse from "./Pages/EditCourse";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/my-learning" element={<MyLearning />} />
         <Route path="/view/:id" element={<ViewDetails />} />
         <Route path="/compare" element={<CompareCourses />} />
+        <Route path="/edit/:id" element={<EditCourse />} />
       </Routes>
     </div>
   );

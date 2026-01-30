@@ -29,7 +29,6 @@ exports.addCourse = async (req, res) => {
 };
 
 
-
 exports.getCourses = async (req, res) => {
   const courses = await Course.find();
   res.json(courses);
@@ -89,5 +88,34 @@ exports.deleteCourse = async (req, res) => {
   }
 };
 
+exports.updateCourse = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { sellerId } = req.body;
 
+    const course = await Course.findById(id);
 
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    if (course.seller.toString() !== sellerId) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    const updatedData = { ...req.body };
+    delete updatedData.sellerId;
+
+    if (req.file) {
+      updatedData.thumbnail = req.file.filename;
+    }
+
+    await Course.findByIdAndUpdate(id, updatedData);
+
+    res.status(200).json({ message: "Course updated successfully" });
+
+  } catch (error) {
+    console.error("UPDATE COURSE ERROR:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};

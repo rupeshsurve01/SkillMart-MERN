@@ -73,6 +73,13 @@ const MyCourses = () => {
                   >
                     Delete
                   </button>
+
+                  <Link
+                    to={`/edit/${course._id}`}
+                    className="flex-1 text-center bg-green-600 text-white py-2 rounded-lg text-sm hover:bg-green-700"
+                  >
+                    Edit
+                  </Link>
                 </div>
               </div>
             ))}

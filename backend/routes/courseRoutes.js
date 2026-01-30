@@ -4,6 +4,7 @@ const upload = require("../middleware/upload");
 const { getSingleCourse } = require("../controllers/courseController");
 const { getSellerCourses } = require("../controllers/courseController");
 const { deleteCourse } = require("../controllers/courseController");
+const { updateCourse } = require("../controllers/courseController");
 
 const router = express.Router();
 
@@ -13,6 +14,10 @@ router.get("/:id", getSingleCourse);
 router.get("/seller/:sellerId", getSellerCourses);
 
 router.delete("/:id", deleteCourse);
+
+
+router.put("/:id", upload.single("thumbnail"), updateCourse);
+
 
 
 module.exports = router;
