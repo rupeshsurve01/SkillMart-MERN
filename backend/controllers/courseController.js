@@ -42,6 +42,16 @@ exports.getCourses = async (req, res) => {
   }
 };
 
+exports.getSellerCourses = async (req, res) => {
+  try {
+    const { sellerId } = req.params;
 
+    const courses = await Course.find({ seller: sellerId });
+
+    res.status(200).json(courses);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch seller courses" });
+  }
+};
 
 
