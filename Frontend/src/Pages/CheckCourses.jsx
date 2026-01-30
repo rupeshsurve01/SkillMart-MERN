@@ -38,7 +38,6 @@ const CheckCourses = () => {
               className="w-full h-45 rounded-xl object-cover"
             />
 
-            {/* CENTER CONTENT */}
             <div className="mt-4">
               <h2 className="text-[20px] font-semibold text-gray-800 leading-tight line-clamp-2">
                 {course.title}
@@ -68,7 +67,6 @@ const CheckCourses = () => {
               </div>
             </div>
 
-            {/* BOTTOM BUTTONS */}
             <div className="flex flex-col gap-2">
               <button
                 onClick={() => navigate(`/view/${course._id}`)}
@@ -82,13 +80,11 @@ const CheckCourses = () => {
                   const existing =
                     JSON.parse(localStorage.getItem("compareCourses")) || [];
 
-                  // prevent duplicates
                   if (existing.includes(course._id)) {
                     alert("Course already added to compare");
                     return;
                   }
 
-                  // limit to 3–4 courses
                   if (existing.length >= 3) {
                     alert("You can compare max 3 courses");
                     return;

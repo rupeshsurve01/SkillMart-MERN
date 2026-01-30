@@ -25,7 +25,6 @@ function CourseRegisterForm() {
     setCourseData({ ...courseData, [name]: value });
   };
 
-  // eslint-disable-next-line no-unused-vars
   const validate = () => {
     const newErrors = {};
 
@@ -52,39 +51,39 @@ function CourseRegisterForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!validate()) return;
+  const userId = localStorage.getItem("userId");
 
-    const userId = localStorage.getItem("userId");
+  if (!userId) {
+    alert("Please login first");
+    return;
+  }
 
-    const formData = new FormData();
+  const formData = new FormData();
 
-    Object.keys(courseData).forEach((key) => {
-      if (key !== "thumbnail") {
-        formData.append(key, courseData[key]);
-      }
-    });
-
-    if (courseData.thumbnail) {
-      formData.append("thumbnail", courseData.thumbnail);
+  Object.keys(courseData).forEach((key) => {
+    if (key !== "thumbnail") {
+      formData.append(key, courseData[key]);
     }
+  });
 
-    formData.append("seller", userId);
+  formData.append("seller", userId); // ✅ FIXED
 
-    try {
-      const res = await fetch("http://localhost:5000/api/courses", {
-        method: "POST",
-        body: formData,
-      });
+  if (courseData.thumbnail) {
+    formData.append("thumbnail", courseData.thumbnail);
+  }
 
-      const data = await res.json();
-      alert(data.message);
-    } catch (err) {
-      alert("Failed to add course");
-    }
-  };
+  const res = await fetch("http://localhost:5000/api/courses", {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = await res.json();
+  alert(data.message);
+};
+
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center">
