@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
@@ -6,6 +6,8 @@ import Navbar from "../components/Navbar";
 const ViewDetails = () => {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
+    const navigate = useNavigate();
+
 
   useEffect(() => {
     axios
@@ -72,7 +74,6 @@ const ViewDetails = () => {
             </div>
           </div>
 
-          {/* RIGHT SECTION */}
           <div className="bg-white rounded-2xl shadow-xl p-6 h-fit sticky top-24">
             <p className="text-3xl font-extrabold text-gray-900 mb-4">
               ₹ {course.price}
@@ -84,6 +85,7 @@ const ViewDetails = () => {
 
                 if (!userId) {
                   alert("Please login first");
+                  navigate("/login");
                   return;
                 }
 

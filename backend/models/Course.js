@@ -17,8 +17,15 @@ const courseSchema = new mongoose.Schema({
  seller: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
-  }
-}, { timestamps: true });
+  },
+  status: {
+  type: String,
+  enum: ["pending", "approved", "rejected"],
+  default: "pending",
+},
+
+},
+ { timestamps: true });
 
 
 module.exports = mongoose.model("Course", courseSchema);

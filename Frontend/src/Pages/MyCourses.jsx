@@ -55,10 +55,11 @@ const MyCourses = () => {
                 />
 
                 <h2 className="font-bold mt-3">{course.title}</h2>
+                
                 <p className="text-gray-600 text-sm">{course.shortDesc}</p>
 
                 <p className="mt-2 font-semibold">₹ {course.price}</p>
-
+                
                 <div className="flex gap-2 mt-4">
                   <Link
                     to={`/view/${course._id}`}

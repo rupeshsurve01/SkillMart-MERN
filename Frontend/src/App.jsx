@@ -10,6 +10,8 @@ import ViewDetails from "./Pages/ViewDetails";
 import CompareCourses from "./Pages/CompareCourses";
 import MyLearning from "./Pages/MyLearning";
 import EditCourse from "./Pages/EditCourse";
+import PrivateRoute from "./components/PrivateRoute";
+
 
 function App() {
   return (
@@ -20,12 +22,12 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<PageNotFound />} />
         <Route path="/allcourses" element={<CheckCourses />} />
-        <Route path="/register" element={<CourseRegisterForm />} />
-        <Route path="/my-courses" element={<MyCourses />} />
-        <Route path="/my-learning" element={<MyLearning />} />
+        <Route path="/register" element={ <PrivateRoute><CourseRegisterForm /></PrivateRoute>} />
+        <Route path="/my-courses" element={ <PrivateRoute><MyCourses /></PrivateRoute>} />
+        <Route path="/my-learning" element={ <PrivateRoute><MyLearning /></PrivateRoute>} />
         <Route path="/view/:id" element={<ViewDetails />} />
         <Route path="/compare" element={<CompareCourses />} />
-        <Route path="/edit/:id" element={<EditCourse />} />
+        <Route path="/edit/:id" element={ <PrivateRoute><EditCourse /></PrivateRoute>} />
       </Routes>
     </div>
   );

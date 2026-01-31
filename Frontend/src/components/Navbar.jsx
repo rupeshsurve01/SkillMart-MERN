@@ -14,9 +14,9 @@ const Navbar = () => {
         <Link className="cursor-pointer hover:underline" to="/my-courses">
           My Courses
         </Link>
-        <Link className="cursor-pointer hover:underline" to="/my-learning">
+        {/* <Link className="cursor-pointer hover:underline" to="/my-learning">
           My Learning
-        </Link>
+        </Link> */}
         <Link to="/compare" className="hover:underline">
           Compare
         </Link>

@@ -13,7 +13,8 @@ exports.addCourse = async (req, res) => {
 
     const course = await Course.create({
       ...req.body,
-      seller: seller, // ✅ CORRECT
+      seller: seller,
+      status: "pending",
       thumbnail: req.file ? req.file.filename : null,
     });
 
@@ -21,20 +22,18 @@ exports.addCourse = async (req, res) => {
       message: "Course added",
       course,
     });
-
   } catch (error) {
     console.error("ADD COURSE ERROR:", error);
     res.status(500).json({ message: error.message });
   }
 };
 
-
 exports.getCourses = async (req, res) => {
-  const courses = await Course.find();
+  const courses = await Course.find({ status: "approved" });
   res.json(courses);
 };
 
- exports.getSingleCourse = async (req, res) => {
+exports.getSingleCourse = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -45,7 +44,6 @@ exports.getCourses = async (req, res) => {
     }
 
     res.status(200).json(course);
-
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
@@ -113,7 +111,6 @@ exports.updateCourse = async (req, res) => {
     await Course.findByIdAndUpdate(id, updatedData);
 
     res.status(200).json({ message: "Course updated successfully" });
-
   } catch (error) {
     console.error("UPDATE COURSE ERROR:", error);
     res.status(500).json({ message: "Server error" });
