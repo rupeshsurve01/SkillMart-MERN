@@ -116,3 +116,31 @@ exports.updateCourse = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+exports.getPendingCourses = async (req, res) => {
+  try {
+    const courses = await Course.find({ status: "pending" }).populate("seller", "name email");
+    res.status(200).json(courses);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch pending courses" });
+  }
+};
+
+exports.updateCourseStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!["approved", "rejected"].includes(status)) {
+      return res.status(400).json({ message: "Invalid status" });
+    }
+
+    await Course.findByIdAndUpdate(id, { status });
+
+    res.status(200).json({ message: `Course ${status}` });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to update status" });
+  }
+};
+
+

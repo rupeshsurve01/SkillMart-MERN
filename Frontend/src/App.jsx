@@ -11,7 +11,8 @@ import CompareCourses from "./Pages/CompareCourses";
 import MyLearning from "./Pages/MyLearning";
 import EditCourse from "./Pages/EditCourse";
 import PrivateRoute from "./components/PrivateRoute";
-
+import AdminDashboard from "./Pages/AdminDashboard";
+import ViewForAdmin from "./Pages/ViewForAdmin";
 
 function App() {
   return (
@@ -22,13 +23,51 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<PageNotFound />} />
         <Route path="/allcourses" element={<CheckCourses />} />
-        <Route path="/register" element={ <PrivateRoute><CourseRegisterForm /></PrivateRoute>} />
-        <Route path="/my-courses" element={ <PrivateRoute><MyCourses /></PrivateRoute>} />
-        <Route path="/my-learning" element={ <PrivateRoute><MyLearning /></PrivateRoute>} />
+        <Route
+          path="/register"
+          element={
+            <PrivateRoute>
+              <CourseRegisterForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/my-courses"
+          element={
+            <PrivateRoute>
+              <MyCourses />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/my-learning"
+          element={
+            <PrivateRoute>
+              <MyLearning />
+            </PrivateRoute>
+          }
+        />
         <Route path="/view/:id" element={<ViewDetails />} />
         <Route path="/compare" element={<CompareCourses />} />
-        <Route path="/edit/:id" element={ <PrivateRoute><EditCourse /></PrivateRoute>} />
-      </Routes>
+        <Route
+          path="/edit/:id"
+          element={
+            <PrivateRoute>
+              <EditCourse />
+            </PrivateRoute>
+          }
+        />
+   
+      <Route
+        path="/admin"
+        element={
+          <PrivateRoute>
+            <AdminDashboard />
+          </PrivateRoute>
+        }
+      />
+       <Route path="/admin/:id" element={<ViewForAdmin />} />
+         </Routes>
     </div>
   );
 }

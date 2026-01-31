@@ -55,11 +55,23 @@ const MyCourses = () => {
                 />
 
                 <h2 className="font-bold mt-3">{course.title}</h2>
-                
+                <span
+                  className={`text-xs font-bold px-3 py-1 rounded-full
+    ${
+      course.status === "approved"
+        ? "bg-green-100 text-green-700"
+        : course.status === "rejected"
+          ? "bg-red-100 text-red-700"
+          : "bg-yellow-100 text-yellow-700"
+    }`}
+                >
+                  {course.status.toUpperCase()}
+                </span>
+
                 <p className="text-gray-600 text-sm">{course.shortDesc}</p>
 
                 <p className="mt-2 font-semibold">₹ {course.price}</p>
-                
+
                 <div className="flex gap-2 mt-4">
                   <Link
                     to={`/view/${course._id}`}
