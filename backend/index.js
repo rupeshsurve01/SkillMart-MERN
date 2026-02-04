@@ -18,8 +18,8 @@ app.use("/uploads", express.static("uploads"));
 
 
 // routes
-app.use("/api/auth", require("./routes/authRoutes"));
-app.use("/api/courses", require("./routes/courseRoutes"));
+// app.use("/api/auth", require("./routes/authRoutes"));
+// app.use("/api/courses", require("./routes/courseRoutes"));
 app.use("/api/courses", courseRoutes);
 app.use("/api/enroll", enrollRoutes);
 app.use("/api/admin", adminRoutes);

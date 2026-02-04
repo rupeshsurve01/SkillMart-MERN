@@ -57,14 +57,14 @@ const MyCourses = () => {
                 <h2 className="font-bold mt-3">{course.title}</h2>
                 <span
                   className={`text-xs font-bold px-3 py-1 rounded-full
-    ${
-      course.status === "approved"
-        ? "bg-green-100 text-green-700"
-        : course.status === "rejected"
-          ? "bg-red-100 text-red-700"
-          : "bg-yellow-100 text-yellow-700"
-    }`}
-                >
+                ${
+                  course.status === "approved"
+                    ? "bg-green-100 text-green-700"
+                    : course.status === "rejected"
+                      ? "bg-red-100 text-red-700"
+                      : "bg-yellow-100 text-yellow-700"
+                }`}
+               >
                   {course.status.toUpperCase()}
                 </span>
 

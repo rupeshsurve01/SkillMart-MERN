@@ -1,4 +1,4 @@
-const Course = require("../models/Course");
+const Course =  require("../models/Course")
 
 exports.addCourse = async (req, res) => {
   try {
@@ -29,9 +29,14 @@ exports.addCourse = async (req, res) => {
 };
 
 exports.getCourses = async (req, res) => {
-  const courses = await Course.find({ status: "approved" });
-  res.json(courses);
+  try {
+    const courses = await Course.find({ status: "approved" });
+    res.status(200).json(courses);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch courses" });
+  }
 };
+
 
 exports.getSingleCourse = async (req, res) => {
   try {
@@ -117,15 +122,19 @@ exports.updateCourse = async (req, res) => {
   }
 };
 
+// ADMIN: get pending courses
 exports.getPendingCourses = async (req, res) => {
   try {
-    const courses = await Course.find({ status: "pending" }).populate("seller", "name email");
+    const courses = await Course.find({ status: "pending" })
+      .populate("seller", "name email");
+
     res.status(200).json(courses);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch pending courses" });
   }
 };
 
+// ADMIN: approve / reject course
 exports.updateCourseStatus = async (req, res) => {
   try {
     const { id } = req.params;
@@ -139,8 +148,20 @@ exports.updateCourseStatus = async (req, res) => {
 
     res.status(200).json({ message: `Course ${status}` });
   } catch (error) {
-    res.status(500).json({ message: "Failed to update status" });
+    res.status(500).json({ message: "Failed to update course status" });
   }
 };
 
+
+exports.getPublicCourses = async (req, res) => {
+  try {
+    console.log("COURSE MODEL 👉", Course);
+
+    const courses = await Course.find();
+    res.status(200).json(courses);
+  } catch (error) {
+    console.error("🔥 REAL ERROR 👉", error);
+    res.status(500).json({ message: error.message });
+  }
+};
 

@@ -5,6 +5,7 @@ const { getSingleCourse } = require("../controllers/courseController");
 const { getSellerCourses } = require("../controllers/courseController");
 const { deleteCourse } = require("../controllers/courseController");
 const { updateCourse } = require("../controllers/courseController");
+const { getPublicCourses } = require("../controllers/courseController");
 
 const router = express.Router();
 
@@ -18,6 +19,7 @@ router.delete("/:id", deleteCourse);
 
 router.put("/:id", upload.single("thumbnail"), updateCourse);
 
+router.get("/public", getPublicCourses)
 
 
 module.exports = router;
