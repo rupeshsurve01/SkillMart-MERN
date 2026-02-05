@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
 
 const MyCourses = () => {
   const [courses, setCourses] = useState([]);
@@ -39,7 +40,7 @@ const MyCourses = () => {
     <>
       <Navbar />
 
-      <div className="max-w-6xl mx-auto px-4 py-10">
+      <div className="max-w-8xl h-screen mx-auto px-4 py-10 bg-gray-300">
         <h1 className="text-3xl font-bold mb-8">My Courses</h1>
 
         {courses.length === 0 ? (
@@ -99,6 +100,7 @@ const MyCourses = () => {
           </div>
         )}
       </div>
+      <Footer />
     </>
   );
 };

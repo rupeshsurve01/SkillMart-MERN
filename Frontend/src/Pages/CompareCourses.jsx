@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const CompareCourses = () => {
   const [courses, setCourses] = useState([]);
@@ -31,7 +32,7 @@ const CompareCourses = () => {
   }
 
   return (
-    <>
+    <div className="bg-gray-200">
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-4 py-10">
@@ -41,7 +42,7 @@ const CompareCourses = () => {
 
         <div className="overflow-x-auto">
           <table className="w-full border border-gray-200 text-center">
-            <thead className="bg-gray-100">
+            <thead className="bg-gray-300">
               <tr>
                 <th className="p-4 border">Feature</th>
                 {courses.map((c) => (
@@ -84,7 +85,8 @@ const CompareCourses = () => {
           Clear Compare
         </button>
       </div>
-    </>
+      <Footer />
+    </div>
   );
 };
 

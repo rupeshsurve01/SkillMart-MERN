@@ -42,7 +42,7 @@ const Navbar = () => {
             </NavLink>
 
             <NavLink to="/login" className={navLinkClass}>
-              Log out
+              Login
             </NavLink>
           </div>
 
@@ -51,7 +51,7 @@ const Navbar = () => {
 
             {/* Cart */}
             <NavLink to="/my-learning">
-              <button className="p-2 rounded-full hover:bg-gray-100 transition">
+              <button className="p-2 rounded-full hover:bg-gray-100 transition {navLinkClass}">
                 <img
                   src="shopping-cart-icon-shopping-basket-on-transparent-background-free-png.webp"
                   alt="Cart"
@@ -96,7 +96,7 @@ const Navbar = () => {
             </NavLink>
 
             <NavLink to="/login" className={navLinkClass} onClick={() => setOpen(false)}>
-              Log out
+              Login
             </NavLink>
           </div>
         </div>

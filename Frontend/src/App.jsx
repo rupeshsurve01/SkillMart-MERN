@@ -13,6 +13,7 @@ import EditCourse from "./Pages/EditCourse";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminDashboard from "./Pages/AdminDashboard";
 import ViewForAdmin from "./Pages/ViewForAdmin";
+import About from "./Pages/About";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<PageNotFound />} />
         <Route path="/allcourses" element={<CheckCourses />} />
+        <Route path="/about" element={<About />} />
         <Route
           path="/register"
           element={

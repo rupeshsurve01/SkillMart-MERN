@@ -3,7 +3,6 @@ import Navbar from '../components/Navbar'
 
 const Contact = () => {
   return (
-   
     <div >
        <Navbar />
        <div className="bg-black h-screen text-white px-8 py-10 ">
