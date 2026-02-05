@@ -41,9 +41,7 @@ const LoginSignup = () => {
     }
 
     const body =
-      action === "Sign Up"
-        ? { name, email, password }
-        : { email, password };
+      action === "Sign Up" ? { name, email, password } : { email, password };
 
     try {
       setLoading(true);
@@ -58,9 +56,15 @@ const LoginSignup = () => {
       alert(data.message);
 
       if (res.ok) {
-        localStorage.setItem("userId", data.user._id);
-        navigate("/");
+        localStorage.setItem("userId", data.userId);
+localStorage.setItem("role", data.role);
 
+
+        if (data.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
       }
     } catch (error) {
       alert("Server not reachable");
@@ -89,10 +93,11 @@ const LoginSignup = () => {
               key={type}
               type="button"
               onClick={() => setAction(type)}
-              className={`w-1/2 py-2 text-sm font-medium transition ${action === type
-                ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
+              className={`w-1/2 py-2 text-sm font-medium transition ${
+                action === type
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
             >
               {type}
             </button>

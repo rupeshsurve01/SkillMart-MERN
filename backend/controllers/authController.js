@@ -17,6 +17,11 @@ exports.login = async (req, res) => {
   const user = await User.findOne({ email, password });
   if (!user) return res.status(400).json({ message: "User Not Found" });
 
-  res.json({ message: "Login successful", user });
+res.json({
+  message: "Login successful",
+  userId: user._id,
+  role: user.role   // 👈 VERY IMPORTANT
+});
+
 };
 

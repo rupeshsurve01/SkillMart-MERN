@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginSignup from "./components/LoginSignup";
 import Dashboard from "./Pages/Dashboard";
 import Contact from "./Pages/Contact";
@@ -47,6 +47,7 @@ function App() {
             </PrivateRoute>
           }
         />
+
         <Route path="/view/:id" element={<ViewDetails />} />
         <Route path="/compare" element={<CompareCourses />} />
         <Route
@@ -57,17 +58,18 @@ function App() {
             </PrivateRoute>
           }
         />
-   
-      <Route
-        path="/admin"
-        element={
-          <PrivateRoute>
-            <AdminDashboard />
-          </PrivateRoute>
-        }
-      />
-       <Route path="/admin/:id" element={<ViewForAdmin />} />
-         </Routes>
+
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute>
+              <AdminDashboard />
+            </PrivateRoute>
+          }
+        />
+
+        <Route path="/admin/:id" element={<ViewForAdmin />} />
+      </Routes>
     </div>
   );
 }
