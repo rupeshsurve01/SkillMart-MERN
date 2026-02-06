@@ -1,11 +1,12 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 
 const Contact = () => {
   return (
     <div >
        <Navbar />
-       <div className="bg-black h-screen text-white px-8 py-10 ">
+       <div className="bg-gray-900 h-screen text-white px-8 py-10 ">
   <h2 className="text-3xl font-bold mb-6">Contact Us</h2>
 
   <form className="flex flex-col  gap-4 max-w-md">
@@ -42,7 +43,7 @@ const Contact = () => {
     </button>
   </form>
 </div>
-
+<Footer />
     </div>
   )
 }

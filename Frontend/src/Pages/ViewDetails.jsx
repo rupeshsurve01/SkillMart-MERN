@@ -2,12 +2,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const ViewDetails = () => {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
-    const navigate = useNavigate();
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -16,8 +16,9 @@ const ViewDetails = () => {
   }, [id]);
 
   if (!course) return <p>Loading...</p>;
+
   return (
-    <>
+    <div className="bg-gray-300">
       <Navbar />
 
       <div className="max-w-6xl mx-auto px-4 py-10">
@@ -89,17 +90,31 @@ const ViewDetails = () => {
                   return;
                 }
 
-                const res = await fetch("http://localhost:5000/api/enroll", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    userId,
-                    courseId: course._id,
-                  }),
-                });
+                try {
+                  const res = await fetch("http://localhost:5000/api/enroll", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      userId,
+                      courseId: course._id,
+                    }),
+                  });
 
-                const data = await res.json();
-                alert(data.message);
+                  const data = await res.json();
+
+                  if (!res.ok) {
+                    // ❌ error case (already enrolled, validation error, etc.)
+                    alert(data.message || "Enrollment failed");
+                    return;
+                  }
+
+                  // ✅ success case
+                  alert("Enrolled successfully 🎉");
+                  navigate("/my-learning");
+                // eslint-disable-next-line no-unused-vars
+                } catch (error) {
+                  alert("Server error, please try again later");
+                }
               }}
               className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700"
             >
@@ -114,7 +129,8 @@ const ViewDetails = () => {
           </div>
         </div>
       </div>
-    </>
+      <Footer />
+    </div>
   );
 };
 

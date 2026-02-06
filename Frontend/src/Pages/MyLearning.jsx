@@ -1,53 +1,79 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 const MyLearning = () => {
   const [courses, setCourses] = useState([]);
   const userId = localStorage.getItem("userId");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!userId) return;
 
     fetch(`http://localhost:5000/api/enroll/my/${userId}`)
       .then((res) => res.json())
-      .then((data) => setCourses(data));
+      .then((data) => {
+        // 🛡️ SAFETY FILTER
+        const validCourses = Array.isArray(data)
+          ? data.filter((item) => item && item.course)
+          : [];
+
+        setCourses(validCourses);
+      })
+      .catch((err) => {
+        console.error("Failed to load enrolled courses:", err);
+        setCourses([]);
+      });
   }, [userId]);
 
   return (
-    <>
+    <div className="bg-gray-300 min-h-screen">
       <Navbar />
+
       <div className="max-w-6xl mx-auto px-4 py-10">
         <h1 className="text-3xl font-bold mb-8">My Learning</h1>
 
         {courses.length === 0 ? (
-          <p>No enrolled courses yet</p>
+          <p className="text-gray-600">
+            No enrolled courses yet
+          </p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {courses.map((course) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {courses.map((item) => (
               <div
-                key={course._id}
-                className="bg-white rounded-xl shadow p-4"
+                key={item._id}
+                className="bg-white rounded-xl shadow p-4 cursor-pointer hover:shadow-lg transition"
+                onClick={() => navigate(`/view/${item.course._id}`)}
               >
+                {/* IMAGE */}
                 <img
-                  src={`http://localhost:5000/uploads/${course.thumbnail}`}
-                  alt={course.title}
+                  src={
+                    item.course.thumbnail
+                      ? `http://localhost:5000/uploads/${item.course.thumbnail}`
+                      : "/placeholder.png"
+                  }
+                  alt={item.course.title}
                   className="h-40 w-full object-cover rounded-lg"
                 />
 
-                <h2 className="font-bold mt-3">{course.title}</h2>
+                {/* CONTENT */}
+                <h2 className="font-bold mt-3">
+                  {item.course.title}
+                </h2>
+
                 <p className="text-gray-600 text-sm">
-                  {course.shortDesc}
+                  {item.course.shortDesc}
                 </p>
 
                 <p className="mt-2 font-semibold">
-                  ₹ {course.price}
+                  ₹ {item.course.price}
                 </p>
               </div>
             ))}
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
