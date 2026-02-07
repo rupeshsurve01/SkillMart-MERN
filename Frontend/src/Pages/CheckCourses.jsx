@@ -5,118 +5,216 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 const CheckCourses = () => {
-  const [userData, setUserData] = useState([]);
-
   const navigate = useNavigate();
 
+  // DATA STATES
+  const [allCourses, setAllCourses] = useState([]);
+  const [filteredCourses, setFilteredCourses] = useState([]);
+
+  // FILTER STATES
+  const [category, setCategory] = useState("all");
+  const [price, setPrice] = useState("all");
+
+  // FETCH COURSES (ONCE)
   useEffect(() => {
-    const getData = async () => {
+    const getCourses = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/courses");
-        setUserData(response.data);
+        const res = await axios.get("http://localhost:5000/api/courses");
+        setAllCourses(res.data);
+        setFilteredCourses(res.data);
       } catch (error) {
-        console.error(
-          "Failed to load courses:",
-          error.response?.data || error.message,
-        );
-        setUserData([]); // prevent crash
+        console.error("Failed to load courses:", error.message);
+        setAllCourses([]);
+        setFilteredCourses([]);
       }
     };
 
-    getData();
+    getCourses();
   }, []);
+
+  // APPLY FILTERS
+  useEffect(() => {
+    let updatedCourses = [...allCourses];
+
+    // CATEGORY FILTER
+    if (category !== "all") {
+      updatedCourses = updatedCourses.filter(
+        (course) => course.category === category
+      );
+    }
+
+    // PRICE FILTER
+    if (price !== "all") {
+      if (price === "low") {
+        updatedCourses = updatedCourses.filter(
+          (course) => course.price <= 500
+        );
+      } else if (price === "medium") {
+        updatedCourses = updatedCourses.filter(
+          (course) => course.price > 500 && course.price <= 2000
+        );
+      } else if (price === "high") {
+        updatedCourses = updatedCourses.filter(
+          (course) => course.price > 2000
+        );
+      }
+    }
+
+    setFilteredCourses(updatedCourses);
+  }, [category, price, allCourses]);
 
   return (
     <div>
       <Navbar />
 
-      <div className="flex flex-wrap gap-6 p-6 bg-gray-300">
-        {userData.length === 0 ? (
-          <p className="text-gray-600 text-lg">
-            No courses available right now.
-          </p>
-        ) : (
-          userData.map((course) => (
-            <div
-              key={course._id}
-              className="w-[300px] h-[520px] bg-white rounded-[18px] p-5 flex flex-col justify-between 
-                   shadow-[0_10px_30px_rgba(0,0,0,0.12)] 
-                   transition-all duration-300 ease-in-out 
-                   hover:-translate-y-[6px] 
-                   hover:shadow-[0_18px_40px_rgba(0,0,0,0.18)]"
-            >
-              {/* IMAGE */}
-              <img
-                src={`http://localhost:5000/uploads/${course.thumbnail}`}
-                alt={course.title}
-                className="w-full h-45 rounded-xl object-cover"
-              />
+      <div className="p-6 bg-gray-300 min-h-screen">
+        {/* FILTER BAR */}
+{/* FILTER BAR */}
+<div className="bg-white rounded-xl shadow-md p-4 mb-8 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
+  
+  {/* LEFT: FILTER TITLE */}
+  <h2 className="text-lg font-semibold text-gray-800">
+    Filter Courses
+  </h2>
 
-              {/* CONTENT */}
-              <div className="mt-4">
-                <h2 className="text-[20px] font-semibold text-gray-800 line-clamp-2">
-                  {course.title}
-                </h2>
+  {/* RIGHT: FILTER CONTROLS */}
+  <div className="flex flex-col sm:flex-row gap-4">
+    
+    {/* CATEGORY FILTER */}
+    <div className="flex flex-col">
+      <label className="text-sm font-medium text-gray-600 mb-1">
+        Category
+      </label>
+      <select
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        className="px-4 py-2 rounded-lg border border-gray-300 
+                   focus:outline-none focus:ring-2 focus:ring-[#6f26eb]
+                   bg-gray-50 text-gray-700"
+      >
+        <option value="all">All Categories</option>
+        <option value="web-development">Web Development</option>
+        <option value="app-development">App Development</option>
+        <option value="ai-ml">AI / ML</option>
+        <option value="programming">Programming</option>
+      </select>
+    </div>
 
-                <h2 className="text-[18px] font-semibold text-gray-500 mt-2">
-                  {course.firm}
-                </h2>
+    {/* PRICE FILTER */}
+    <div className="flex flex-col">
+      <label className="text-sm font-medium text-gray-600 mb-1">
+        Price
+      </label>
+      <select
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+        className="px-4 py-2 rounded-lg border border-gray-300 
+                   focus:outline-none focus:ring-2 focus:ring-[#6f26eb]
+                   bg-gray-50 text-gray-700"
+      >
+        <option value="all">All Prices</option>
+        <option value="low">Below ₹500</option>
+        <option value="medium">₹500 – ₹2000</option>
+        <option value="high">Above ₹2000</option>
+      </select>
+    </div>
 
-                <div className="flex justify-between items-center mt-3">
-                  <h3 className="text-[16px] text-gray-700">
-                    {course.category}
+  </div>
+</div>
+
+
+        {/* COURSES GRID */}
+        <div className="flex flex-wrap gap-6">
+          {filteredCourses.length === 0 ? (
+            <p className="text-gray-600 text-lg">
+              No courses available right now.
+            </p>
+          ) : (
+            filteredCourses.map((course) => (
+              <div
+                key={course._id}
+                className="w-[300px] h-[520px] bg-white rounded-[18px] p-5 flex flex-col justify-between
+                shadow-[0_10px_30px_rgba(0,0,0,0.12)]
+                transition-all duration-300 ease-in-out
+                hover:-translate-y-[6px]
+                hover:shadow-[0_18px_40px_rgba(0,0,0,0.18)]"
+              >
+                {/* IMAGE */}
+                <img
+                  src={`http://localhost:5000/uploads/${course.thumbnail}`}
+                  alt={course.title}
+                  className="w-full h-45 rounded-xl object-cover"
+                />
+
+                {/* CONTENT */}
+                <div className="mt-4">
+                  <h2 className="text-[20px] font-semibold text-gray-800 line-clamp-2">
+                    {course.title}
+                  </h2>
+
+                  <h3 className="text-[16px] text-gray-500 mt-2">
+                    {course.firm}
                   </h3>
 
-                  <span className="bg-[#10b475] text-white text-[12px] font-bold px-3 h-6 rounded-full flex items-center justify-center">
-                    {course.language}
-                  </span>
+                  <div className="flex justify-between items-center mt-3">
+                    <span className="text-[14px] text-gray-700">
+                      {course.category}
+                    </span>
+
+                    <span className="bg-[#10b475] text-white text-[12px] font-bold px-3 h-6 rounded-full flex items-center justify-center">
+                      {course.language}
+                    </span>
+                  </div>
+
+                  <p className="text-[16px] font-semibold text-gray-800 mt-3">
+                    ₹ {course.price}
+                  </p>
                 </div>
 
-                <h2 className="text-[16px] font-semibold text-gray-800 mt-3">
-                  ₹ {course.price}
-                </h2>
+                {/* ACTIONS */}
+                <div className="flex flex-col gap-2">
+                  <button
+                    onClick={() => navigate(`/view/${course._id}`)}
+                    className="h-9 rounded-lg bg-[#e24e4e] text-white font-semibold hover:bg-amber-400"
+                  >
+                    View Detail
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      const existing =
+                        JSON.parse(
+                          localStorage.getItem("compareCourses")
+                        ) || [];
+
+                      if (existing.includes(course._id)) {
+                        alert("Course already added to compare");
+                        return;
+                      }
+
+                      if (existing.length >= 3) {
+                        alert("You can compare max 3 courses");
+                        return;
+                      }
+
+                      localStorage.setItem(
+                        "compareCourses",
+                        JSON.stringify([...existing, course._id])
+                      );
+
+                      alert("Added to compare");
+                    }}
+                    className="h-9 rounded-lg bg-gray-800 text-white font-semibold hover:bg-black"
+                  >
+                    Add to Compare
+                  </button>
+                </div>
               </div>
-
-              {/* ACTIONS */}
-              <div className="flex flex-col gap-2">
-                <button
-                  onClick={() => navigate(`/view/${course._id}`)}
-                  className="h-9 rounded-lg bg-[#e24e4e] text-white font-semibold hover:bg-amber-400"
-                >
-                  View Detail
-                </button>
-
-                <button
-                  onClick={() => {
-                    const existing =
-                      JSON.parse(localStorage.getItem("compareCourses")) || [];
-
-                    if (existing.includes(course._id)) {
-                      alert("Course already added to compare");
-                      return;
-                    }
-
-                    if (existing.length >= 3) {
-                      alert("You can compare max 3 courses");
-                      return;
-                    }
-
-                    localStorage.setItem(
-                      "compareCourses",
-                      JSON.stringify([...existing, course._id]),
-                    );
-
-                    alert("Added to compare");
-                  }}
-                  className="h-9 rounded-lg bg-gray-800 text-white font-semibold hover:bg-black"
-                >
-                  Add to Compare
-                </button>
-              </div>
-            </div>
-          ))
-        )}
+            ))
+          )}
+        </div>
       </div>
+
       <Footer />
     </div>
   );

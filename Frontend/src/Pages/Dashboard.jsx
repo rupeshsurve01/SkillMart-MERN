@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import About from "./About";
 
 const Dashboard = () => {
   return (
@@ -17,7 +18,6 @@ const Dashboard = () => {
           “Learn smarter. Teach better. Grow together.”
         </span>
 
-      
         <Link to="/allcourses">
           <button className="h-10 px-6 bg-amber-300 rounded font-semibold hover:bg-amber-400 transition">
             Check Courses
@@ -31,6 +31,7 @@ const Dashboard = () => {
         </Link>
 
       </div>
+
       <Footer />
     </div>
   );

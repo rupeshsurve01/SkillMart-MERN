@@ -9,9 +9,9 @@ const Footer = () => {
 
         {/* Brand */}
         <div>
-          <h2 className="text-white text-2xl font-bold">Rupesh Surve</h2>
+          <h2 className="text-white text-2xl font-bold text-center pr-9 pt-8">SkillMart</h2>
           <p className="mt-2 text-sm">
-            Aspiring MERN Stack Developer building real-world projects.
+            Online Courses Buying, Selling & Compare Plartfotm.
           </p>
         </div>
 
