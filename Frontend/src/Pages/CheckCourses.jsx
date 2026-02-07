@@ -14,6 +14,7 @@ const CheckCourses = () => {
   // FILTER STATES
   const [category, setCategory] = useState("all");
   const [price, setPrice] = useState("all");
+  const [search, setSearch] = useState(""); // ✅ MISSING STATE FIXED
 
   // FETCH COURSES (ONCE)
   useEffect(() => {
@@ -32,36 +33,47 @@ const CheckCourses = () => {
     getCourses();
   }, []);
 
-  // APPLY FILTERS
-  useEffect(() => {
-    let updatedCourses = [...allCourses];
+  // APPLY SEARCH + FILTERS
+useEffect(() => {
+  let updatedCourses = [...allCourses];
 
-    // CATEGORY FILTER
-    if (category !== "all") {
+  // 🔍 SEARCH FILTER (SAFE)
+  if (search.trim() !== "") {
+    const searchText = search.toLowerCase();
+
+    updatedCourses = updatedCourses.filter((course) =>
+      (course.title || "").toLowerCase().includes(searchText) ||
+      (course.firm || "").toLowerCase().includes(searchText) ||
+      (course.category || "").toLowerCase().includes(searchText)
+    );
+  }
+
+  // 📂 CATEGORY FILTER
+  if (category !== "all") {
+    updatedCourses = updatedCourses.filter(
+      (course) => course.category === category
+    );
+  }
+
+  // 💰 PRICE FILTER
+  if (price !== "all") {
+    if (price === "low") {
       updatedCourses = updatedCourses.filter(
-        (course) => course.category === category
+        (course) => Number(course.price) <= 500
+      );
+    } else if (price === "medium") {
+      updatedCourses = updatedCourses.filter(
+        (course) => Number(course.price) > 500 && Number(course.price) <= 2000
+      );
+    } else if (price === "high") {
+      updatedCourses = updatedCourses.filter(
+        (course) => Number(course.price) > 2000
       );
     }
+  }
 
-    // PRICE FILTER
-    if (price !== "all") {
-      if (price === "low") {
-        updatedCourses = updatedCourses.filter(
-          (course) => course.price <= 500
-        );
-      } else if (price === "medium") {
-        updatedCourses = updatedCourses.filter(
-          (course) => course.price > 500 && course.price <= 2000
-        );
-      } else if (price === "high") {
-        updatedCourses = updatedCourses.filter(
-          (course) => course.price > 2000
-        );
-      }
-    }
-
-    setFilteredCourses(updatedCourses);
-  }, [category, price, allCourses]);
+  setFilteredCourses(updatedCourses);
+}, [search, category, price, allCourses]);
 
   return (
     <div>
@@ -69,65 +81,64 @@ const CheckCourses = () => {
 
       <div className="p-6 bg-gray-300 min-h-screen">
         {/* FILTER BAR */}
-{/* FILTER BAR */}
-<div className="bg-white rounded-xl shadow-md p-4 mb-8 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
-  
-  {/* LEFT: FILTER TITLE */}
-  <h2 className="text-lg font-semibold text-gray-800">
-    Filter Courses
-  </h2>
+        <div className="bg-gray-700 rounded-xl shadow-md p-4 mb-8 flex flex-col lg:flex-row gap-4 lg:items-end lg:justify-between">
+          
+          {/* SEARCH */}
+          <div className="flex-1">
+            <label className="text-sm font-medium text-white mb-1 block">
+              Search
+            </label>
+            <input
+              type="text"
+              placeholder="Search courses..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 
+                         bg-gray-50 focus:ring-2 focus:ring-[#6f26eb]"
+            />
+          </div>
 
-  {/* RIGHT: FILTER CONTROLS */}
-  <div className="flex flex-col sm:flex-row gap-4">
-    
-    {/* CATEGORY FILTER */}
-    <div className="flex flex-col">
-      <label className="text-sm font-medium text-gray-600 mb-1">
-        Category
-      </label>
-      <select
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-        className="px-4 py-2 rounded-lg border border-gray-300 
-                   focus:outline-none focus:ring-2 focus:ring-[#6f26eb]
-                   bg-gray-50 text-gray-700"
-      >
-        <option value="all">All Categories</option>
-        <option value="web-development">Web Development</option>
-        <option value="app-development">App Development</option>
-        <option value="ai-ml">AI / ML</option>
-        <option value="programming">Programming</option>
-      </select>
-    </div>
+          {/* CATEGORY */}
+          <div className="w-full sm:w-56">
+            <label className="text-sm font-medium text-white mb-1 block">
+              Category
+            </label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-50"
+            >
+              <option value="all">All Categories</option>
+              <option value="web-development">Web Development</option>
+              <option value="app-development">App Development</option>
+              <option value="ai-ml">AI / ML</option>
+              <option value="programming">Programming</option>
+            </select>
+          </div>
 
-    {/* PRICE FILTER */}
-    <div className="flex flex-col">
-      <label className="text-sm font-medium text-gray-600 mb-1">
-        Price
-      </label>
-      <select
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-        className="px-4 py-2 rounded-lg border border-gray-300 
-                   focus:outline-none focus:ring-2 focus:ring-[#6f26eb]
-                   bg-gray-50 text-gray-700"
-      >
-        <option value="all">All Prices</option>
-        <option value="low">Below ₹500</option>
-        <option value="medium">₹500 – ₹2000</option>
-        <option value="high">Above ₹2000</option>
-      </select>
-    </div>
-
-  </div>
-</div>
-
+          {/* PRICE */}
+          <div className="w-full sm:w-56">
+            <label className="text-sm font-medium text-white mb-1 block">
+              Price
+            </label>
+            <select
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-50"
+            >
+              <option value="all">All Prices</option>
+              <option value="low">Below ₹500</option>
+              <option value="medium">₹500 – ₹2000</option>
+              <option value="high">Above ₹2000</option>
+            </select>
+          </div>
+        </div>
 
         {/* COURSES GRID */}
         <div className="flex flex-wrap gap-6">
           {filteredCourses.length === 0 ? (
             <p className="text-gray-600 text-lg">
-              No courses available right now.
+              No courses match your search.
             </p>
           ) : (
             filteredCourses.map((course) => (
@@ -183,9 +194,7 @@ const CheckCourses = () => {
                   <button
                     onClick={() => {
                       const existing =
-                        JSON.parse(
-                          localStorage.getItem("compareCourses")
-                        ) || [];
+                        JSON.parse(localStorage.getItem("compareCourses")) || [];
 
                       if (existing.includes(course._id)) {
                         alert("Course already added to compare");
