@@ -34,55 +34,56 @@ const CheckCourses = () => {
   }, []);
 
   // APPLY SEARCH + FILTERS
-useEffect(() => {
-  let updatedCourses = [...allCourses];
+  useEffect(() => {
+    let updatedCourses = [...allCourses];
 
-  // 🔍 SEARCH FILTER (SAFE)
-  if (search.trim() !== "") {
-    const searchText = search.toLowerCase();
+    // 🔍 SEARCH FILTER (SAFE)
+    if (search.trim() !== "") {
+      const searchText = search.toLowerCase();
 
-    updatedCourses = updatedCourses.filter((course) =>
-      (course.title || "").toLowerCase().includes(searchText) ||
-      (course.firm || "").toLowerCase().includes(searchText) ||
-      (course.category || "").toLowerCase().includes(searchText)
-    );
-  }
-
-  // 📂 CATEGORY FILTER
-  if (category !== "all") {
-    updatedCourses = updatedCourses.filter(
-      (course) => course.category === category
-    );
-  }
-
-  // 💰 PRICE FILTER
-  if (price !== "all") {
-    if (price === "low") {
       updatedCourses = updatedCourses.filter(
-        (course) => Number(course.price) <= 500
-      );
-    } else if (price === "medium") {
-      updatedCourses = updatedCourses.filter(
-        (course) => Number(course.price) > 500 && Number(course.price) <= 2000
-      );
-    } else if (price === "high") {
-      updatedCourses = updatedCourses.filter(
-        (course) => Number(course.price) > 2000
+        (course) =>
+          (course.title || "").toLowerCase().includes(searchText) ||
+          (course.firm || "").toLowerCase().includes(searchText) ||
+          (course.category || "").toLowerCase().includes(searchText),
       );
     }
-  }
 
-  setFilteredCourses(updatedCourses);
-}, [search, category, price, allCourses]);
+    // 📂 CATEGORY FILTER
+    if (category !== "all") {
+      updatedCourses = updatedCourses.filter(
+        (course) => course.category === category,
+      );
+    }
+
+    // 💰 PRICE FILTER
+    if (price !== "all") {
+      if (price === "low") {
+        updatedCourses = updatedCourses.filter(
+          (course) => Number(course.price) <= 500,
+        );
+      } else if (price === "medium") {
+        updatedCourses = updatedCourses.filter(
+          (course) =>
+            Number(course.price) > 500 && Number(course.price) <= 2000,
+        );
+      } else if (price === "high") {
+        updatedCourses = updatedCourses.filter(
+          (course) => Number(course.price) > 2000,
+        );
+      }
+    }
+
+    setFilteredCourses(updatedCourses);
+  }, [search, category, price, allCourses]);
 
   return (
     <div>
       <Navbar />
 
-      <div className="p-6 bg-gray-300 min-h-screen">
+      <div className="min-h-screen p-6 bg-gray-300">
         {/* FILTER BAR */}
         <div className="bg-gray-700 rounded-xl shadow-md p-4 mb-8 flex flex-col lg:flex-row gap-4 lg:items-end lg:justify-between">
-          
           {/* SEARCH */}
           <div className="flex-1">
             <label className="text-sm font-medium text-white mb-1 block">
@@ -143,12 +144,16 @@ useEffect(() => {
           ) : (
             filteredCourses.map((course) => (
               <div
-                key={course._id}
-                className="w-[300px] h-[520px] bg-white rounded-[18px] p-5 flex flex-col justify-between
-                shadow-[0_10px_30px_rgba(0,0,0,0.12)]
+                className="w-[300px] h-[520px]
+                bg-gray-900
+                border border-white/20
+                rounded-[18px]
+                p-5
+                flex flex-col justify-between
+                shadow-[0_10px_30px_rgba(0,0,0,0.35)]
                 transition-all duration-300 ease-in-out
                 hover:-translate-y-[6px]
-                hover:shadow-[0_18px_40px_rgba(0,0,0,0.18)]"
+                hover:shadow-[0_20px_45px_rgba(0,0,0,0.5)]"
               >
                 {/* IMAGE */}
                 <img
@@ -159,16 +164,16 @@ useEffect(() => {
 
                 {/* CONTENT */}
                 <div className="mt-4">
-                  <h2 className="text-[20px] font-semibold text-gray-800 line-clamp-2">
+                  <h2 className="text-[20px] font-semibold text-white line-clamp-2">
                     {course.title}
                   </h2>
 
-                  <h3 className="text-[16px] text-gray-500 mt-2">
+                  <h3 className="text-[16px] text-gray-400 mt-2">
                     {course.firm}
                   </h3>
 
                   <div className="flex justify-between items-center mt-3">
-                    <span className="text-[14px] text-gray-700">
+                    <span className="text-[14px] text-gray-300">
                       {course.category}
                     </span>
 
@@ -177,7 +182,7 @@ useEffect(() => {
                     </span>
                   </div>
 
-                  <p className="text-[16px] font-semibold text-gray-800 mt-3">
+                  <p className="text-[16px] font-semibold text-white mt-3">
                     ₹ {course.price}
                   </p>
                 </div>
@@ -186,7 +191,7 @@ useEffect(() => {
                 <div className="flex flex-col gap-2">
                   <button
                     onClick={() => navigate(`/view/${course._id}`)}
-                    className="h-9 rounded-lg bg-[#e24e4e] text-white font-semibold hover:bg-amber-400"
+                    className="h-9 rounded-lg bg-[#e24e4e] text-white font-semibold hover:bg-amber-400 cursor-pointer"
                   >
                     View Detail
                   </button>
@@ -194,7 +199,8 @@ useEffect(() => {
                   <button
                     onClick={() => {
                       const existing =
-                        JSON.parse(localStorage.getItem("compareCourses")) || [];
+                        JSON.parse(localStorage.getItem("compareCourses")) ||
+                        [];
 
                       if (existing.includes(course._id)) {
                         alert("Course already added to compare");
@@ -208,12 +214,12 @@ useEffect(() => {
 
                       localStorage.setItem(
                         "compareCourses",
-                        JSON.stringify([...existing, course._id])
+                        JSON.stringify([...existing, course._id]),
                       );
 
                       alert("Added to compare");
                     }}
-                    className="h-9 rounded-lg bg-gray-800 text-white font-semibold hover:bg-black"
+                    className="h-9 rounded-lg bg-gray-500 text-white font-semibold hover:bg-black cursor-pointer"
                   >
                     Add to Compare
                   </button>

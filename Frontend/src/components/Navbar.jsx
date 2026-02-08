@@ -37,13 +37,20 @@ const Navbar = () => {
           {/* RIGHT ICONS */}
           <div className="flex items-center gap-3">
             <NavLink to="/my-learning">
-              <button className="p-2 rounded-full hover:bg-gray-100 transition">
+              {/* <button className="p-2 rounded-full hover:bg-gray-100 transition">
                 <img
                   src="/shopping-cart-icon-shopping-basket-on-transparent-background-free-png.webp"
                   alt="My Learning"
                   className="h-6 w-auto"
                 />
-              </button>
+              </button> */}
+
+            <img
+                  src="/conversation-svgrepo-com.svg"
+                  alt="My Learning"
+                  className="h-6 w-auto {navLinkClass}"
+                />
+
             </NavLink>
 
             {/* HAMBURGER */}
