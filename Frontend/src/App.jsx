@@ -14,6 +14,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import AdminDashboard from "./Pages/AdminDashboard";
 import ViewForAdmin from "./Pages/ViewForAdmin";
 import About from "./Pages/About";
+import Wishlist from "./Pages/Wishlist";
 
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
         <Route path="*" element={<PageNotFound />} />
         <Route path="/allcourses" element={<CheckCourses />} />
         <Route path="/about" element={<About />} />
+        <Route path = "/wishlist" element={<Wishlist/>}/>
+
         <Route
           path="/register"
           element={

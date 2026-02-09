@@ -1,20 +1,19 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
 
-const MyLearning = () => {
-  const [courses, setCourses] = useState([]);
+const Wishlist = () => {
+  const [courses, setCourses] = useState([]); // ✅ FIXED
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!userId) return;
 
-    fetch(`http://localhost:5000/api/enroll/my/${userId}`)
-      .then((res) => res.json())  //convert response to JSON
+    fetch(`http://localhost:5000/api/wishlist/${userId}`)
+      .then((res) => res.json())
       .then((data) => {
-        // 🛡️ SAFETY FILTER
         const validCourses = Array.isArray(data)
           ? data.filter((item) => item && item.course)
           : [];
@@ -22,23 +21,20 @@ const MyLearning = () => {
         setCourses(validCourses);
       })
       .catch((err) => {
-        console.error("Failed to load enrolled courses:", err);
+        console.error("Failed to load wishlist:", err);
         setCourses([]);
       });
   }, [userId]);
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-300">
       <Navbar />
-    <div className="bg-gray-300 h-screen">
 
-      <div className="max-w-6xl mx-auto px-4 py-10">
-        <h1 className="text-3xl font-bold mb-8">My Learning</h1>
+      <div className="max-w-6xl mx-auto px-6 py-10">
+        <h1 className="text-3xl font-bold mb-8">My Wishlist</h1>
 
         {courses.length === 0 ? (
-          <p className="text-gray-600">
-            No enrolled courses yet
-          </p>
+          <p className="text-gray-600">Your Wishlist is empty</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {courses.map((item) => (
@@ -75,10 +71,10 @@ const MyLearning = () => {
           </div>
         )}
       </div>
-    </div>
+
       <Footer />
     </div>
   );
 };
 
-export default MyLearning;
+export default Wishlist;

@@ -14,7 +14,7 @@ const CheckCourses = () => {
   // FILTER STATES
   const [category, setCategory] = useState("all");
   const [price, setPrice] = useState("all");
-  const [search, setSearch] = useState(""); // ✅ MISSING STATE FIXED
+  const [search, setSearch] = useState(""); 
 
   // FETCH COURSES (ONCE)
   useEffect(() => {
@@ -37,7 +37,6 @@ const CheckCourses = () => {
   useEffect(() => {
     let updatedCourses = [...allCourses];
 
-    // 🔍 SEARCH FILTER (SAFE)
     if (search.trim() !== "") {
       const searchText = search.toLowerCase();
 
@@ -49,14 +48,12 @@ const CheckCourses = () => {
       );
     }
 
-    // 📂 CATEGORY FILTER
     if (category !== "all") {
       updatedCourses = updatedCourses.filter(
         (course) => course.category === category,
       );
     }
 
-    // 💰 PRICE FILTER
     if (price !== "all") {
       if (price === "low") {
         updatedCourses = updatedCourses.filter(
@@ -207,8 +204,8 @@ const CheckCourses = () => {
                         return;
                       }
 
-                      if (existing.length >= 3) {
-                        alert("You can compare max 3 courses");
+                      if (existing.length >= 5) {
+                        alert("You can compare max 5 courses");
                         return;
                       }
 

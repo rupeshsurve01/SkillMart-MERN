@@ -16,7 +16,6 @@ router.get("/seller/:sellerId", getSellerCourses);
 
 router.delete("/:id", deleteCourse);
 
-
 router.put("/:id", upload.single("thumbnail"), updateCourse);
 
 router.get("/public", getPublicCourses)

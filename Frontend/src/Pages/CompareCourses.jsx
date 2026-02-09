@@ -11,6 +11,7 @@ const CompareCourses = () => {
 
     if (ids.length === 0) return;
 
+    // “Wait until ALL API calls finish”
     Promise.all(
       ids.map((id) =>
         axios.get(`http://localhost:5000/api/courses/${id}`)

@@ -69,7 +69,7 @@ const handleSubmit = async (e) => {
     }
   });
 
-  formData.append("seller", userId); // ✅ FIXED
+  formData.append("seller", userId); 
 
   if (courseData.thumbnail) {
     formData.append("thumbnail", courseData.thumbnail);

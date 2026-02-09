@@ -108,10 +108,9 @@ const ViewDetails = () => {
                     return;
                   }
 
-                  // ✅ success case
                   alert("Enrolled successfully 🎉");
                   navigate("/my-learning");
-                // eslint-disable-next-line no-unused-vars
+                  // eslint-disable-next-line no-unused-vars
                 } catch (error) {
                   alert("Server error, please try again later");
                 }
@@ -119,6 +118,48 @@ const ViewDetails = () => {
               className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700"
             >
               Enroll Now
+            </button>
+
+            <button
+              onClick={async () => {
+                const userId = localStorage.getItem("userId");
+
+                if (!userId) {
+                  alert("Please login first");
+                  navigate("/login");
+                  return;
+                }
+
+                try {
+                  const res = await fetch(
+                    "http://localhost:5000/api/wishlist",
+                    {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        userId,
+                        courseId: course._id,
+                      }),
+                    },
+                  );
+
+                  const data = await res.json();
+
+                  if (!res.ok) {
+                    alert(data.message);
+                    return;
+                  }
+
+                  alert("Added to wishlist ❤️");
+
+                  // eslint-disable-next-line no-unused-vars
+                } catch (err) {
+                  alert("Server error");
+                }
+              }}
+              className="w-full bg-gray-800 text-white py-3 rounded-xl font-semibold hover:bg-black mt-2"
+            >
+              Add to Wishlist
             </button>
 
             <div className="mt-6 text-sm text-gray-500 space-y-2">

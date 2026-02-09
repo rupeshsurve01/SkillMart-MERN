@@ -38,6 +38,7 @@ exports.getCourses = async (req, res) => {
 };
 
 
+
 exports.getSingleCourse = async (req, res) => {
   try {
     const { id } = req.params;

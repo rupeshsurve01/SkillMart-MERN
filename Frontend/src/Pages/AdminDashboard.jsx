@@ -20,7 +20,6 @@ const AdminDashboard = () => {
         console.log("ADMIN API DATA:", data);
         console.log("ADMIN userId from localStorage:", userId);
 
-
         if (!res.ok) {
           alert(data.message || "Access denied");
           setCourses([]);
