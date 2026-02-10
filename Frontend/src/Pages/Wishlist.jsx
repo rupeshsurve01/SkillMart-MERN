@@ -38,34 +38,60 @@ const Wishlist = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {courses.map((item) => (
-              <div
-                key={item._id}
-                className="bg-white rounded-xl shadow p-4 cursor-pointer hover:shadow-lg transition"
-                onClick={() => navigate(`/view/${item.course._id}`)}
-              >
-                {/* IMAGE */}
-                <img
-                  src={
-                    item.course.thumbnail
-                      ? `http://localhost:5000/uploads/${item.course.thumbnail}`
-                      : "/placeholder.png"
-                  }
-                  alt={item.course.title}
-                  className="h-40 w-full object-cover rounded-lg"
-                />
+              <div>
+                <div
+                  key={item._id}
+                  className="bg-white rounded-xl shadow p-4 cursor-pointer hover:shadow-lg transition"
+                  onClick={() => navigate(`/view/${item.course._id}`)}
+                >
+                  {/* IMAGE */}
+                  <img
+                    src={
+                      item.course.thumbnail
+                        ? `http://localhost:5000/uploads/${item.course.thumbnail}`
+                        : "/placeholder.png"
+                    }
+                    alt={item.course.title}
+                    className="h-40 w-full object-cover rounded-lg"
+                  />
 
-                {/* CONTENT */}
-                <h2 className="font-bold mt-3">
-                  {item.course.title}
-                </h2>
+                  {/* CONTENT */}
+                  <h2 className="font-bold mt-3">{item.course.title}</h2>
 
-                <p className="text-gray-600 text-sm">
-                  {item.course.shortDesc}
-                </p>
+                  <p className="text-gray-600 text-sm">
+                    {item.course.shortDesc}
+                  </p>
 
-                <p className="mt-2 font-semibold">
-                  ₹ {item.course.price}
-                </p>
+                  <p className="mt-2 font-semibold">₹ {item.course.price}</p>
+                <button
+                  onClick={async (e) => {
+                    e.stopPropagation(); // ⛔ stop card click navigation
+
+                    const res = await fetch(
+                      "http://localhost:5000/api/wishlist",
+                      {
+                        method: "DELETE",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          userId,
+                          courseId: item.course._id,
+                        }),
+                      },
+                    );
+
+                    const data = await res.json();
+                    alert(data.message);
+
+                    // 🔄 remove instantly from UI
+                    setCourses((prev) =>
+                      prev.filter((c) => c.course._id !== item.course._id),
+                    );
+                  }}
+                  className="mt-3 w-full bg-transparent  text-black py-2 rounded-lg hover:bg-gray-600 cursor-pointer"
+                >
+                  Remove
+                </button>
+                </div>
               </div>
             ))}
           </div>

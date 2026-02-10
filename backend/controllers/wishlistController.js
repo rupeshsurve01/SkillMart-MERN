@@ -1,5 +1,6 @@
-const Wishlist = require("../models/Wishlist");
+
 const Course = require("../models/Course");
+const Wishlist = require("../models/Wishlist");
 
 exports.addToWishlist = async (req, res) => {
   try {
@@ -48,3 +49,24 @@ exports.getWishlist = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch wishlist" });
   }
 };
+
+
+exports.removeFromWishlist = async (req, res) => {
+  try {
+    const { userId, courseId } = req.body;
+
+    if (!userId || !courseId) {
+      return res.status(400).json({ message: "Missing user or course" });
+    }
+
+    await Wishlist.findOneAndDelete({
+      user: userId,
+      course: courseId,
+    });
+
+    res.status(200).json({ message: "Removed from wishlist ❌" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to remove from wishlist" });
+  }
+};
+
