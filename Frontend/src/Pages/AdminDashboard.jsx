@@ -69,7 +69,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="bg-gray-300 h-screen">
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="max-w-6xl mx-auto p-6">
         <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
 

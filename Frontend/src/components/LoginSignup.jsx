@@ -18,7 +18,7 @@ const LoginSignup = () => {
       : "http://localhost:5000/api/auth/login";
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); //Stop page refresh
+    e.preventDefault();
 
     if (action === "Sign Up" && !name) {
       alert("Name is required");
@@ -57,10 +57,10 @@ const LoginSignup = () => {
 
       if (res.ok) {
         localStorage.setItem("userId", data.userId);
-localStorage.setItem("role", data.role);
-
+        localStorage.setItem("role", data.role);
 
         if (data.role === "admin") {
+          alert("Welcome to Admin Dashbord")
           navigate("/admin");
         } else {
           navigate("/");

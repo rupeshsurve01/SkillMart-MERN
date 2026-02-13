@@ -8,7 +8,12 @@ exports.register = async (req, res) => {
   if (exists) return res.status(400).json({ message: "User already exists" });
 
   const user = await User.create({ name, email, password });
-  res.json({ message: "Signup successful", user });
+  res.json({
+  message: "Signup successful",
+  userId: user._id,
+  role: user.role
+});
+
 };
 
 exports.login = async (req, res) => {

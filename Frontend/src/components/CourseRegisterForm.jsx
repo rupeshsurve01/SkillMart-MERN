@@ -54,6 +54,8 @@ function CourseRegisterForm() {
 const handleSubmit = async (e) => {
   e.preventDefault();
 
+  if (!validate()) return;
+
   const userId = localStorage.getItem("userId");
 
   if (!userId) {
@@ -68,20 +70,26 @@ const handleSubmit = async (e) => {
       formData.append(key, courseData[key]);
     }
   });
+console.log("USER ID:", userId);
 
-  formData.append("seller", userId); 
+  // ✅ FIXED HERE
+  formData.append("seller", userId);
 
   if (courseData.thumbnail) {
     formData.append("thumbnail", courseData.thumbnail);
   }
 
-  const res = await fetch("http://localhost:5000/api/courses", {
-    method: "POST",
-    body: formData,
-  });
+  try {
+    const res = await fetch("http://localhost:5000/api/courses", {
+      method: "POST",
+      body: formData,
+    });
 
-  const data = await res.json();
-  alert(data.message);
+    const data = await res.json();
+    alert(data.message);
+  } catch (error) {
+    alert("Something went wrong");
+  }
 };
 
 

@@ -7,13 +7,22 @@ const MyCourses = () => {
   const [courses, setCourses] = useState([]);
   const sellerId = localStorage.getItem("userId");
 
-  useEffect(() => {
-    if (!sellerId) return;
+useEffect(() => {
+  if (!sellerId) return;
 
-    fetch(`http://localhost:5000/api/courses/seller/${sellerId}`)
-      .then((res) => res.json())
-      .then((data) => setCourses(data));
-  }, [sellerId]);
+  fetch(`http://localhost:5000/api/courses/seller/${sellerId}`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (Array.isArray(data)) {
+        setCourses(data);
+      } else {
+        console.error("API did not return array:", data);
+        setCourses([]); // prevent crash
+      }
+    })
+    .catch(() => setCourses([]));
+}, [sellerId]);
+
 
   const handleDelete = async (courseId) => {
     const sellerId = localStorage.getItem("userId");

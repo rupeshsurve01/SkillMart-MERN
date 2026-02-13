@@ -65,7 +65,7 @@ const Wishlist = () => {
                   <p className="mt-2 font-semibold">₹ {item.course.price}</p>
                 <button
                   onClick={async (e) => {
-                    e.stopPropagation(); // ⛔ stop card click navigation
+                    e.stopPropagation(); 
 
                     const res = await fetch(
                       "http://localhost:5000/api/wishlist",
@@ -82,7 +82,6 @@ const Wishlist = () => {
                     const data = await res.json();
                     alert(data.message);
 
-                    // 🔄 remove instantly from UI
                     setCourses((prev) =>
                       prev.filter((c) => c.course._id !== item.course._id),
                     );
