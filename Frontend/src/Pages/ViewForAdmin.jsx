@@ -8,10 +8,9 @@ const ViewForAdmin = () => {
   const [course, setCourse] = useState(null);
   const [courses, setCourses] = useState([]);
   const userId = localStorage.getItem("userId");
-    const role = localStorage.getItem("role");
+  const role = localStorage.getItem("role");
 
-   const navigate = useNavigate()
-  
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -37,32 +36,6 @@ const ViewForAdmin = () => {
 
   if (!course) return <p>Loading...</p>;
 
-const handleDelete = async (courseId) => {
-  const sellerId = localStorage.getItem("userId");
-
-  if (!window.confirm("Delete this course?")) return;
-
-  try {
-    const res = await fetch(`http://localhost:5000/api/courses/${courseId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ sellerId }),
-    });
-
-    const data = await res.json();
-    alert(data.message);
-
-    if (res.ok) {
-      navigate("/admin");
-    }
-  // eslint-disable-next-line no-unused-vars
-  } catch (error) {
-    alert("Delete failed");
-  }
-};
-
 
   const updateStatus = async (id, status) => {
     const res = await fetch(`http://localhost:5000/api/admin/course/${id}`, {
@@ -78,7 +51,6 @@ const handleDelete = async (courseId) => {
   };
   return (
     <>
-   
       <div className="max-w-6xl mx-auto px-4 py-10">
         {/* COURSE THUMBNAIL */}
         <div className="w-full h-[380px] rounded-2xl overflow-hidden shadow-lg mb-10">
@@ -146,28 +118,22 @@ const handleDelete = async (courseId) => {
           </div>
         </div>
         <div className="pt-15 flex gap-10">
+          <button
+            onClick={() => updateStatus(course._id, "rejected")}
+            className="bg-red-400 text-black border-2 px-24 py-2 hover:bg-red-600 cursor-pointer transition rounded-lg"
+          >
+            Reject
+          </button>
+          <button
+            onClick={() => updateStatus(course._id, "approved")}
+            className="bg-green-400 border-2 text-black px-24 py-2 hover:bg-green-600 cursor-pointe rounded-lg"
+          >
+            Approve
+          </button>
+        </div>
+        <div>
 
-        <button
-          onClick={() => updateStatus(course._id, "rejected")}
-          className="bg-red-600 text-white px-24 py-2 rounded-lg"
-          >
-          Reject
-        </button>
-        <button
-          onClick={() => updateStatus(course._id, "approved")}
-          className="bg-green-600 text-white px-24 py-2 rounded-lg"
-          >
-          Approve
-        </button>
-                    {role === "admin" && (
-              <button
-                onClick={() => handleDelete(course._id)}
-                className="w-full bg-red-600 text-white py-2 rounded-xl mt-3"
-              >
-                Admin Delete Course
-              </button>
-            )}
-            </div>
+        </div>
       </div>
     </>
   );

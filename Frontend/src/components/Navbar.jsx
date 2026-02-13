@@ -3,19 +3,17 @@ import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const role = localStorage.getItem("role");
 
   const navLinkClass = ({ isActive }) =>
     `font-medium transition ${
-      isActive
-        ? "text-[#6f26eb]"
-        : "text-gray-600 hover:text-[#6f26eb]"
+      isActive ? "text-[#6f26eb]" : "text-gray-600 hover:text-[#6f26eb]"
     }`;
 
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
-
           {/* LOGO */}
           <NavLink to="/" className="flex items-center">
             <img src="/ss-logo-lg.png" alt="SkillMart" className="h-7 w-auto" />
@@ -23,16 +21,31 @@ const Navbar = () => {
 
           {/* DESKTOP MENU */}
           <div className="hidden md:flex items-center gap-8">
-            <NavLink to="/" className={navLinkClass}>Home</NavLink>
-            <NavLink to="/my-courses" className={navLinkClass}>My Courses</NavLink>
-            <NavLink to="/compare" className={navLinkClass}>Compare</NavLink>
-            <NavLink to="/contact" className={navLinkClass}>Contact</NavLink>
-            <NavLink to="/login" className={navLinkClass}>Login</NavLink>
+            <NavLink to="/" className={navLinkClass}>
+              Home
+            </NavLink>
+            <NavLink to="/my-courses" className={navLinkClass}>
+              My Courses
+            </NavLink>
+            <NavLink to="/compare" className={navLinkClass}>
+              Compare
+            </NavLink>
+            <NavLink to="/contact" className={navLinkClass}>
+              Contact
+            </NavLink>
+            <NavLink to="/login" className={navLinkClass}>
+              Login
+            </NavLink>
+
+            {role === "admin" && (
+              <NavLink to="/admin" className={navLinkClass}>
+                Requests
+              </NavLink>
+            )}
           </div>
 
           {/* RIGHT ICONS */}
           <div className="flex items-center gap-4">
-
             {/* WISHLIST */}
             <NavLink
               to="/wishlist"
@@ -72,13 +85,65 @@ const Navbar = () => {
       {open && (
         <div className="md:hidden bg-white border-t shadow-sm">
           <div className="flex flex-col gap-4 px-6 py-5">
-            <NavLink to="/" onClick={() => setOpen(false)} className={navLinkClass}>Home</NavLink>
-            <NavLink to="/my-courses" onClick={() => setOpen(false)} className={navLinkClass}>My Courses</NavLink>
-            <NavLink to="/my-learning" onClick={() => setOpen(false)} className={navLinkClass}>My Learning</NavLink>
-            <NavLink to="/wishlist" onClick={() => setOpen(false)} className={navLinkClass}>Wishlist</NavLink>
-            <NavLink to="/compare" onClick={() => setOpen(false)} className={navLinkClass}>Compare</NavLink>
-            <NavLink to="/contact" onClick={() => setOpen(false)} className={navLinkClass}>Contact</NavLink>
-            <NavLink to="/login" onClick={() => setOpen(false)} className={navLinkClass}>Login</NavLink>
+            <NavLink
+              to="/"
+              onClick={() => setOpen(false)}
+              className={navLinkClass}
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/my-courses"
+              onClick={() => setOpen(false)}
+              className={navLinkClass}
+            >
+              My Courses
+            </NavLink>
+            <NavLink
+              to="/my-learning"
+              onClick={() => setOpen(false)}
+              className={navLinkClass}
+            >
+              My Learning
+            </NavLink>
+            <NavLink
+              to="/wishlist"
+              onClick={() => setOpen(false)}
+              className={navLinkClass}
+            >
+              Wishlist
+            </NavLink>
+            <NavLink
+              to="/compare"
+              onClick={() => setOpen(false)}
+              className={navLinkClass}
+            >
+              Compare
+            </NavLink>
+            <NavLink
+              to="/contact"
+              onClick={() => setOpen(false)}
+              className={navLinkClass}
+            >
+              Contact
+            </NavLink>
+            <NavLink
+              to="/login"
+              onClick={() => setOpen(false)}
+              className={navLinkClass}
+            >
+              Login
+            </NavLink>
+
+            <NavLink to="/login" className={navLinkClass}>
+              Login
+            </NavLink>
+
+            {role === "admin" && (
+              <NavLink to="/admin" className={navLinkClass}>
+                Requests
+              </NavLink>
+            )}
           </div>
         </div>
       )}

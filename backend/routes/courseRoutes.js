@@ -8,7 +8,8 @@ const {
   getSellerCourses,
   deleteCourse,
   updateCourse,
-  getPublicCourses
+  getPublicCourses,
+  getAllCourses 
 } = require("../controllers/courseController");
 
 const upload = require("../middleware/upload");
@@ -24,6 +25,7 @@ router.get("/seller/:sellerId", getSellerCourses);
 
 router.get("/", getCourses);
 
+router.get("/all", getAllCourses);
 router.get("/:id", getSingleCourse);
 
 router.delete("/:id", deleteCourse);

@@ -10,16 +10,27 @@ const CheckCourses = () => {
   // DATA STATES
   const [allCourses, setAllCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // FILTER STATES
   const [category, setCategory] = useState("all");
   const [price, setPrice] = useState("all");
-  const [search, setSearch] = useState(""); 
+  const [search, setSearch] = useState("");
 
-  // FETCH COURSES (ONCE)
+  // ADMIN MENU STATE
+  const [activeMenu, setActiveMenu] = useState(null);
+
+  // TOAST
+  const [toast, setToast] = useState("");
+
+  const userId = localStorage.getItem("userId");
+  const role = localStorage.getItem("role");
+
+  // FETCH COURSES
   useEffect(() => {
     const getCourses = async () => {
       try {
+        setLoading(true);
         const res = await axios.get("http://localhost:5000/api/courses");
         setAllCourses(res.data);
         setFilteredCourses(res.data);
@@ -27,46 +38,47 @@ const CheckCourses = () => {
         console.error("Failed to load courses:", error.message);
         setAllCourses([]);
         setFilteredCourses([]);
+      } finally {
+        setLoading(false);
       }
     };
 
     getCourses();
   }, []);
 
-  // APPLY SEARCH + FILTERS
+  // FILTER LOGIC
   useEffect(() => {
     let updatedCourses = [...allCourses];
 
     if (search.trim() !== "") {
       const searchText = search.toLowerCase();
-
       updatedCourses = updatedCourses.filter(
         (course) =>
           (course.title || "").toLowerCase().includes(searchText) ||
           (course.firm || "").toLowerCase().includes(searchText) ||
-          (course.category || "").toLowerCase().includes(searchText),
+          (course.category || "").toLowerCase().includes(searchText)
       );
     }
 
     if (category !== "all") {
       updatedCourses = updatedCourses.filter(
-        (course) => course.category === category,
+        (course) => course.category === category
       );
     }
 
     if (price !== "all") {
       if (price === "low") {
         updatedCourses = updatedCourses.filter(
-          (course) => Number(course.price) <= 500,
+          (course) => Number(course.price) <= 500
         );
       } else if (price === "medium") {
         updatedCourses = updatedCourses.filter(
           (course) =>
-            Number(course.price) > 500 && Number(course.price) <= 2000,
+            Number(course.price) > 500 && Number(course.price) <= 2000
         );
       } else if (price === "high") {
         updatedCourses = updatedCourses.filter(
-          (course) => Number(course.price) > 2000,
+          (course) => Number(course.price) > 2000
         );
       }
     }
@@ -74,16 +86,53 @@ const CheckCourses = () => {
     setFilteredCourses(updatedCourses);
   }, [search, category, price, allCourses]);
 
-  
+  // DELETE FUNCTION
+  const handleDelete = async (courseId) => {
+    if (!window.confirm("Delete this course?")) return;
+
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/courses/${courseId}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sellerId: userId }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setToast(data.message || "Delete failed ❌");
+      } else {
+        setFilteredCourses((prev) =>
+          prev.filter((c) => c._id !== courseId)
+        );
+        setToast("Course removed successfully ✅");
+      }
+    } catch (error) {
+      setToast("Delete failed ❌");
+    }
+
+    setTimeout(() => setToast(""), 2000);
+  };
 
   return (
     <div>
       <Navbar />
 
+      {/* TOAST */}
+      {toast && (
+        <div className="fixed top-5 right-5 bg-black text-white px-4 py-2 rounded-lg shadow-xl z-50">
+          {toast}
+        </div>
+      )}
+
       <div className="min-h-screen p-6 bg-gray-300">
+
         {/* FILTER BAR */}
         <div className="bg-gray-700 rounded-xl shadow-md p-4 mb-8 flex flex-col lg:flex-row gap-4 lg:items-end lg:justify-between">
-          {/* SEARCH */}
+
           <div className="flex-1">
             <label className="text-sm font-medium text-white mb-1 block">
               Search
@@ -98,7 +147,6 @@ const CheckCourses = () => {
             />
           </div>
 
-          {/* CATEGORY */}
           <div className="w-full sm:w-56">
             <label className="text-sm font-medium text-white mb-1 block">
               Category
@@ -116,7 +164,6 @@ const CheckCourses = () => {
             </select>
           </div>
 
-          {/* PRICE */}
           <div className="w-full sm:w-56">
             <label className="text-sm font-medium text-white mb-1 block">
               Price
@@ -132,18 +179,39 @@ const CheckCourses = () => {
               <option value="high">Above ₹2000</option>
             </select>
           </div>
+
+          <button
+            onClick={() => {
+              setCategory("all");
+              setPrice("all");
+              setSearch("");
+            }}
+            className="px-4 py-2 bg-white rounded-lg font-medium"
+          >
+            Clear
+          </button>
         </div>
 
         {/* COURSES GRID */}
-        <div className="flex flex-wrap gap-6">
-          {filteredCourses.length === 0 ? (
-            <p className="text-gray-600 text-lg">
-              No courses match your search.
+        {loading ? (
+          <p className="text-center text-lg text-gray-700">
+            Loading courses...
+          </p>
+        ) : filteredCourses.length === 0 ? (
+          <div className="text-center mt-20">
+            <h2 className="text-2xl font-bold text-gray-800">
+              No Courses Found
+            </h2>
+            <p className="text-gray-600 mt-2">
+              Try adjusting your filters.
             </p>
-          ) : (
-            filteredCourses.map((course) => (
+          </div>
+        ) : (
+          <div className="flex flex-wrap gap-6">
+            {filteredCourses.map((course) => (
               <div
-                className="w-[300px] h-[520px]
+                key={course._id}
+                className="relative w-[300px] h-[520px]
                 bg-gray-900
                 border border-white/20
                 rounded-[18px]
@@ -154,6 +222,48 @@ const CheckCourses = () => {
                 hover:-translate-y-[6px]
                 hover:shadow-[0_20px_45px_rgba(0,0,0,0.5)]"
               >
+
+                {/* ADMIN MENU */}
+                {role === "admin" && (
+                  <div className="absolute top-3 right-3">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveMenu(
+                          activeMenu === course._id ? null : course._id
+                        );
+                      }}
+                      className="text-white text-xl px-2 py-1 rounded-md hover:bg-white/20 transition"
+                    >
+                      ⋮
+                    </button>
+
+                    {activeMenu === course._id && (
+                      <div className="absolute right-0 mt-2 w-28 bg-gray-800 border border-white/20 rounded-lg shadow-lg overflow-hidden z-20">
+                        <button
+                          onClick={() => {
+                            setActiveMenu(null);
+                            navigate(`/edit/${course._id}`);
+                          }}
+                          className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700 transition"
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            setActiveMenu(null);
+                            handleDelete(course._id);
+                          }}
+                          className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-gray-700 transition"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* IMAGE */}
                 <img
                   src={`http://localhost:5000/uploads/${course.thumbnail}`}
@@ -190,7 +300,7 @@ const CheckCourses = () => {
                 <div className="flex flex-col gap-2">
                   <button
                     onClick={() => navigate(`/view/${course._id}`)}
-                    className="h-9 rounded-lg bg-[#e24e4e] text-white font-semibold hover:bg-amber-400 cursor-pointer"
+                    className="h-9 rounded-lg bg-[#e24e4e] text-white font-semibold hover:bg-amber-400"
                   >
                     View Detail
                   </button>
@@ -202,32 +312,35 @@ const CheckCourses = () => {
                         [];
 
                       if (existing.includes(course._id)) {
-                        alert("Course already added to compare");
+                        setToast("Course already added");
+                        setTimeout(() => setToast(""), 2000);
                         return;
                       }
 
                       if (existing.length >= 5) {
-                        alert("You can compare max 5 courses");
+                        setToast("Max 5 courses allowed");
+                        setTimeout(() => setToast(""), 2000);
                         return;
                       }
 
                       localStorage.setItem(
                         "compareCourses",
-                        JSON.stringify([...existing, course._id]),
+                        JSON.stringify([...existing, course._id])
                       );
 
-                      alert("Added to compare");
+                      setToast("Added to compare");
+                      setTimeout(() => setToast(""), 2000);
                     }}
-                    className="h-9 rounded-lg bg-gray-500 text-white font-semibold hover:bg-black cursor-pointer"
+                    className="h-9 rounded-lg bg-gray-500 text-white font-semibold hover:bg-black"
                   >
                     Add to Compare
                   </button>
-
                 </div>
+
               </div>
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <Footer />

@@ -68,6 +68,8 @@ const AdminDashboard = () => {
   };
 
   return (
+    <div>
+      <Navbar />
     <div className="bg-gray-300 h-screen">
       {/* <Navbar /> */}
       <div className="max-w-6xl mx-auto p-6">
@@ -136,6 +138,7 @@ const AdminDashboard = () => {
           <p className="text-gray-600">No pending courses 🎉</p>
         )}
       </div>
+    </div>
     </div>
   );
 };
