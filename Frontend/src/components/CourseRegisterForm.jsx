@@ -29,7 +29,7 @@ function CourseRegisterForm() {
     const newErrors = {};
 
     if (!courseData.title.trim()) newErrors.title = "Course title is required";
-    if (!courseData.firm.trim()) newErrors.title = "Firm Name is required";
+    if (!courseData.firm.trim()) newErrors.firm = "Firm Name is required";
     if (!courseData.shortDesc.trim())
       newErrors.shortDesc = "Short description is required";
     if (!courseData.category) newErrors.category = "Select a category";
@@ -58,10 +58,11 @@ const handleSubmit = async (e) => {
 
   const userId = localStorage.getItem("userId");
 
-  if (!userId) {
-    alert("Please login first");
-    return;
-  }
+  if (!userId || userId === "undefined") {
+  alert("Please login first");
+  return;
+}
+
 
   const formData = new FormData();
 
@@ -72,7 +73,6 @@ const handleSubmit = async (e) => {
   });
 console.log("USER ID:", userId);
 
-  // ✅ FIXED HERE
   formData.append("seller", userId);
 
   if (courseData.thumbnail) {
@@ -107,34 +107,34 @@ console.log("USER ID:", userId);
           name="title"
           value={courseData.title}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-1"
+          className="w-full border px-3 py-2 rounded "
         />
-        {errors.title && <p className="text-red-500">{errors.title}</p>}
+        {errors.title && <p className="text-red-500 mb-2">{errors.title}</p>}
 
         <label className="font-medium">Firm Name</label>
         <input
           name="firm"
           value={courseData.firm}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-1"
+          className="w-full border px-3 py-2 rounded "
         />
-        {errors.firm && <p className="text-red-500">{errors.title}</p>}
+        {errors.firm && <p className="text-red-500 mb-2">{errors.firm}</p>}
 
         <label className="font-medium">Short Description</label>
         <input
           name="shortDesc"
           value={courseData.shortDesc}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-1"
+          className="w-full border px-3 py-2 rounded "
         />
-        {errors.shortDesc && <p className="text-red-500">{errors.shortDesc}</p>}
+        {errors.shortDesc && <p className="text-red-500 mb-2">{errors.shortDesc}</p>}
 
         <label className="font-medium">Category</label>
         <select
           name="category"
           value={courseData.category}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-1"
+          className="w-full border px-3 py-2 rounded "
         >
           <option value="">Select</option>
           <option value="web-development">Web Development</option>
@@ -142,20 +142,21 @@ console.log("USER ID:", userId);
           <option value="ai-ml">AI / ML</option>
           <option value="programming">Programming</option>
         </select>
-        {errors.category && <p className="text-red-500">{errors.category}</p>}
+        {errors.category && <p className="text-red-500 mb-2">{errors.category}</p>}
 
         <label className="font-medium">Level</label>
         <select
           name="level"
           value={courseData.level}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-4"
+          className="w-full border px-3 py-2 rounded "
         >
           <option value="">Select</option>
           <option value="beginner">Beginner</option>
           <option value="intermediate">Intermediate</option>
           <option value="advanced">Advanced</option>
         </select>
+        {errors.category && <p className="text-red-500 mb-2">{errors.category}</p>}
 
         {/* LANGUAGE DROPDOWN */}
         <label className="font-medium">Course Language</label>
@@ -182,9 +183,9 @@ console.log("USER ID:", userId);
                           2. Setup & Tools
                           3. Core Concepts
                           4. Project"
-          className="w-full border px-3 py-2 rounded mb-1"
+          className="w-full border px-3 py-2 rounded "
         />
-        {errors.syllabus && <p className="text-red-500">{errors.syllabus}</p>}
+        {errors.syllabus && <p className="text-red-500 mb-2">{errors.syllabus}</p>}
 
         {/* COURSE CONTENT */}
         <label className="font-medium">Total Duration</label>
@@ -192,8 +193,9 @@ console.log("USER ID:", userId);
           name="duration"
           value={courseData.duration}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-1"
+          className="w-full border px-3 py-2 rounded "
         />
+        {errors.duration && <p className="text-red-500 mb-2">{errors.duration}</p>}
 
         <label className="font-medium">What You Will Learn</label>
         <textarea
@@ -209,8 +211,10 @@ console.log("USER ID:", userId);
           name="lectures"
           value={courseData.lectures}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-4"
+          className="w-full border px-3 py-2 rounded "
         />
+        {errors.lectures && <p className="text-red-500 mb-2">{errors.lectures}</p>}
+
 
         {/* PRICE */}
         <label className="font-medium">Price</label>
@@ -219,8 +223,10 @@ console.log("USER ID:", userId);
           name="price"
           value={courseData.price}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-4"
+          className="w-full border px-3 py-2 rounded mb-2"
         />
+        {errors.price && <p className="text-red-500 mb-2">{errors.price}</p>}
+
 
         {/* THUMBNAIL */}
         <label className="font-medium block mb-1">Course Thumbnail</label>

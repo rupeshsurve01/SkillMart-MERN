@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
@@ -8,6 +8,10 @@ const ViewForAdmin = () => {
   const [course, setCourse] = useState(null);
   const [courses, setCourses] = useState([]);
   const userId = localStorage.getItem("userId");
+    const role = localStorage.getItem("role");
+
+   const navigate = useNavigate()
+  
 
   useEffect(() => {
     axios
@@ -32,6 +36,33 @@ const ViewForAdmin = () => {
   }, [userId]);
 
   if (!course) return <p>Loading...</p>;
+
+const handleDelete = async (courseId) => {
+  const sellerId = localStorage.getItem("userId");
+
+  if (!window.confirm("Delete this course?")) return;
+
+  try {
+    const res = await fetch(`http://localhost:5000/api/courses/${courseId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ sellerId }),
+    });
+
+    const data = await res.json();
+    alert(data.message);
+
+    if (res.ok) {
+      navigate("/admin");
+    }
+  // eslint-disable-next-line no-unused-vars
+  } catch (error) {
+    alert("Delete failed");
+  }
+};
+
 
   const updateStatus = async (id, status) => {
     const res = await fetch(`http://localhost:5000/api/admin/course/${id}`, {
@@ -128,6 +159,14 @@ const ViewForAdmin = () => {
           >
           Approve
         </button>
+                    {role === "admin" && (
+              <button
+                onClick={() => handleDelete(course._id)}
+                className="w-full bg-red-600 text-white py-2 rounded-xl mt-3"
+              >
+                Admin Delete Course
+              </button>
+            )}
             </div>
       </div>
     </>

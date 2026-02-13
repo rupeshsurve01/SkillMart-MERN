@@ -1,4 +1,5 @@
 const express = require("express");
+const isAdmin = require("../middleware/adminCheck");
 
 const {
   addCourse,
@@ -28,5 +29,11 @@ router.get("/:id", getSingleCourse);
 router.delete("/:id", deleteCourse);
 
 router.put("/:id", upload.single("thumbnail"), updateCourse);
+
+
+router.get("/admin/all", isAdmin, async (req, res) => {
+  const courses = await Course.find();
+  res.json(courses);
+});
 
 module.exports = router;

@@ -74,6 +74,8 @@ const CheckCourses = () => {
     setFilteredCourses(updatedCourses);
   }, [search, category, price, allCourses]);
 
+  
+
   return (
     <div>
       <Navbar />
@@ -220,6 +222,7 @@ const CheckCourses = () => {
                   >
                     Add to Compare
                   </button>
+
                 </div>
               </div>
             ))

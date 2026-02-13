@@ -1,4 +1,6 @@
 const Course =  require("../models/Course")
+const User = require("../models/User");
+
 
 exports.addCourse = async (req, res) => {
   try {
@@ -69,25 +71,35 @@ exports.getSellerCourses = async (req, res) => {
 
 exports.deleteCourse = async (req, res) => {
   try {
-    const { id } = req.params; // courseId
+    const { id } = req.params;
     const { sellerId } = req.body;
 
     const course = await Course.findById(id);
-
     if (!course) {
       return res.status(404).json({ message: "Course not found" });
     }
 
-    // ownership check
+    const user = await User.findById(sellerId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // ✅ FIRST check admin
+    if (user.role === "admin") {
+      await Course.findByIdAndDelete(id);
+      return res.status(200).json({ message: "Course deleted by admin" });
+    }
+
+    // ✅ THEN check seller ownership
     if (course.seller.toString() !== sellerId) {
       return res.status(403).json({ message: "Not authorized" });
     }
 
     await Course.findByIdAndDelete(id);
-
     res.status(200).json({ message: "Course deleted successfully" });
+
   } catch (error) {
-    console.error("DELETE COURSE ERROR:", error);
+    console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };

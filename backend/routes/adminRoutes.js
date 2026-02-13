@@ -9,4 +9,6 @@ const {
 router.get("/pending", isAdmin, getPendingCourses);
 router.put("/course/:id", isAdmin, updateCourseStatus);
 
+
+
 module.exports = router;

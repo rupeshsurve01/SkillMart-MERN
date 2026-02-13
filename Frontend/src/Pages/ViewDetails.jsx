@@ -7,6 +7,8 @@ import Footer from "../components/Footer";
 const ViewDetails = () => {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
+
+
   const navigate = useNavigate();
 
   useEffect(() => {
