@@ -20,9 +20,8 @@ router.post("/", upload.single("thumbnail"), addCourse);
 
 router.get("/public", getPublicCourses);
 
-// ✅ FIX: seller route must come BEFORE /:id
 router.get("/seller/:sellerId", getSellerCourses);
-
+  
 router.get("/", getCourses);
 
 router.get("/all", getAllCourses);

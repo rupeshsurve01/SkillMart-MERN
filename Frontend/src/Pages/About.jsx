@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 const About = () => {
   return (
     <div className="bg-gray-200">
-      <Navbar />
+      {/* <Navbar /> */}
 
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* HEADER */}
@@ -71,7 +71,7 @@ const About = () => {
           full-stack development journey.
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

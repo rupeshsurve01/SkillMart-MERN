@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const isAdmin = async (req, res, next) => {
   try {
-    // ONLY read from query for GET requests
+    
 const userId = req.query.userId || req.body.userId;
 
     console.log("ADMIN CHECK userId:", userId);

@@ -1,7 +1,6 @@
 const Course =  require("../models/Course")
 const User = require("../models/User");
 
-
 exports.addCourse = async (req, res) => {
   try {
     console.log("FILE:", req.file);
@@ -38,8 +37,6 @@ exports.getCourses = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch courses" });
   }
 };
-
-
 
 exports.getSingleCourse = async (req, res) => {
   try {
@@ -84,13 +81,11 @@ exports.deleteCourse = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // ✅ FIRST check admin
     if (user.role === "admin") {
       await Course.findByIdAndDelete(id);
       return res.status(200).json({ message: "Course deleted by admin" });
     }
 
-    // ✅ THEN check seller ownership
     if (course.seller.toString() !== sellerId) {
       return res.status(403).json({ message: "Not authorized" });
     }
@@ -135,7 +130,6 @@ exports.updateCourse = async (req, res) => {
   }
 };
 
-// ADMIN: get pending courses
 exports.getPendingCourses = async (req, res) => {
   try {
     const courses = await Course.find({ status: "pending" })
@@ -147,7 +141,6 @@ exports.getPendingCourses = async (req, res) => {
   }
 };
 
-// ADMIN: approve / reject course
 exports.updateCourseStatus = async (req, res) => {
   try {
     const { id } = req.params;
@@ -164,7 +157,6 @@ exports.updateCourseStatus = async (req, res) => {
     res.status(500).json({ message: "Failed to update course status" });
   }
 };
-
 
 exports.getPublicCourses = async (req, res) => {
   try {

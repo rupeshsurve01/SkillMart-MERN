@@ -34,6 +34,7 @@ const Dashboard = () => {
       </div>
 
     </div>
+    <About />
       <Footer />
     </div>
   );

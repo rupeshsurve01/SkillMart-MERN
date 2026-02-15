@@ -1,4 +1,3 @@
-
 const Course = require("../models/Course");
 const Wishlist = require("../models/Wishlist");
 

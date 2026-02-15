@@ -11,12 +11,12 @@ const Navbar = () => {
     }`;
 
   return (
-    <nav className="sticky top-0 z-50 bg-white shadow-sm">
+<nav className="sticky top-0 z-50 bg-[#ffffff] shadow-md">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* LOGO */}
           <NavLink to="/" className="flex items-center">
-            <img src="/ss-logo-lg.png" alt="SkillMart" className="h-7 w-auto" />
+            <img src="/Skill_gray.png" alt="SkillMart" className="h-9 w-auto" />
           </NavLink>
 
           {/* DESKTOP MENU */}

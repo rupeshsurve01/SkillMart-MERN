@@ -5,9 +5,11 @@ import Footer from "../components/Footer";
 
 const CompareCourses = () => {
   const [courses, setCourses] = useState([]);
+  const sellerId = localStorage.getItem("userId")
 
   useEffect(() => {
     const ids = JSON.parse(localStorage.getItem("compareCourses")) || [];
+      if (!sellerId) return;
 
     if (ids.length === 0) return;
 
