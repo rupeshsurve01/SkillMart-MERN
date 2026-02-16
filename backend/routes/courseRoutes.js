@@ -19,11 +19,8 @@ const router = express.Router();
 router.post("/", upload.single("thumbnail"), addCourse);
 
 router.get("/public", getPublicCourses);
-
 router.get("/seller/:sellerId", getSellerCourses);
-  
 router.get("/", getCourses);
-
 router.get("/all", getAllCourses);
 router.get("/:id", getSingleCourse);
 

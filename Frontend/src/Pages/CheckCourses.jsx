@@ -26,8 +26,7 @@ const CheckCourses = () => {
   const userId = localStorage.getItem("userId");
   const role = localStorage.getItem("role");
   const key = `compareCourses_${userId}`;
-const ids = JSON.parse(localStorage.getItem(key)) || [];
-
+  const ids = JSON.parse(localStorage.getItem(key)) || [];
 
   // FETCH COURSES
   useEffect(() => {
@@ -45,7 +44,6 @@ const ids = JSON.parse(localStorage.getItem(key)) || [];
         setLoading(false);
       }
     };
-
     getCourses();
   }, []);
 
@@ -111,7 +109,6 @@ const ids = JSON.parse(localStorage.getItem(key)) || [];
     } catch (error) {
       setToast("Delete failed ❌");
     }
-
     setTimeout(() => setToast(""), 2000);
   };
 
@@ -156,7 +153,7 @@ const ids = JSON.parse(localStorage.getItem(key)) || [];
               <option value="web-development">Web Development</option>
               <option value="app-development">App Development</option>
               <option value="ai-ml">AI / ML</option>
-              <option value="programming">Programming</option>
+              <option value="programming">Language</option>
             </select>
           </div>
 

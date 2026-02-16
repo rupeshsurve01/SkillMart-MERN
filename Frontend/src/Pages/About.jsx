@@ -38,7 +38,7 @@ const About = () => {
           </div>
 
           {/* RIGHT CONTENT */}
-          <div className="bg-gray-100 rounded-xl p-6 shadow-sm">
+          <div className="bg-gray-100 rounded-xl p-6 shadow-sm hover:shadow-2xl transition">
             <h3 className="text-xl font-semibold text-gray-800 mb-3">
               Why SkillMart?
             </h3>
@@ -53,7 +53,7 @@ const About = () => {
         </div>
 
         {/* MISSION SECTION */}
-        <div className="mt-16 bg-white shadow-md rounded-xl p-8">
+        <div className="mt-16 bg-white shadow-md rounded-xl p-8 hover:shadow-2xl transition">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
             Our Mission
           </h2>
