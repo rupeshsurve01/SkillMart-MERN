@@ -25,6 +25,9 @@ const CheckCourses = () => {
 
   const userId = localStorage.getItem("userId");
   const role = localStorage.getItem("role");
+  const key = `compareCourses_${userId}`;
+const ids = JSON.parse(localStorage.getItem(key)) || [];
+
 
   // FETCH COURSES
   useEffect(() => {
@@ -56,29 +59,29 @@ const CheckCourses = () => {
         (course) =>
           (course.title || "").toLowerCase().includes(searchText) ||
           (course.firm || "").toLowerCase().includes(searchText) ||
-          (course.category || "").toLowerCase().includes(searchText)
+          (course.category || "").toLowerCase().includes(searchText),
       );
     }
 
     if (category !== "all") {
       updatedCourses = updatedCourses.filter(
-        (course) => course.category === category
+        (course) => course.category === category,
       );
     }
 
     if (price !== "all") {
       if (price === "low") {
         updatedCourses = updatedCourses.filter(
-          (course) => Number(course.price) <= 500
+          (course) => Number(course.price) <= 500,
         );
       } else if (price === "medium") {
         updatedCourses = updatedCourses.filter(
           (course) =>
-            Number(course.price) > 500 && Number(course.price) <= 2000
+            Number(course.price) > 500 && Number(course.price) <= 2000,
         );
       } else if (price === "high") {
         updatedCourses = updatedCourses.filter(
-          (course) => Number(course.price) > 2000
+          (course) => Number(course.price) > 2000,
         );
       }
     }
@@ -91,23 +94,18 @@ const CheckCourses = () => {
     if (!window.confirm("Delete this course?")) return;
 
     try {
-      const res = await fetch(
-        `http://localhost:5000/api/courses/${courseId}`,
-        {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ sellerId: userId }),
-        }
-      );
+      const res = await fetch(`http://localhost:5000/api/courses/${courseId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sellerId: userId }),
+      });
 
       const data = await res.json();
 
       if (!res.ok) {
         setToast(data.message || "Delete failed ❌");
       } else {
-        setFilteredCourses((prev) =>
-          prev.filter((c) => c._id !== courseId)
-        );
+        setFilteredCourses((prev) => prev.filter((c) => c._id !== courseId));
         setToast("Course removed successfully ✅");
       }
     } catch (error) {
@@ -129,10 +127,8 @@ const CheckCourses = () => {
       )}
 
       <div className="min-h-screen p-6 bg-gray-300">
-
         {/* FILTER BAR */}
         <div className="bg-gray-700 rounded-xl shadow-md p-4 mb-8 flex flex-col lg:flex-row gap-4 lg:items-end lg:justify-between">
-
           <div className="flex-1">
             <label className="text-sm font-medium text-white mb-1 block">
               Search
@@ -202,9 +198,7 @@ const CheckCourses = () => {
             <h2 className="text-2xl font-bold text-gray-800">
               No Courses Found
             </h2>
-            <p className="text-gray-600 mt-2">
-              Try adjusting your filters.
-            </p>
+            <p className="text-gray-600 mt-2">Try adjusting your filters.</p>
           </div>
         ) : (
           <div className="flex flex-wrap gap-6">
@@ -222,7 +216,6 @@ const CheckCourses = () => {
                 hover:-translate-y-[6px]
                 hover:shadow-[0_20px_45px_rgba(0,0,0,0.5)]"
               >
-
                 {/* ADMIN MENU */}
                 {role === "admin" && (
                   <div className="absolute top-3 right-3">
@@ -230,7 +223,7 @@ const CheckCourses = () => {
                       onClick={(e) => {
                         e.stopPropagation();
                         setActiveMenu(
-                          activeMenu === course._id ? null : course._id
+                          activeMenu === course._id ? null : course._id,
                         );
                       }}
                       className="text-white text-xl px-2 py-1 rounded-md hover:bg-white/20 transition"
@@ -307,9 +300,16 @@ const CheckCourses = () => {
 
                   <button
                     onClick={() => {
+                      if (!userId) {
+                        setToast("Please login first");
+                        setTimeout(() => setToast(""), 2000);
+                        return;
+                      }
+
+                      const key = `compareCourses_${userId}`;
+
                       const existing =
-                        JSON.parse(localStorage.getItem("compareCourses")) ||
-                        [];
+                        JSON.parse(localStorage.getItem(key)) || [];
 
                       if (existing.includes(course._id)) {
                         setToast("Course already added");
@@ -324,8 +324,8 @@ const CheckCourses = () => {
                       }
 
                       localStorage.setItem(
-                        "compareCourses",
-                        JSON.stringify([...existing, course._id])
+                        key,
+                        JSON.stringify([...existing, course._id]),
                       );
 
                       setToast("Added to compare");
@@ -336,7 +336,6 @@ const CheckCourses = () => {
                     Add to Compare
                   </button>
                 </div>
-
               </div>
             ))}
           </div>

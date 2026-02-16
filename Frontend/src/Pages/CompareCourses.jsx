@@ -5,15 +5,16 @@ import Footer from "../components/Footer";
 
 const CompareCourses = () => {
   const [courses, setCourses] = useState([]);
-  const sellerId = localStorage.getItem("userId")
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    const ids = JSON.parse(localStorage.getItem("compareCourses")) || [];
-      if (!sellerId) return;
+    if (!userId) return;
+
+    const key = `compareCourses_${userId}`;
+    const ids = JSON.parse(localStorage.getItem(key)) || [];
 
     if (ids.length === 0) return;
 
-    // “Wait until ALL API calls finish”
     Promise.all(
       ids.map((id) =>
         axios.get(`http://localhost:5000/api/courses/${id}`)
@@ -21,7 +22,7 @@ const CompareCourses = () => {
     ).then((responses) => {
       setCourses(responses.map((res) => res.data));
     });
-  }, []);
+  }, [userId]);
 
   if (courses.length === 0) {
     return (
@@ -35,7 +36,7 @@ const CompareCourses = () => {
   }
 
   return (
-    <div className="bg-gray-200">
+    <div className="bg-gray-200 min-h-screen">
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-4 py-10">
@@ -80,14 +81,16 @@ const CompareCourses = () => {
 
         <button
           onClick={() => {
-            localStorage.removeItem("compareCourses");
-            window.location.reload();
+            const key = `compareCourses_${userId}`;
+            localStorage.removeItem(key);
+            setCourses([]);
           }}
           className="mt-6 bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600"
         >
           Clear Compare
         </button>
       </div>
+
       <Footer />
     </div>
   );
