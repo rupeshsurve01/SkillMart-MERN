@@ -5,27 +5,47 @@ import Footer from "../components/Footer";
 
 const MyLearning = () => {
   const [courses, setCourses] = useState([]);
-  const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!userId) return;
+const token = localStorage.getItem("token");
 
-    fetch(`http://localhost:5000/api/enroll/my/${userId}`)
-      .then((res) => res.json())  //convert response to JSON
-      .then((data) => {
-        // 🛡️ SAFETY FILTER
-        const validCourses = Array.isArray(data)
-          ? data.filter((item) => item && item.course)
-          : [];
+useEffect(() => {
+  console.log("TOKEN:", token);
+  if (!token) {
+    alert("Please login first");
+    navigate("/login");
+    return;
+  }
 
-        setCourses(validCourses);
-      })
-      .catch((err) => {
-        console.error("Failed to load enrolled courses:", err);
-        setCourses([]);
+  const fetchCourses = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/enroll/my", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
-  }, [userId]);
+
+      if (res.status === 401) {
+        alert("Session expired. Please login again.");
+        localStorage.removeItem("token");
+        navigate("/login");
+        return;
+      }
+
+      const data = await res.json();
+
+      const validCourses = Array.isArray(data)
+        ? data.filter((item) => item && item.course)
+        : [];
+
+      setCourses(validCourses);
+    } catch (error) {
+      console.error("Failed to load enrolled courses:", error);
+    }
+  };
+
+  fetchCourses();
+}, [token, navigate]);
 
   return (
     <div>

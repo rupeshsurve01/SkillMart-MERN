@@ -1,5 +1,7 @@
 const express = require("express");
-const isAdmin = require("../middleware/adminCheck");
+const router = express.Router();
+const upload = require("../middleware/upload");
+const { authenticate, authorizeRoles } = require("../middleware/auth");
 
 const {
   addCourse,
@@ -8,30 +10,43 @@ const {
   getSellerCourses,
   deleteCourse,
   updateCourse,
-  getPublicCourses,
-  getAllCourses 
+  getPublicCourses
 } = require("../controllers/courseController");
 
-const upload = require("../middleware/upload");
-
-const router = express.Router();
-
-router.post("/", upload.single("thumbnail"), addCourse);
-
 router.get("/public", getPublicCourses);
-router.get("/seller/:sellerId", getSellerCourses);
 router.get("/", getCourses);
-router.get("/all", getAllCourses);
+
+
+// Seller create course
+router.post(
+  "/",
+  authenticate,
+  upload.single("thumbnail"),
+  addCourse
+);
+
+// Seller get own courses
+router.get(
+  "/seller",
+  authenticate,
+  getSellerCourses
+);
+
 router.get("/:id", getSingleCourse);
 
-router.delete("/:id", deleteCourse);
+// Delete course
+router.delete(
+  "/:id",
+  authenticate,
+  deleteCourse
+);
 
-router.put("/:id", upload.single("thumbnail"), updateCourse);
-
-
-router.get("/admin/all", isAdmin, async (req, res) => {
-  const courses = await Course.find();
-  res.json(courses);
-});
+// Update course
+router.put(
+  "/:id",
+  authenticate,
+  upload.single("thumbnail"),
+  updateCourse
+);
 
 module.exports = router;

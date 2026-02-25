@@ -6,15 +6,17 @@ const Course = require("../models/Course");
 // ============================
 exports.enrollCourse = async (req, res) => {
   try {
-    const { userId, courseId } = req.body;
+    const userId = req.user._id; // from JWT
+    const { courseId } = req.body;
 
-    if (!userId || !courseId) {
-      return res.status(400).json({ message: "Missing user or course" });
+    if (!courseId) {
+      return res.status(400).json({ message: "Course ID missing" });
     }
 
     const course = await Course.findById(courseId);
+
     if (!course) {
-      return res.status(400).json({ message: "Course not found" });
+      return res.status(404).json({ message: "Course not found" });
     }
 
     if (course.status !== "approved") {
@@ -50,19 +52,15 @@ exports.enrollCourse = async (req, res) => {
 // ============================
 // GET MY LEARNING
 // ============================
-exports.getMyLearning = async (req, res) => {
+exports.getMyCourses = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const userId = req.user._id; // coming from JWT
 
-    const enrollments = await Enrollment.find({
-      user: userId,
-    }).populate("course");
+    const enrollments = await Enrollment.find({ user: userId })
+      .populate("course");
 
-    // return full enrollment objects (recommended)
-    res.status(200).json(enrollments);
-
+    res.json(enrollments);
   } catch (error) {
-    console.error("MY LEARNING ERROR:", error);
-    res.status(500).json({ message: "Failed to fetch courses" });
+    res.status(500).json({ message: "Server error" });
   }
 };

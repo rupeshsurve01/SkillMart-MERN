@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 
 const Wishlist = () => {
-  const [courses, setCourses] = useState([]); // ✅ FIXED
+  const [courses, setCourses] = useState([]); 
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
 

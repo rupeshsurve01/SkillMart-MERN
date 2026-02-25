@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useLocation } from "react-router-dom";
 const LoginSignup = () => {
   const [action, setAction] = useState("Sign Up");
   const [name, setName] = useState("");
@@ -17,61 +18,49 @@ const LoginSignup = () => {
       ? "http://localhost:5000/api/auth/register"
       : "http://localhost:5000/api/auth/login";
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (action === "Sign Up" && !name) {
-      alert("Name is required");
+  const body =
+    action === "Sign Up"
+      ? { name, email, password }
+      : { email, password };
+
+  try {
+    setLoading(true);
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.message || "Something went wrong");
       return;
     }
 
-    if (!email && !password) {
-      alert("Email and password are required");
-      return;
+    // ✅ Success block only
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("role", data.role);
+
+    alert(data.message);
+
+    if (data.role === "admin") {
+      navigate("/admin");
+    } else {
+      navigate("/");
     }
 
-    if (!email) {
-      alert("Email is required");
-      return;
-    }
-
-    if (!password) {
-      alert("Password is required");
-      return;
-    }
-
-    const body =
-      action === "Sign Up" ? { name, email, password } : { email, password };
-
-    try {
-      setLoading(true);
-
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-
-      const data = await res.json();
-      alert(data.message);
-
-      if (res.ok) {
-        localStorage.setItem("userId", data.userId);
-        localStorage.setItem("role", data.role);
-
-        if (data.role === "admin") {
-          alert("Welcome to Admin Dashbord")
-          navigate("/admin");
-        } else {
-          navigate("/");
-        }
-      }
-    } catch (error) {
-      alert("Server not reachable");
-    } finally {
-      setLoading(false);
-    }
-  };
+  } catch (error) {
+    console.error("FETCH ERROR:", error);
+    alert("Server not reachable");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">

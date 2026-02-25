@@ -23,10 +23,11 @@ const CheckCourses = () => {
   // TOAST
   const [toast, setToast] = useState("");
 
-  const userId = localStorage.getItem("userId");
-  const role = localStorage.getItem("role");
-  const key = `compareCourses_${userId}`;
-  const ids = JSON.parse(localStorage.getItem(key)) || [];
+const token = localStorage.getItem("token");
+const role = localStorage.getItem("role");
+
+// Simple compare storage (no userId needed)
+const key = "compareCourses";
 
   // FETCH COURSES
   useEffect(() => {
@@ -88,29 +89,36 @@ const CheckCourses = () => {
   }, [search, category, price, allCourses]);
 
   // DELETE FUNCTION
-  const handleDelete = async (courseId) => {
-    if (!window.confirm("Delete this course?")) return;
+ const handleDelete = async (courseId) => {
+  if (!window.confirm("Delete this course?")) return;
 
-    try {
-      const res = await fetch(`http://localhost:5000/api/courses/${courseId}`, {
+  try {
+    const res = await fetch(
+      `http://localhost:5000/api/courses/${courseId}`,
+      {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sellerId: userId }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setToast(data.message || "Delete failed ❌");
-      } else {
-        setFilteredCourses((prev) => prev.filter((c) => c._id !== courseId));
-        setToast("Course removed successfully ✅");
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       }
-    } catch (error) {
-      setToast("Delete failed ❌");
+    );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setToast(data.message || "Delete failed ❌");
+    } else {
+      setFilteredCourses((prev) =>
+        prev.filter((c) => c._id !== courseId)
+      );
+      setToast("Course removed successfully ✅");
     }
-    setTimeout(() => setToast(""), 2000);
-  };
+  } catch (error) {
+    setToast("Delete failed ❌");
+  }
+
+  setTimeout(() => setToast(""), 2000);
+};
 
   return (
     <div>
@@ -202,7 +210,7 @@ const CheckCourses = () => {
             {filteredCourses.map((course) => (
               <div
                 key={course._id}
-                className="relative w-[300px] h-[520px]
+                className="relative w-[300px] h-[500px]
                 bg-gray-900
                 border border-white/20
                 rounded-[18px]
@@ -297,36 +305,33 @@ const CheckCourses = () => {
 
                   <button
                     onClick={() => {
-                      if (!userId) {
-                        setToast("Please login first");
-                        setTimeout(() => setToast(""), 2000);
-                        return;
-                      }
+                      if (!token) {
+  navigate("/login");
+  return;
+}
 
-                      const key = `compareCourses_${userId}`;
+const existing =
+  JSON.parse(localStorage.getItem("compareCourses")) || [];
 
-                      const existing =
-                        JSON.parse(localStorage.getItem(key)) || [];
+if (existing.includes(course._id)) {
+  setToast("Course already added");
+  setTimeout(() => setToast(""), 2000);
+  return;
+}
 
-                      if (existing.includes(course._id)) {
-                        setToast("Course already added");
-                        setTimeout(() => setToast(""), 2000);
-                        return;
-                      }
+if (existing.length >= 5) {
+  setToast("Max 5 courses allowed");
+  setTimeout(() => setToast(""), 2000);
+  return;
+}
 
-                      if (existing.length >= 5) {
-                        setToast("Max 5 courses allowed");
-                        setTimeout(() => setToast(""), 2000);
-                        return;
-                      }
+localStorage.setItem(
+  "compareCourses",
+  JSON.stringify([...existing, course._id])
+);
 
-                      localStorage.setItem(
-                        key,
-                        JSON.stringify([...existing, course._id]),
-                      );
-
-                      setToast("Added to compare");
-                      setTimeout(() => setToast(""), 2000);
+setToast("Added to compare");
+setTimeout(() => setToast(""), 2000);
                     }}
                     className="h-9 rounded-lg bg-gray-500 text-white font-semibold hover:bg-black"
                   >
@@ -338,7 +343,6 @@ const CheckCourses = () => {
           </div>
         )}
       </div>
-
       <Footer />
     </div>
   );

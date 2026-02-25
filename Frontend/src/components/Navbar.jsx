@@ -135,9 +135,7 @@ const Navbar = () => {
               Login
             </NavLink>
 
-            <NavLink to="/login" className={navLinkClass}>
-              Login
-            </NavLink>
+           
 
             {role === "admin" && (
               <NavLink to="/admin" className={navLinkClass}>

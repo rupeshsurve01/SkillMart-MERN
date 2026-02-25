@@ -83,7 +83,7 @@ const ViewDetails = () => {
 
             <button
               onClick={async () => {
-                const userId = localStorage.getItem("userId");
+                const userId = localStorage.getItem("token");
 
                 if (!userId) {
                   alert("Please login first");

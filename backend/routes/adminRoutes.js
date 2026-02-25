@@ -1,14 +1,27 @@
 const express = require("express");
 const router = express.Router();
-const isAdmin = require("../middleware/adminCheck");
+
 const {
   getPendingCourses,
   updateCourseStatus,
-} = require("../controllers/courseController");
+} = require("../controllers/adminCheck");
 
-router.get("/pending", isAdmin, getPendingCourses);
-router.put("/course/:id", isAdmin, updateCourseStatus);
+const { authenticate, authorizeRoles } = require("../middleware/auth");
 
+// GET ALL PENDING COURSES
+router.get(
+  "/pending",
+  authenticate,
+  authorizeRoles("admin"),
+  getPendingCourses
+);
 
+// APPROVE / REJECT COURSE
+router.put(
+  "/course/:id",
+  authenticate,
+  authorizeRoles("admin"),
+  updateCourseStatus
+);
 
 module.exports = router;

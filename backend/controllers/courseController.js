@@ -1,30 +1,23 @@
+const mongoose = require("mongoose");
 const Course =  require("../models/Course")
 const User = require("../models/User");
 
 exports.addCourse = async (req, res) => {
   try {
-    console.log("FILE:", req.file);
-    console.log("BODY:", req.body);
-
-    const { seller } = req.body;
-
-    if (!seller) {
-      return res.status(400).json({ message: "Seller is required" });
-    }
+    const sellerId = req.user._id; // from JWT
 
     const course = await Course.create({
       ...req.body,
-      seller: seller,
-      status: "pending",
+      seller: sellerId,
       thumbnail: req.file ? req.file.filename : null,
+      status: "pending",
     });
-
+    
     res.status(201).json({
       message: "Course added",
       course,
     });
   } catch (error) {
-    console.error("ADD COURSE ERROR:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -38,9 +31,15 @@ exports.getCourses = async (req, res) => {
   }
 };
 
-exports.getSingleCourse = async (req, res) => {
+exports. getSingleCourse = async (req, res) => {
   try {
     const { id } = req.params;
+
+    console.log("Course ID received:", id);
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid course ID" });
+    }
 
     const course = await Course.findById(id);
 
@@ -49,44 +48,33 @@ exports.getSingleCourse = async (req, res) => {
     }
 
     res.status(200).json(course);
+
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
-exports.getSellerCourses = async (req, res) => {
-  try {
-    const { sellerId } = req.params;
-
-    const courses = await Course.find({ seller: sellerId });
-
-    res.status(200).json(courses);
-  } catch (error) {
-    res.status(500).json({ message: "Failed to fetch seller courses" });
+    console.error("GET SINGLE COURSE ERROR:", error);
+    res.status(500).json({ message: error.message });
   }
 };
 
 exports.deleteCourse = async (req, res) => {
   try {
+    const userId = req.user._id;
+    const userRole = req.user.role;
     const { id } = req.params;
-    const { sellerId } = req.body;
 
     const course = await Course.findById(id);
+
     if (!course) {
       return res.status(404).json({ message: "Course not found" });
     }
 
-    const user = await User.findById(sellerId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    if (user.role === "admin") {
+    // Admin can delete any course
+    if (userRole === "admin") {
       await Course.findByIdAndDelete(id);
       return res.status(200).json({ message: "Course deleted by admin" });
     }
 
-    if (course.seller.toString() !== sellerId) {
+    // Seller can delete only their course
+    if (course.seller.toString() !== userId.toString()) {
       return res.status(403).json({ message: "Not authorized" });
     }
 
@@ -94,15 +82,14 @@ exports.deleteCourse = async (req, res) => {
     res.status(200).json({ message: "Course deleted successfully" });
 
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
 exports.updateCourse = async (req, res) => {
   try {
+    const userId = req.user._id;
     const { id } = req.params;
-    const { sellerId } = req.body;
 
     const course = await Course.findById(id);
 
@@ -110,12 +97,11 @@ exports.updateCourse = async (req, res) => {
       return res.status(404).json({ message: "Course not found" });
     }
 
-    if (course.seller.toString() !== sellerId) {
+    if (course.seller.toString() !== userId.toString()) {
       return res.status(403).json({ message: "Not authorized" });
     }
 
     const updatedData = { ...req.body };
-    delete updatedData.sellerId;
 
     if (req.file) {
       updatedData.thumbnail = req.file.filename;
@@ -124,12 +110,11 @@ exports.updateCourse = async (req, res) => {
     await Course.findByIdAndUpdate(id, updatedData);
 
     res.status(200).json({ message: "Course updated successfully" });
+
   } catch (error) {
-    console.error("UPDATE COURSE ERROR:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
-
 exports.getPendingCourses = async (req, res) => {
   try {
     const courses = await Course.find({ status: "pending" })
@@ -177,5 +162,18 @@ exports.getAllCourses = async (req, res) => {
   } catch (error) {
     console.error("GET ALL COURSES ERROR:", error);
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.getSellerCourses = async (req, res) => {
+  try {
+    const sellerId = req.user._id; // from JWT
+
+    const courses = await Course.find({ seller: sellerId });
+
+    res.status(200).json(courses);
+  } catch (error) {
+    console.error("GET SELLER COURSES ERROR:", error);
+    res.status(500).json({ message: "Failed to fetch seller courses" });
   }
 };
