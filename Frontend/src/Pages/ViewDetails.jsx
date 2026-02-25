@@ -83,9 +83,9 @@ const ViewDetails = () => {
 
             <button
               onClick={async () => {
-                const userId = localStorage.getItem("token");
+                const token = localStorage.getItem("token");
 
-                if (!userId) {
+                if (!token) {
                   alert("Please login first");
                   navigate("/login");
                   return;
@@ -96,7 +96,7 @@ const ViewDetails = () => {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                      userId,
+                      token,
                       courseId: course._id,
                     }),
                   });
@@ -123,10 +123,9 @@ const ViewDetails = () => {
 
             <button
               onClick={async () => {
-                const userId = localStorage.getItem("userId");
+                const token = localStorage.getItem("token");
 
-                if (!userId) {
-                  alert("Please login first");
+                if (!token) {
                   navigate("/login");
                   return;
                 }
@@ -136,10 +135,12 @@ const ViewDetails = () => {
                     "http://localhost:5000/api/wishlist",
                     {
                       method: "POST",
-                      headers: { "Content-Type": "application/json" },
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`, // ✅ Correct place
+                      },
                       body: JSON.stringify({
-                        userId,
-                        courseId: course._id,
+                        courseId: course._id, // ❌ No token here
                       }),
                     },
                   );
@@ -152,8 +153,6 @@ const ViewDetails = () => {
                   }
 
                   alert("Added to wishlist ❤️");
-
-                  // eslint-disable-next-line no-unused-vars
                 } catch (err) {
                   alert("Server error");
                 }

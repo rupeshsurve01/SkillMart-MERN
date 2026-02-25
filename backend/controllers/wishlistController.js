@@ -1,17 +1,19 @@
 const Course = require("../models/Course");
 const Wishlist = require("../models/Wishlist");
 
-exports.addToWishlist = async (req, res) => {
+// ================= ADD TO WISHLIST =================
+const addToWishlist = async (req, res) => {
   try {
-    const { userId, courseId } = req.body;
+    const userId = req.user._id; // from JWT
+    const { courseId } = req.body;
 
-    if (!userId || !courseId) {
-      return res.status(400).json({ message: "Missing user or course" });
+    if (!courseId) {
+      return res.status(400).json({ message: "Course ID missing" });
     }
 
     const course = await Course.findById(courseId);
     if (!course) {
-      return res.status(400).json({ message: "Course not found" });
+      return res.status(404).json({ message: "Course not found" });
     }
 
     const exists = await Wishlist.findOne({
@@ -36,9 +38,10 @@ exports.addToWishlist = async (req, res) => {
   }
 };
 
-exports.getWishlist = async (req, res) => {
+// ================= GET WISHLIST =================
+const getWishlist = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const userId = req.user._id;
 
     const wishlist = await Wishlist.find({ user: userId })
       .populate("course");
@@ -49,14 +52,11 @@ exports.getWishlist = async (req, res) => {
   }
 };
 
-
-exports.removeFromWishlist = async (req, res) => {
+// ================= REMOVE =================
+const removeFromWishlist = async (req, res) => {
   try {
-    const { userId, courseId } = req.body;
-
-    if (!userId || !courseId) {
-      return res.status(400).json({ message: "Missing user or course" });
-    }
+    const userId = req.user._id;
+    const { courseId } = req.body;
 
     await Wishlist.findOneAndDelete({
       user: userId,
@@ -64,8 +64,14 @@ exports.removeFromWishlist = async (req, res) => {
     });
 
     res.status(200).json({ message: "Removed from wishlist ❌" });
+
   } catch (error) {
     res.status(500).json({ message: "Failed to remove from wishlist" });
   }
 };
 
+module.exports = {
+  addToWishlist,
+  getWishlist,
+  removeFromWishlist,
+};

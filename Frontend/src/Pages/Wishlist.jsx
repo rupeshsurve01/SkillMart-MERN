@@ -4,27 +4,72 @@ import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 
 const Wishlist = () => {
-  const [courses, setCourses] = useState([]); 
-  const userId = localStorage.getItem("userId");
+  const [courses, setCourses] = useState([]);
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if (!userId) return;
+    if (!token) {
+      navigate("/login");
+      return;
+    }
 
-    fetch(`http://localhost:5000/api/wishlist/${userId}`)
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchWishlist = async () => {
+      try {
+        const res = await fetch(
+          "http://localhost:5000/api/wishlist",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // ✅ JWT
+            },
+          }
+        );
+
+        const data = await res.json();
+
         const validCourses = Array.isArray(data)
           ? data.filter((item) => item && item.course)
           : [];
 
         setCourses(validCourses);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Failed to load wishlist:", err);
         setCourses([]);
-      });
-  }, [userId]);
+      }
+    };
+
+    fetchWishlist();
+  }, [token, navigate]);
+
+  const handleRemove = async (courseId) => {
+    try {
+      const res = await fetch(
+        "http://localhost:5000/api/wishlist",
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // ✅ JWT
+          },
+          body: JSON.stringify({ courseId }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message);
+        return;
+      }
+
+      setCourses((prev) =>
+        prev.filter((c) => c.course._id !== courseId)
+      );
+
+    } catch (error) {
+      alert("Server error");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-300">
@@ -38,59 +83,44 @@ const Wishlist = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {courses.map((item) => (
-              <div>
-                <div
-                  key={item._id}
-                  className="bg-white rounded-xl shadow p-4 cursor-pointer hover:shadow-lg transition"
-                  onClick={() => navigate(`/view/${item.course._id}`)}
-                >
-                  {/* IMAGE */}
-                  <img
-                    src={
-                      item.course.thumbnail
-                        ? `http://localhost:5000/uploads/${item.course.thumbnail}`
-                        : "/placeholder.png"
-                    }
-                    alt={item.course.title}
-                    className="h-40 w-full object-cover rounded-lg"
-                  />
+              <div
+                key={item._id}
+                className="bg-white rounded-xl shadow p-4 cursor-pointer hover:shadow-lg transition"
+                onClick={() =>
+                  navigate(`/view/${item.course._id}`)
+                }
+              >
+                <img
+                  src={
+                    item.course.thumbnail
+                      ? `http://localhost:5000/uploads/${item.course.thumbnail}`
+                      : "/placeholder.png"
+                  }
+                  alt={item.course.title}
+                  className="h-40 w-full object-cover rounded-lg"
+                />
 
-                  {/* CONTENT */}
-                  <h2 className="font-bold mt-3">{item.course.title}</h2>
+                <h2 className="font-bold mt-3">
+                  {item.course.title}
+                </h2>
 
-                  <p className="text-gray-600 text-sm">
-                    {item.course.shortDesc}
-                  </p>
+                <p className="text-gray-600 text-sm">
+                  {item.course.shortDesc}
+                </p>
 
-                  <p className="mt-2 font-semibold">₹ {item.course.price}</p>
+                <p className="mt-2 font-semibold">
+                  ₹ {item.course.price}
+                </p>
+
                 <button
-                  onClick={async (e) => {
-                    e.stopPropagation(); 
-
-                    const res = await fetch(
-                      "http://localhost:5000/api/wishlist",
-                      {
-                        method: "DELETE",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                          userId,
-                          courseId: item.course._id,
-                        }),
-                      },
-                    );
-
-                    const data = await res.json();
-                    alert(data.message);
-
-                    setCourses((prev) =>
-                      prev.filter((c) => c.course._id !== item.course._id),
-                    );
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRemove(item.course._id);
                   }}
-                  className="mt-3 w-full bg-transparent  text-black py-2 rounded-lg hover:bg-gray-600 cursor-pointer"
+                  className="mt-3 w-full bg-gray-400 text-black py-2 rounded-lg hover:bg-gray-600"
                 >
                   Remove
                 </button>
-                </div>
               </div>
             ))}
           </div>
