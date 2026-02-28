@@ -6,6 +6,7 @@ const courseRoutes = require("./routes/courseRoutes");
 const enrollRoutes = require("./routes/enrollRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const wishlistRoutes = require("./routes/wishlistRoutes")
+const path = require("path");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cors({
   credentials: true
 }));
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // const allowedOrigins = [
 //   "http://localhost:5173",
 //   "https://skillmart-mern-frontend.onrender.com"

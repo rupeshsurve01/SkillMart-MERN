@@ -1,16 +1,13 @@
 const multer = require("multer");
-const path = require("path");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("../config/cloudinary");
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "skillmart_courses",
+    allowed_formats: ["jpg", "png", "webp"],
   },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      Date.now() + path.extname(file.originalname)
-    );
-  }
 });
 
 const upload = multer({ storage });

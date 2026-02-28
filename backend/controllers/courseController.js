@@ -9,7 +9,7 @@ exports.addCourse = async (req, res) => {
     const course = await Course.create({
       ...req.body,
       seller: sellerId,
-      thumbnail: req.file ? req.file.filename : null,
+      thumbnail : req.file.path ,// Cloudinary URL
       status: "pending",
     });
     
