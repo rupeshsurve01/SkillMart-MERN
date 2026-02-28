@@ -74,7 +74,7 @@ const handleSubmit = async (e) => {
   }
 
   try {
-    const res = await fetch("http://localhost:5000/api/courses", {
+    const res = await fetch("https://skillmart-mern-backend.onrender.com/api/courses", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
