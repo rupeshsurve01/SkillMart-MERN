@@ -12,7 +12,7 @@ const ViewDetails = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/courses/${id}`)
+      .get(`https://skillmart-mern-backend.onrender.com/api/courses/${id}`)
       .then((res) => setCourse(res.data));
   }, [id]);
 
@@ -92,7 +92,7 @@ const ViewDetails = () => {
                 }
 
                 try {
-                  const res = await fetch("http://localhost:5000/api/enroll", {
+                  const res = await fetch("https://skillmart-mern-backend.onrender.com/api/enroll", {
                     method: "POST",
                     headers: { "Content-Type": "application/json",
                       Authorization: `Bearer ${token}`,
