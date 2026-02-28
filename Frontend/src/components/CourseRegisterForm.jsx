@@ -137,7 +137,12 @@ const handleSubmit = async (e) => {
           <option value="web-development">Web Development</option>
           <option value="app-development">App Development</option>
           <option value="ai-ml">AI / ML</option>
-          <option value="programming">Programming</option>
+          <option value="programming">Programming Language</option>
+          <option value="testing">Testing</option>
+          <option value="database">Database</option>
+          <option value="security">Security</option>
+          <option value="devOps">DevOps</option>
+          <option value="theory">Theory Concepts</option>
         </select>
         {errors.category && <p className="text-red-500 mb-2">{errors.category}</p>}
 
@@ -223,7 +228,6 @@ const handleSubmit = async (e) => {
           className="w-full border px-3 py-2 rounded mb-2"
         />
         {errors.price && <p className="text-red-500 mb-2">{errors.price}</p>}
-
 
         {/* THUMBNAIL */}
         <label className="font-medium block mb-1">Course Thumbnail</label>
