@@ -34,7 +34,7 @@ const CheckCourses = () => {
     const getCourses = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:5000/api/courses");
+        const res = await axios.get("https://skillmart-mern-backend.onrender.com/api/courses");
         setAllCourses(res.data);
         setFilteredCourses(res.data);
       } catch (error) {
@@ -93,7 +93,7 @@ const CheckCourses = () => {
     if (!window.confirm("Delete this course?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/courses/${courseId}`, {
+      const res = await fetch(`https://skillmart-mern-backend.onrender.com/api/courses/${courseId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
