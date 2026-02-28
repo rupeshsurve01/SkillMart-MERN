@@ -23,7 +23,9 @@ const courseSchema = new mongoose.Schema({
   enum: ["pending", "approved", "rejected"],
   default: "pending",
 },
-
+cloudinary_id: {
+  type: String,
+},
 },
  { timestamps: true });
 

@@ -9,7 +9,8 @@ exports.addCourse = async (req, res) => {
     const course = await Course.create({
       ...req.body,
       seller: sellerId,
-      thumbnail : req.file.path ,// Cloudinary URL
+      thumbnail : req.file.path ,
+      cloudinary_id: req.file.filename,// Cloudinary URL
       status: "pending",
     });
     
@@ -68,6 +69,8 @@ exports.deleteCourse = async (req, res) => {
     // Admin can delete any course
     if (userRole === "admin") {
       await Course.findByIdAndDelete(id);
+       // Delete image from Cloudinary
+    await cloudinary.uploader.destroy(course.cloudinary_id);
       return res.status(200).json({ message: "Course deleted by admin" });
     }
 
@@ -77,6 +80,8 @@ exports.deleteCourse = async (req, res) => {
     }
 
     await Course.findByIdAndDelete(id);
+     // Delete image from Cloudinary
+    await cloudinary.uploader.destroy(course.cloudinary_id);
     res.status(200).json({ message: "Course deleted successfully" });
 
   } catch (error) {
