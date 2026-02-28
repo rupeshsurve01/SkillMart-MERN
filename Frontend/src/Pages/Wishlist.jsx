@@ -17,7 +17,7 @@ const Wishlist = () => {
     const fetchWishlist = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5000/api/wishlist",
+          "https://skillmart-mern-backend.onrender.com/api/wishlist",
           {
             headers: {
               Authorization: `Bearer ${token}`, // ✅ JWT
@@ -44,7 +44,7 @@ const Wishlist = () => {
   const handleRemove = async (courseId) => {
     try {
       const res = await fetch(
-        "http://localhost:5000/api/wishlist",
+        "https://skillmart-mern-backend.onrender.com/api/wishlist",
         {
           method: "DELETE",
           headers: {
