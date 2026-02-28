@@ -14,7 +14,7 @@ const AdminDashboard = () => {
     const fetchPendingCourses = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5000/api/admin/pending",
+          "https://skillmart-mern-backend.onrender.com/api/admin/pending",
           {
             headers: {
               "Content-Type": "application/json",
@@ -46,7 +46,7 @@ const AdminDashboard = () => {
   const updateStatus = async (id, status) => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/admin/course/${id}`,
+        `https://skillmart-mern-backend.onrender.com/api/admin/course/${id}`,
         {
           method: "PUT",
           headers: {
