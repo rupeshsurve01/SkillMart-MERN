@@ -14,7 +14,7 @@ const MyCourses = () => {
       return;
     }
 
-    fetch("http://localhost:5000/api/courses/seller", {
+    fetch("https://skillmart-mern-backend.onrender.com/api/courses/seller", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
