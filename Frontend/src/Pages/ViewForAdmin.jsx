@@ -55,7 +55,7 @@ const ViewForAdmin = () => {
         {/* COURSE THUMBNAIL */}
         <div className="w-full h-[380px] rounded-2xl overflow-hidden shadow-lg mb-10">
           <img
-            src={`${import.meta.env.VITE_API_URL}/uploads/${course.thumbnail}`}
+            src={course.thumbnail}
             alt={course.title}
             className="w-full h-full object-cover"
           />
