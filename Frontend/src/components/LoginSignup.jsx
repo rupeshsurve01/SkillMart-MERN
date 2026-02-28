@@ -15,8 +15,8 @@ const LoginSignup = () => {
 
   const url =
     action === "Sign Up"
-      ? "http://localhost:5000/api/auth/register"
-      : "http://localhost:5000/api/auth/login";
+      ? "https://skillmart-mern-backend.onrender.com/api/auth/register"
+      : "https://skillmart-mern-backend.onrender.com/api/auth/login";
 
 const handleSubmit = async (e) => {
   e.preventDefault();
