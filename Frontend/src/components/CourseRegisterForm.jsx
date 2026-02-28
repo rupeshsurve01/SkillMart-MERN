@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function CourseRegisterForm() {
   const [courseData, setCourseData] = useState({
@@ -19,6 +20,8 @@ function CourseRegisterForm() {
 
   const [preview, setPreview] = useState(null);
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -81,6 +84,7 @@ const handleSubmit = async (e) => {
 
     const data = await res.json();
     alert(data.message);
+    navigate("/my-courses")
   } catch (error) {
     alert("Something went wrong");
   }

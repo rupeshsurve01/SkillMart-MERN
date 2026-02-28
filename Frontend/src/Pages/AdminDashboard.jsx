@@ -11,6 +11,7 @@ const AdminDashboard = () => {
 
   // FETCH PENDING COURSES
   useEffect(() => {
+    // alert("Welcome to admin dashboard");
     const fetchPendingCourses = async () => {
       try {
         const res = await fetch(
@@ -29,6 +30,7 @@ const AdminDashboard = () => {
           alert(data.message || "Access denied");
           navigate("/");
         } else {
+          
           setCourses(data);
         }
       } catch (error) {
