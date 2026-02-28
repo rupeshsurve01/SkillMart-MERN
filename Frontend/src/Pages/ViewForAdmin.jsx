@@ -14,12 +14,12 @@ const ViewForAdmin = () => {
 
   useEffect(() => {
     axios
-      .get(`https://skillmart-mern-backend.onrender.com/api/courses/${id}`)
+      .get(`${import.meta.env.VITE_API_URL}/api/courses/${id}`)
       .then((res) => setCourse(res.data));
   }, [id]);
 
   useEffect(() => {
-    fetch(`https://skillmart-mern-backend.onrender.com/api/admin/pending?userId=${userId}`).then(
+    fetch(`${import.meta.env.VITE_API_URL}/api/admin/pending?userId=${userId}`).then(
       async (res) => {
         const data = await res.json();
 
@@ -38,7 +38,7 @@ const ViewForAdmin = () => {
 
 
   const updateStatus = async (id, status) => {
-    const res = await fetch(`https://skillmart-mern-backend.onrender.com/api/admin/course/${id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/course/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status, userId }),
@@ -55,7 +55,7 @@ const ViewForAdmin = () => {
         {/* COURSE THUMBNAIL */}
         <div className="w-full h-[380px] rounded-2xl overflow-hidden shadow-lg mb-10">
           <img
-            src={`http://localhost:5000/uploads/${course.thumbnail}`}
+            src={`${import.meta.env.VITE_API_URL}/uploads/${course.thumbnail}`}
             alt={course.title}
             className="w-full h-full object-cover"
           />

@@ -14,7 +14,7 @@ const CompareCourses = () => {
 
 
     Promise.all(
-      ids.map((id) => axios.get(`https://skillmart-mern-backend.onrender.com/api/courses/${id}`)),
+      ids.map((id) => axios.get(`${import.meta.env.VITE_API_URL}/api/courses/${id}`)),
     ).then((responses) => {
       setCourses(responses.map((res) => res.data));
     });

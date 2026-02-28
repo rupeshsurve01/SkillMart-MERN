@@ -14,7 +14,7 @@ const MyCourses = () => {
       return;
     }
 
-    fetch("https://skillmart-mern-backend.onrender.com/api/courses/seller", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/courses/seller`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -30,7 +30,7 @@ const MyCourses = () => {
     if (!window.confirm("Delete this course?")) return;
 
     const res = await fetch(
-      `http://localhost:5000/api/courses/${courseId}`,
+      `${import.meta.env.VITE_API_URL}/api/courses/${courseId}`,
       {
         method: "DELETE",
         headers: {
@@ -118,7 +118,7 @@ const MyCourses = () => {
                   <img
                     src={
                       course.thumbnail
-                        ? `http://localhost:5000/uploads/${course.thumbnail}`
+                        ? `${import.meta.env.VITE_API_URL}/uploads/${course.thumbnail}`
                         : "/placeholder.png"
                     }
                     alt={course.title}

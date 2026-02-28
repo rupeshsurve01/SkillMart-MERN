@@ -12,7 +12,7 @@ const ViewDetails = () => {
 
   useEffect(() => {
     axios
-      .get(`https://skillmart-mern-backend.onrender.com/api/courses/${id}`)
+      .get(`${import.meta.env.VITE_API_URL}/api/courses/${id}`)
       .then((res) => setCourse(res.data));
   }, [id]);
 
@@ -26,7 +26,7 @@ const ViewDetails = () => {
         {/* COURSE THUMBNAIL */}
         <div className="w-full h-[380px] rounded-2xl overflow-hidden shadow-lg mb-10">
           <img
-            src={`http://localhost:5000/uploads/${course.thumbnail}`}
+            src={`${import.meta.env.VITE_API_URL}/uploads/${course.thumbnail}`}
             alt={course.title}
             className="w-full h-full object-cover"
           />
@@ -92,7 +92,7 @@ const ViewDetails = () => {
                 }
 
                 try {
-                  const res = await fetch("https://skillmart-mern-backend.onrender.com/api/enroll", {
+                  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/enroll`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json",
                       Authorization: `Bearer ${token}`,
@@ -133,7 +133,7 @@ const ViewDetails = () => {
 
                 try {
                   const res = await fetch(
-                    "http://localhost:5000/api/wishlist",
+                    `${import.meta.env.VITE_API_URL}/api/wishlist`,
                     {
                       method: "POST",
                       headers: {

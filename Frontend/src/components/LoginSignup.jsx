@@ -15,8 +15,8 @@ const LoginSignup = () => {
 
   const url =
     action === "Sign Up"
-      ? "https://skillmart-mern-backend.onrender.com/api/auth/register"
-      : "https://skillmart-mern-backend.onrender.com/api/auth/login";
+      ? `${import.meta.env.VITE_API_URL}/api/auth/register`
+      : `${import.meta.env.VITE_API_URL}/api/auth/login`;
 
 const handleSubmit = async (e) => {
   e.preventDefault();

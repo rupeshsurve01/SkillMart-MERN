@@ -14,7 +14,7 @@ const AdminDashboard = () => {
     const fetchPendingCourses = async () => {
       try {
         const res = await fetch(
-          "https://skillmart-mern-backend.onrender.com/api/admin/pending",
+          `${import.meta.env.VITE_API_URL}/api/admin/pending`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -46,7 +46,7 @@ const AdminDashboard = () => {
   const updateStatus = async (id, status) => {
     try {
       const res = await fetch(
-        `https://skillmart-mern-backend.onrender.com/api/admin/course/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/admin/course/${id}`,
         {
           method: "PUT",
           headers: {
@@ -90,7 +90,7 @@ const AdminDashboard = () => {
                   {/* THUMBNAIL */}
                   <div className="w-20 h-20 rounded-full overflow-hidden border flex-shrink-0">
                     <img
-                      src={`http://localhost:5000/uploads/${course.thumbnail}`}
+                      src={`${import.meta.env.VITE_API_URL}/uploads/${course.thumbnail}`}
                       alt={course.title}
                       className="w-full h-full object-cover"
                     />

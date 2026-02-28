@@ -10,7 +10,7 @@ const EditCourse = () => {
   const [thumbnail, setThumbnail] = useState(null);
 
   useEffect(() => {
-    fetch(`https://skillmart-mern-backend.onrender.com/api/courses/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/courses/${id}`)
       .then((res) => res.json())
       .then((data) => setCourseData(data));
   }, [id]);
@@ -38,7 +38,7 @@ formData.append("sellerId", seller);
       formData.append("thumbnail", thumbnail);
     }
 
-    const res = await fetch(`https://skillmart-mern-backend.onrender.com/api/courses/${id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/courses/${id}`, {
       method: "PUT",
       body: formData,
     });

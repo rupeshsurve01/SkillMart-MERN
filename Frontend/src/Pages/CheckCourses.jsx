@@ -34,7 +34,7 @@ const CheckCourses = () => {
     const getCourses = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("https://skillmart-mern-backend.onrender.com/api/courses");
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/courses`);
         setAllCourses(res.data);
         setFilteredCourses(res.data);
       } catch (error) {
@@ -93,7 +93,7 @@ const CheckCourses = () => {
     if (!window.confirm("Delete this course?")) return;
 
     try {
-      const res = await fetch(`https://skillmart-mern-backend.onrender.com/api/courses/${courseId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/courses/${courseId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -264,7 +264,7 @@ const CheckCourses = () => {
 
                 {/* IMAGE */}
                 <img
-                  src={`http://localhost:5000/uploads/${course.thumbnail}`}
+                  src={`${import.meta.env.VITE_API_URL}/uploads/${course.thumbnail}`}
                   alt={course.title}
                   className="w-full h-45 rounded-xl object-cover"
                 />

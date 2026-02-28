@@ -17,7 +17,7 @@ const Wishlist = () => {
     const fetchWishlist = async () => {
       try {
         const res = await fetch(
-          "https://skillmart-mern-backend.onrender.com/api/wishlist",
+          `${import.meta.env.VITE_API_URL}/api/wishlist`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // ✅ JWT
@@ -44,7 +44,7 @@ const Wishlist = () => {
   const handleRemove = async (courseId) => {
     try {
       const res = await fetch(
-        "https://skillmart-mern-backend.onrender.com/api/wishlist",
+        `${import.meta.env.VITE_API_URL}/api/wishlist`,
         {
           method: "DELETE",
           headers: {
@@ -93,7 +93,7 @@ const Wishlist = () => {
                 <img
                   src={
                     item.course.thumbnail
-                      ? `http://localhost:5000/uploads/${item.course.thumbnail}`
+                      ? `${import.meta.env.VITE_API_URL}/uploads/${item.course.thumbnail}`
                       : "/placeholder.png"
                   }
                   alt={item.course.title}
