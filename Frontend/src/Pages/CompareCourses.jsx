@@ -8,11 +8,10 @@ const CompareCourses = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    // if (!token) return;
+    
 
     const ids = JSON.parse(localStorage.getItem("compareCourses")) || [];
 
-    // if (ids.length === 0) return;
 
     Promise.all(
       ids.map((id) => axios.get(`http://localhost:5000/api/courses/${id}`)),

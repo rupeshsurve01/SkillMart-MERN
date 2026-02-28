@@ -9,7 +9,6 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  // FETCH PENDING COURSES
   useEffect(() => {
     // alert("Welcome to admin dashboard");
     const fetchPendingCourses = async () => {

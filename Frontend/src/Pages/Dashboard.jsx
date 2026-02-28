@@ -11,7 +11,6 @@ const Dashboard = () => {
       {/* HERO SECTION */}
       <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 px-4 sm:px-6">
 
-        {/* Decorative Blur Circles */}
         <div className="absolute w-40 h-40 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-purple-600 rounded-full blur-3xl opacity-40 top-5 sm:top-10 left-5 sm:left-10"></div>
         <div className="absolute w-40 h-40 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-indigo-500 rounded-full blur-3xl opacity-40 bottom-5 sm:bottom-10 right-5 sm:right-10"></div>
 
@@ -45,7 +44,6 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* CTA Buttons */}
           <div className="mt-12 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
             <Link to="/allcourses" className="w-full sm:w-auto">
               <button className="w-full sm:w-auto px-6 sm:px-10 py-3 sm:py-4 bg-[#6f26eb] text-white font-semibold rounded-xl shadow-lg hover:scale-105 hover:bg-purple-700 transition duration-300">
