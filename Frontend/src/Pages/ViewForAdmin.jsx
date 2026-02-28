@@ -14,12 +14,12 @@ const ViewForAdmin = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/courses/${id}`)
+      .get(`https://skillmart-mern-backend.onrender.com/api/courses/${id}`)
       .then((res) => setCourse(res.data));
   }, [id]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/admin/pending?userId=${userId}`).then(
+    fetch(`https://skillmart-mern-backend.onrender.com/api/admin/pending?userId=${userId}`).then(
       async (res) => {
         const data = await res.json();
 
@@ -38,7 +38,7 @@ const ViewForAdmin = () => {
 
 
   const updateStatus = async (id, status) => {
-    const res = await fetch(`http://localhost:5000/api/admin/course/${id}`, {
+    const res = await fetch(`https://skillmart-mern-backend.onrender.com/api/admin/course/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status, userId }),
