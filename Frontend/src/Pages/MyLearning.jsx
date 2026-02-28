@@ -19,7 +19,7 @@ useEffect(() => {
 
   const fetchCourses = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/enroll/my", {
+      const res = await fetch("https://skillmart-mern-backend.onrender.com/api/enroll/my", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -71,7 +71,7 @@ useEffect(() => {
                 <img
                   src={
                     item.course.thumbnail
-                      ? `http://localhost:5000/uploads/${item.course.thumbnail}`
+                      ? `https://skillmart-mern-backend.onrender.com/uploads/${item.course.thumbnail}`
                       : "/placeholder.png"
                   }
                   alt={item.course.title}
