@@ -1,133 +1,138 @@
-🚀 SkillMart – MERN Skill Marketplace
+<h1 align="center">🚀 SkillMart</h1>
 
-A full-featured MERN Stack marketplace where instructors publish courses and learners grow their skills.
+<h3 align="center">
+A Secure MERN Stack Course Marketplace Platform
+</h3>
 
-🌐 Live Demo: https://skillmart-mern-frontend.onrender.com/
+<p align="center">
+  <img src="https://img.shields.io/badge/Stack-MERN-green?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Auth-JWT-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Storage-Cloudinary-orange?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Deployment-Render-black?style=for-the-badge" />
+</p>
 
+<p align="center">
+  <a href="https://skillmart-mern-frontend.onrender.com/">
+    <img src="https://img.shields.io/badge/🌐 Live Demo-Visit Now-purple?style=for-the-badge" />
+  </a>
+</p>
 
-📌 About SkillMart
+---
 
-SkillMart is a full-stack skill marketplace platform built using the MERN Stack.
+## ✨ Project Overview
 
-It allows:
+SkillMart is a full-stack SaaS-style learning marketplace where:
 
-🧑‍🏫 Instructors to publish courses
+- 🧑‍🏫 Instructors publish courses  
+- 👨‍🎓 Students enroll and learn  
+- 🛡 Admin moderates submissions  
+- 🔐 JWT secures authentication  
+- ☁️ Cloudinary handles image storage  
 
-👨‍🎓 Students to enroll and learn
+Built with production-level architecture and secure REST APIs.
 
-🛡️ Admin to approve/reject courses
+---
 
-❤️ Users to wishlist & compare courses
+## 🧠 Architecture Highlights
 
-All built with secure authentication using JWT and modern UI.
+✔ Role-Based Access Control  
+✔ JWT Authentication Middleware  
+✔ Secure API Endpoints  
+✔ Cloud Image Upload Integration  
+✔ Protected Frontend Routes  
+✔ Fully Responsive UI  
 
-🛠️ Tech Stack
-💻 Frontend
+---
 
-React.js
+## 🛠 Tech Stack
 
-React Router
+<table>
+<tr>
+<td valign="top" width="50%">
 
-Tailwind CSS
+### 💻 Frontend
+- React.js  
+- React Router  
+- Tailwind CSS  
+- Axios  
+- Protected Routes  
 
-Axios
+</td>
+<td valign="top" width="50%">
 
-Protected Routes
+### ⚙ Backend
+- Node.js  
+- Express.js  
+- MongoDB  
+- Mongoose  
+- JWT  
+- bcrypt  
 
-🧠 Backend
+</td>
+</tr>
+</table>
 
-Node.js
+---
 
-Express.js
+## 🔐 Authentication Flow
 
-MongoDB
+1️⃣ User registers or logs in  
+2️⃣ Backend generates JWT token  
+3️⃣ Token stored securely  
+4️⃣ Middleware verifies token  
+5️⃣ Role-based authorization controls access  
 
-Mongoose
+Ensuring:
+- Secure login system
+- Protected APIs
+- Admin-only routes
+- Production-ready security
 
-JWT Authentication
+---
 
-Role-Based Authorization
+## 🚀 Core Features
 
-☁️ Cloud & Storage
+### 👤 Student
+- Register & Login  
+- Browse & Filter Courses  
+- Wishlist & Compare  
+- Enroll & Learn  
 
-Cloudinary (for thumbnail image storage)
+### 🧑‍🏫 Instructor
+- Add Course (Cloudinary thumbnail upload)  
+- Edit / Delete Course  
+- Track Status (Pending / Approved / Rejected)  
 
-Render (Deployment)
+### 🛡 Admin
+- Review Courses  
+- Approve / Reject  
+- Platform Moderation  
 
-🔐 Authentication & Security
+---
 
-JWT-based secure login/signup
+## 📈 What This Project Demonstrates
 
-Role-based access (User / Admin)
+- Deep understanding of JWT authentication  
+- Middleware-based security architecture  
+- Real-world backend structure  
+- Full-stack deployment  
+- Cloud media integration  
 
-Protected Routes
+---
 
-Middleware-based authorization
+## 🎯 Future Improvements
 
-Secure password hashing using bcrypt
+- 💳 Payment Gateway Integration  
+- ⭐ Course Ratings  
+- 📊 Instructor Analytics Dashboard  
+- 📧 Email Notifications  
+- 🎓 Certificates  
 
-✨ Key Features
-👤 User Features
+---
 
-Register & Login
+<h3 align="center">👨‍💻 Developed By</h3>
 
-Browse Courses
-
-Advanced Filtering (Category / Price)
-
-Compare Courses
-
-Wishlist Courses
-
-Enroll in Courses
-
-My Learning Dashboard
-
-🧑‍🏫 Instructor Features
-
-Add Course (with thumbnail upload)
-
-Edit Course
-
-Delete Course
-
-Track Course Status (Pending / Approved / Rejected)
-
-🛡️ Admin Features
-
-View Pending Courses
-
-Approve / Reject Courses
-
-Full platform moderation
-
-
-📈 What I Learned
-
-Deep understanding of JWT authentication flow
-
-Middleware architecture in Express
-
-Role-based access control
-
-Secure API design
-
-State management in React
-
-Full-stack deployment process
-
-Cloudinary integration
-
-
-
-🎯 Future Improvements
-
-Payment Gateway Integration
-
-Course Ratings & Reviews
-
-Instructor Analytics Dashboard
-
-Email Notifications
-
-Certificate Generation
+<p align="center">
+Rupesh Surve <br/>
+Full Stack MERN Developer
+</p>
