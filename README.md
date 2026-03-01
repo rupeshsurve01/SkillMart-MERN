@@ -1,31 +1,133 @@
-# SkillMart-MERN
-Full-stack MERN project built to learn React, Node.js, and real-world authentication.
+🚀 SkillMart – MERN Skill Marketplace
 
-# SkillMart – Online Course Marketplace
+A full-featured MERN Stack marketplace where instructors publish courses and learners grow their skills.
 
-SkillMart is a full-stack web application where users can sign up, log in,
-and access a dashboard. This project is built to learn real-world full-stack
-development using React and Node.js.
+🌐 Live Demo: https://skillmart-mern-frontend.onrender.com/
 
-## Tech Stack
-- Frontend: React (Vite)
-- Backend: Node.js, Express
-- Routing: React Router
-- Databe: Mongo DB
-- Styling: Tailwind CSS
 
-## Features Implemented
-- User Signup
-- User Login
-- Frontend–Backend integration
-- Dashboard page
-- Basic authentication flow
+📌 About SkillMart
 
-## Learning Outcomes
-- Understanding frontend and backend separation
-- API communication using fetch
-- Running multiple servers simultaneously
-- Debugging real-world errors
+SkillMart is a full-stack skill marketplace platform built using the MERN Stack.
 
-## Project Status
-🚧 In progress – more features coming soon.
+It allows:
+
+🧑‍🏫 Instructors to publish courses
+
+👨‍🎓 Students to enroll and learn
+
+🛡️ Admin to approve/reject courses
+
+❤️ Users to wishlist & compare courses
+
+All built with secure authentication using JWT and modern UI.
+
+🛠️ Tech Stack
+💻 Frontend
+
+React.js
+
+React Router
+
+Tailwind CSS
+
+Axios
+
+Protected Routes
+
+🧠 Backend
+
+Node.js
+
+Express.js
+
+MongoDB
+
+Mongoose
+
+JWT Authentication
+
+Role-Based Authorization
+
+☁️ Cloud & Storage
+
+Cloudinary (for thumbnail image storage)
+
+Render (Deployment)
+
+🔐 Authentication & Security
+
+JWT-based secure login/signup
+
+Role-based access (User / Admin)
+
+Protected Routes
+
+Middleware-based authorization
+
+Secure password hashing using bcrypt
+
+✨ Key Features
+👤 User Features
+
+Register & Login
+
+Browse Courses
+
+Advanced Filtering (Category / Price)
+
+Compare Courses
+
+Wishlist Courses
+
+Enroll in Courses
+
+My Learning Dashboard
+
+🧑‍🏫 Instructor Features
+
+Add Course (with thumbnail upload)
+
+Edit Course
+
+Delete Course
+
+Track Course Status (Pending / Approved / Rejected)
+
+🛡️ Admin Features
+
+View Pending Courses
+
+Approve / Reject Courses
+
+Full platform moderation
+
+
+📈 What I Learned
+
+Deep understanding of JWT authentication flow
+
+Middleware architecture in Express
+
+Role-based access control
+
+Secure API design
+
+State management in React
+
+Full-stack deployment process
+
+Cloudinary integration
+
+
+
+🎯 Future Improvements
+
+Payment Gateway Integration
+
+Course Ratings & Reviews
+
+Instructor Analytics Dashboard
+
+Email Notifications
+
+Certificate Generation
