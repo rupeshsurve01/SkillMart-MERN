@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer"
 import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
@@ -90,7 +91,7 @@ const AdminDashboard = () => {
                   {/* THUMBNAIL */}
                   <div className="w-20 h-20 rounded-full overflow-hidden border flex-shrink-0">
                     <img
-                      src={`${import.meta.env.VITE_API_URL}/uploads/${course.thumbnail}`}
+                      src={course.thumbnail}
                       alt={course.title}
                       className="w-full h-full object-cover"
                     />
@@ -148,6 +149,7 @@ const AdminDashboard = () => {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
