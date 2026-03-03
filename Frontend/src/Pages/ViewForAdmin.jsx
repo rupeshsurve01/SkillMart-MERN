@@ -15,7 +15,7 @@ const ViewForAdmin = () => {
     const fetchCourse = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/courses/${id}`,
+          `${import.meta.env.VITE_API_URL}/api/courses/${id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -37,7 +37,7 @@ const ViewForAdmin = () => {
   const updateStatus = async (status) => {
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/admin/course/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/admin/course/${id}`,
         { status },
         {
           headers: {
