@@ -118,7 +118,7 @@ const MyCourses = () => {
                   <img
                     src={
                       course.thumbnail
-                        ? `${import.meta.env.VITE_API_URL}/uploads/${course.thumbnail}`
+                        ? course.thumbnail
                         : "/placeholder.png"
                     }
                     alt={course.title}

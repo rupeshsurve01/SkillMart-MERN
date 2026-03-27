@@ -66,7 +66,7 @@ const Wishlist = () => {
         prev.filter((c) => c.course._id !== courseId)
       );
 
-    } catch (error) {
+    } catch {
       alert("Server error");
     }
   };
@@ -93,7 +93,7 @@ const Wishlist = () => {
                 <img
                   src={
                     item.course.thumbnail
-                      ? `${import.meta.env.VITE_API_URL}/uploads/${item.course.thumbnail}`
+                      ? item.course.thumbnail
                       : "/placeholder.png"
                   }
                   alt={item.course.title}

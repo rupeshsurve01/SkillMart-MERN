@@ -26,6 +26,26 @@ const courseSchema = new mongoose.Schema({
 cloudinary_id: {
   type: String,
 },
+reviews: [{
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  },
+  rating: {
+    type: Number,
+    min: 1,
+    max: 5
+  },
+  comment: String,
+  date: {
+    type: Date,
+    default: Date.now
+  }
+}],
+averageRating: {
+  type: Number,
+  default: 0
+}
 },
  { timestamps: true });
 

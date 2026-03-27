@@ -24,10 +24,10 @@ const ViewForAdmin = () => {
         );
 
         setCourse(res.data);
-      } catch (error) {
-        alert("Unauthorized or course not found");
-        navigate("/");
-      }
+    } catch {
+      alert("Unauthorized or course not found");
+      navigate("/");
+    }
     };
 
     fetchCourse();
@@ -48,7 +48,7 @@ const ViewForAdmin = () => {
 
       alert(res.data.message);
       navigate("/admin");
-    } catch (error) {
+    } catch {
       alert("Action failed");
     }
   };

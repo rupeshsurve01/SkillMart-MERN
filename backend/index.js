@@ -52,6 +52,25 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+
+const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+});
+
+server.on("error", (error) => {
+  if (error.code === "EADDRINUSE") {
+    console.error(`Port ${PORT} is already in use. Close the other process or choose a different port.`);
+    process.exit(1);
+  } else {
+    console.error("Server error:", error);
+    process.exit(1);
+  }
+});
+
+process.on("SIGINT", () => {
+  console.log("Gracefully shutting down...");
+  server.close(() => {
+    console.log("Server closed");
+    process.exit(0);
+  });
 });

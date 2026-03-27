@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
-const Course =  require("../models/Course")
+const Course = require("../models/Course");
 const User = require("../models/User");
+const Enrollment = require("../models/Enrollment");
+const cloudinary = require("../config/cloudinary");
 
 exports.addCourse = async (req, res) => {
   try {
@@ -25,7 +27,7 @@ exports.addCourse = async (req, res) => {
 
 exports.getCourses = async (req, res) => {
   try {
-    const courses = await Course.find({ status: "approved" });
+    const courses = await Course.find({ status: "approved" }).select("title shortDesc category level price thumbnail averageRating reviews");
     res.status(200).json(courses);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch courses" });
@@ -40,7 +42,7 @@ exports. getSingleCourse = async (req, res) => {
       return res.status(400).json({ message: "Invalid course ID" });
     }
 
-    const course = await Course.findById(id);
+    const course = await Course.findById(id).populate("reviews.user", "name");
 
     if (!course) {
       return res.status(404).json({ message: "Course not found" });
@@ -107,7 +109,11 @@ exports.updateCourse = async (req, res) => {
     const updatedData = { ...req.body };
 
     if (req.file) {
-      updatedData.thumbnail = req.file.filename;
+      if (course.cloudinary_id) {
+        await cloudinary.uploader.destroy(course.cloudinary_id);
+      }
+      updatedData.thumbnail = req.file.path;
+      updatedData.cloudinary_id = req.file.filename;
     }
 
     await Course.findByIdAndUpdate(id, updatedData);
@@ -143,6 +149,53 @@ exports.updateCourseStatus = async (req, res) => {
     res.status(200).json({ message: `Course ${status}` });
   } catch (error) {
     res.status(500).json({ message: "Failed to update course status" });
+  }
+};
+
+exports.addReview = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { rating, comment } = req.body;
+    const userId = req.user._id;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid course ID" });
+    }
+
+    const course = await Course.findById(id);
+
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    // Check if user is enrolled in the course
+    const enrollment = await Enrollment.findOne({ user: userId, course: id });
+    if (!enrollment) {
+      return res.status(403).json({ message: "You must be enrolled in this course to leave a review" });
+    }
+
+    // Check if user already reviewed
+    const existingReview = course.reviews.find(review => review.user.toString() === userId.toString());
+    if (existingReview) {
+      return res.status(400).json({ message: "You have already reviewed this course" });
+    }
+
+    // Add review
+    course.reviews.push({
+      user: userId,
+      rating: parseInt(rating),
+      comment
+    });
+
+    // Calculate average rating
+    const totalRating = course.reviews.reduce((sum, review) => sum + review.rating, 0);
+    course.averageRating = totalRating / course.reviews.length;
+
+    await course.save();
+
+    res.status(201).json({ message: "Review added successfully", averageRating: course.averageRating });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 

@@ -10,7 +10,10 @@ const {
   getSellerCourses,
   deleteCourse,
   updateCourse,
-  getPublicCourses
+  getPublicCourses,
+  getPendingCourses,
+  updateCourseStatus,
+  addReview
 } = require("../controllers/courseController");
 
 router.get("/public", getPublicCourses);
@@ -47,6 +50,13 @@ router.put(
   authenticate,
   upload.single("thumbnail"),
   updateCourse
+);
+
+// Add review
+router.post(
+  "/:id/review",
+  authenticate,
+  addReview
 );
 
 module.exports = router;

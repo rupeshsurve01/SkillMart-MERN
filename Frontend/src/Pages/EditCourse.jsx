@@ -8,6 +8,7 @@ const EditCourse = () => {
 
   const [courseData, setCourseData] = useState({});
   const [thumbnail, setThumbnail] = useState(null);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/courses/${id}`)
@@ -25,14 +26,13 @@ const EditCourse = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const seller = localStorage.getItem("userId");
-
     const formData = new FormData();
     Object.keys(courseData).forEach((key) => {
+      if (["thumbnail", "cloudinary_id", "_id", "reviews", "averageRating", "seller", "createdAt", "updatedAt", "__v"].includes(key)) {
+        return;
+      }
       formData.append(key, courseData[key]);
     });
-
-formData.append("sellerId", seller);
 
     if (thumbnail) {
       formData.append("thumbnail", thumbnail);
@@ -40,6 +40,9 @@ formData.append("sellerId", seller);
 
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/courses/${id}`, {
       method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       body: formData,
     });
 

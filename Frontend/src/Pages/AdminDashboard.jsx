@@ -63,7 +63,7 @@ const AdminDashboard = () => {
 
       // Remove from UI after update
       setCourses((prev) => prev.filter((c) => c._id !== id));
-    } catch (error) {
+    } catch {
       alert("Failed to update course status");
     }
   };

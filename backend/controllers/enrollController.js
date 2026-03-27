@@ -64,3 +64,50 @@ exports.getMyCourses = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+// ============================
+// CHECK ENROLLMENT STATUS
+// ============================
+exports.checkEnrollment = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { courseId } = req.params;
+
+    const enrollment = await Enrollment.findOne({
+      user: userId,
+      course: courseId,
+    });
+
+    res.json({ enrolled: !!enrollment });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// ============================
+// REMOVE ENROLLMENT
+// ============================
+exports.removeEnrollment = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { courseId } = req.body;
+
+    if (!courseId) {
+      return res.status(400).json({ message: "Course ID missing" });
+    }
+
+    const enrollment = await Enrollment.findOneAndDelete({
+      user: userId,
+      course: courseId,
+    });
+
+    if (!enrollment) {
+      return res.status(404).json({ message: "Enrollment not found" });
+    }
+
+    res.status(200).json({ message: "Course removed from My Learning" });
+  } catch (error) {
+    console.error("REMOVE ENROLLMENT ERROR:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};

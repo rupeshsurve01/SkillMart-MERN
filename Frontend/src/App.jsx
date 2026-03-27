@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import LoginSignup from "./components/LoginSignup";
 import Dashboard from "./Pages/Dashboard";
 import Contact from "./Pages/Contact";
@@ -68,13 +68,20 @@ function App() {
         <Route
           path="/admin"
           element={
-            <PrivateRoute>
+            <PrivateRoute role="admin">
               <AdminDashboard />
             </PrivateRoute>
           }
         />
 
-        <Route path="/admin/:id" element={<ViewForAdmin />} />
+        <Route
+          path="/admin/:id"
+          element={
+            <PrivateRoute role="admin">
+              <ViewForAdmin />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </div>
   );

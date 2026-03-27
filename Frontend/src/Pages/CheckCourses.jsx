@@ -26,9 +26,6 @@ const CheckCourses = () => {
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
 
-  // Simple compare storage (no userId needed)
-  const key = "compareCourses";
-
   // FETCH COURSES
   useEffect(() => {
     const getCourses = async () => {
@@ -108,7 +105,7 @@ const CheckCourses = () => {
         setFilteredCourses((prev) => prev.filter((c) => c._id !== courseId));
         setToast("Course removed successfully ✅");
       }
-    } catch (error) {
+    } catch {
       setToast("Delete failed ❌");
     }
 
@@ -292,6 +289,12 @@ const CheckCourses = () => {
                   <p className="text-[16px] font-semibold text-white mt-3">
                     ₹ {course.price}
                   </p>
+
+                  {course.averageRating > 0 && (
+                    <p className="text-[14px] text-yellow-400 mt-1">
+                      ⭐ {course.averageRating.toFixed(1)} ({course.reviews?.length || 0} reviews)
+                    </p>
+                  )}
                 </div>
 
                 {/* ACTIONS */}
