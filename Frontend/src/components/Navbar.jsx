@@ -8,8 +8,10 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const navLinkClass = ({ isActive }) =>
-    `font-medium transition ${
-      isActive ? "text-[#6f26eb]" : "text-gray-600 hover:text-[#6f26eb]"
+    `font-medium rounded-full px-2 py-1 transition-all duration-200 ${
+      isActive
+        ? "text-[#6f26eb] bg-[#f3e8ff] bg-opacity-40 shadow-sm"
+        : "text-gray-600 hover:text-[#6f26eb] hover:bg-[#f3e8ff] hover:bg-opacity-20"
     }`;
 
   const handleLogout = () => {
@@ -24,7 +26,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* LOGO */}
           <NavLink to="/" className="flex items-center">
-            <img src="/Skill_gray.png" alt="SkillMart" className="h-9 w-auto" />
+            <img src="/SkillMart-Logo.svg" alt="SkillMart" className="h-10 w-auto" />
           </NavLink>
 
           {/* DESKTOP MENU */}
@@ -41,6 +43,13 @@ const Navbar = () => {
             <NavLink to="/contact" className={navLinkClass}>
               Contact
             </NavLink>
+
+                        {role === "admin" && (
+              <NavLink to="/admin" className={navLinkClass}>
+                Requests
+              </NavLink>
+            )}
+
             {token ? (
               <button
                 onClick={handleLogout}
@@ -56,11 +65,7 @@ const Navbar = () => {
                 Login
               </NavLink>
             )}
-            {role === "admin" && (
-              <NavLink to="/admin" className={navLinkClass}>
-                Requests
-              </NavLink>
-            )}
+
           </div>
 
           {/* RIGHT ICONS */}
