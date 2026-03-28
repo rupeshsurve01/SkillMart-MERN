@@ -1,17 +1,25 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+﻿import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const role = localStorage.getItem("role");
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   const navLinkClass = ({ isActive }) =>
     `font-medium transition ${
       isActive ? "text-[#6f26eb]" : "text-gray-600 hover:text-[#6f26eb]"
     }`;
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    navigate("/login");
+  };
+
   return (
-<nav className="sticky top-0 z-50 bg-[#ffffff] shadow-md">
+    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* LOGO */}
@@ -33,10 +41,21 @@ const Navbar = () => {
             <NavLink to="/contact" className={navLinkClass}>
               Contact
             </NavLink>
-            <NavLink to="/login" className={navLinkClass}>
-              Login
-            </NavLink>
-
+            {token ? (
+              <button
+                onClick={handleLogout}
+                className="ml-2 rounded-full bg-[#6f26eb] px-4 py-2 text-sm font-semibold text-white transition hover:bg-purple-700"
+              >
+                Logout
+              </button>
+            ) : (
+              <NavLink
+                to="/login"
+                className="rounded-full bg-[#6f26eb] px-4 py-2 text-sm font-semibold text-white transition hover:bg-purple-700"
+              >
+                Login
+              </NavLink>
+            )}
             {role === "admin" && (
               <NavLink to="/admin" className={navLinkClass}>
                 Requests
@@ -46,7 +65,6 @@ const Navbar = () => {
 
           {/* RIGHT ICONS */}
           <div className="flex items-center gap-4">
-            {/* WISHLIST */}
             <NavLink
               to="/wishlist"
               className="p-2 rounded-full hover:bg-gray-100 transition"
@@ -58,7 +76,6 @@ const Navbar = () => {
               />
             </NavLink>
 
-            {/* MY LEARNING / CART */}
             <NavLink
               to="/my-learning"
               className="p-2 rounded-full hover:bg-gray-100 transition"
@@ -70,18 +87,29 @@ const Navbar = () => {
               />
             </NavLink>
 
-            {/* HAMBURGER */}
             <button
+              aria-label="Toggle navigation"
               className="md:hidden p-2 rounded-md hover:bg-gray-100 transition"
               onClick={() => setOpen(!open)}
             >
-              ☰
+              <svg
+                aria-hidden="true"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="text-gray-700"
+              >
+                <path d="M4 6H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <path d="M4 12H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <path d="M4 18H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
             </button>
           </div>
         </div>
       </div>
 
-      {/* MOBILE MENU */}
       {open && (
         <div className="md:hidden bg-white border-t shadow-sm">
           <div className="flex flex-col gap-4 px-6 py-5">
@@ -127,18 +155,31 @@ const Navbar = () => {
             >
               Contact
             </NavLink>
-            <NavLink
-              to="/login"
-              onClick={() => setOpen(false)}
-              className={navLinkClass}
-            >
-              Login
-            </NavLink>
-
-           
-
+            {token ? (
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  handleLogout();
+                }}
+                className="text-left text-gray-700 hover:text-[#6f26eb] font-medium transition"
+              >
+                Logout
+              </button>
+            ) : (
+              <NavLink
+                to="/login"
+                onClick={() => setOpen(false)}
+                className={navLinkClass}
+              >
+                Login
+              </NavLink>
+            )}
             {role === "admin" && (
-              <NavLink to="/admin" className={navLinkClass}>
+              <NavLink
+                to="/admin"
+                onClick={() => setOpen(false)}
+                className={navLinkClass}
+              >
                 Requests
               </NavLink>
             )}

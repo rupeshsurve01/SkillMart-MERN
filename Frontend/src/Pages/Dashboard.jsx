@@ -56,7 +56,7 @@ const Dashboard = () => {
             </Link>
 
             <Link to="/register" className="w-full sm:w-auto">
-              <button className="w-full sm:w-auto px-6 sm:px-10 py-3 sm:py-4 border border-white bg-gray-300 text-white font-semibold rounded-xl hover:bg-white hover:text-black transition duration-300">
+              <button className="w-full sm:w-auto px-6 sm:px-10 py-3 sm:py-4 border border-[#6f26eb] bg-white text-[#6f26eb] font-semibold rounded-xl hover:bg-[#f3ecff] transition duration-300">
                 Become Instructor
               </button>
             </Link>

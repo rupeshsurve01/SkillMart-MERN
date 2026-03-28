@@ -21,7 +21,7 @@ function CourseRegisterForm() {
   const [preview, setPreview] = useState(null);
   const [errors, setErrors] = useState({});
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,7 +32,7 @@ function CourseRegisterForm() {
     const newErrors = {};
 
     if (!courseData.title.trim()) newErrors.title = "Course title is required";
-    if (!courseData.firm.trim()) newErrors.firm = "Firm Name is required";
+    if (!courseData.firm.trim()) newErrors.firm = "Firm name is required";
     if (!courseData.shortDesc.trim())
       newErrors.shortDesc = "Short description is required";
     if (!courseData.category) newErrors.category = "Select a category";
@@ -44,225 +44,237 @@ function CourseRegisterForm() {
       newErrors.duration = "Duration is required";
     if (!courseData.learn.trim()) newErrors.learn = "This field is required";
 
-    if (!courseData.lectures || courseData.lectures <= 0)
+    if (!courseData.lectures || Number(courseData.lectures) <= 0)
       newErrors.lectures = "Lectures must be greater than 0";
 
-    if (!courseData.price || courseData.price <= 0)
+    if (!courseData.price || Number(courseData.price) <= 0)
       newErrors.price = "Price must be greater than 0";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!validate()) return;
+    if (!validate()) return;
 
-  const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-  const formData = new FormData();
-
-  Object.keys(courseData).forEach((key) => {
-    if (key !== "thumbnail") {
-      formData.append(key, courseData[key]);
-    }
-  });
-
-  if (courseData.thumbnail) {
-    formData.append("thumbnail", courseData.thumbnail);
-  }
-
-  try {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/courses`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
+    const formData = new FormData();
+    Object.keys(courseData).forEach((key) => {
+      if (key !== "thumbnail") {
+        formData.append(key, courseData[key]);
+      }
     });
 
-    const data = await res.json();
-    alert(data.message);
-    navigate("/my-courses")
-  } catch (error) {
-    alert("Something went wrong");
-  }
-};
+    if (courseData.thumbnail) {
+      formData.append("thumbnail", courseData.thumbnail);
+    }
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/courses`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      const data = await res.json();
+      alert(data.message);
+      navigate("/my-courses");
+    } catch (error) {
+      alert("Something went wrong");
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-center">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-10">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl"
+        className="w-full max-w-3xl rounded-[32px] bg-white shadow-2xl border border-slate-200 p-8"
       >
-        <h1 className="text-2xl font-bold mb-6 text-center">Add New Course</h1>
+        <h1 className="text-3xl font-bold text-slate-900 text-center mb-8">Add New Course</h1>
 
-        {/* BASIC INFO */}
-        <label className="font-medium">Course Title</label>
-        <input
-          name="title"
-          value={courseData.title}
-          onChange={handleChange}
-          className="w-full border px-3 py-2 rounded "
-        />
-        {errors.title && <p className="text-red-500 mb-2">{errors.title}</p>}
+        <div className="grid gap-5">
+          <div className="grid gap-2">
+            <label className="text-sm font-semibold text-slate-700">Course Title</label>
+            <input
+              name="title"
+              value={courseData.title}
+              onChange={handleChange}
+              className="w-full rounded-3xl border border-slate-300 px-4 py-3 text-slate-900 focus:ring-2 focus:ring-[#6f26eb]"
+            />
+            {errors.title && <p className="text-sm text-red-500">{errors.title}</p>}
+          </div>
 
-        <label className="font-medium">Firm Name</label>
-        <input
-          name="firm"
-          value={courseData.firm}
-          onChange={handleChange}
-          className="w-full border px-3 py-2 rounded "
-        />
-        {errors.firm && <p className="text-red-500 mb-2">{errors.firm}</p>}
+          <div className="grid gap-2">
+            <label className="text-sm font-semibold text-slate-700">Firm Name</label>
+            <input
+              name="firm"
+              value={courseData.firm}
+              onChange={handleChange}
+              className="w-full rounded-3xl border border-slate-300 px-4 py-3 text-slate-900 focus:ring-2 focus:ring-[#6f26eb]"
+            />
+            {errors.firm && <p className="text-sm text-red-500">{errors.firm}</p>}
+          </div>
 
-        <label className="font-medium">Short Description</label>
-        <input
-          name="shortDesc"
-          value={courseData.shortDesc}
-          onChange={handleChange}
-          className="w-full border px-3 py-2 rounded "
-        />
-        {errors.shortDesc && <p className="text-red-500 mb-2">{errors.shortDesc}</p>}
+          <div className="grid gap-2">
+            <label className="text-sm font-semibold text-slate-700">Short Description</label>
+            <input
+              name="shortDesc"
+              value={courseData.shortDesc}
+              onChange={handleChange}
+              className="w-full rounded-3xl border border-slate-300 px-4 py-3 text-slate-900 focus:ring-2 focus:ring-[#6f26eb]"
+            />
+            {errors.shortDesc && <p className="text-sm text-red-500">{errors.shortDesc}</p>}
+          </div>
 
-        <label className="font-medium">Category</label>
-        <select
-          name="category"
-          value={courseData.category}
-          onChange={handleChange}
-          className="w-full border px-3 py-2 rounded "
-        >
-          <option value="">Select</option>
-          <option value="web-development">Web Development</option>
-          <option value="app-development">App Development</option>
-          <option value="ai-ml">AI / ML</option>
-          <option value="programming">Programming Language</option>
-          <option value="testing">Testing</option>
-          <option value="database">Database</option>
-          <option value="security">Security</option>
-          <option value="devOps">DevOps</option>
-          <option value="theory">Theory Concepts</option>
-        </select>
-        {errors.category && <p className="text-red-500 mb-2">{errors.category}</p>}
+          <div className="grid sm:grid-cols-3 gap-4">
+            <div className="grid gap-2">
+              <label className="text-sm font-semibold text-slate-700">Category</label>
+              <select
+                name="category"
+                value={courseData.category}
+                onChange={handleChange}
+                className="w-full rounded-3xl border border-slate-300 px-4 py-3 text-slate-900 focus:ring-2 focus:ring-[#6f26eb]"
+              >
+                <option value="">Select</option>
+                <option value="web-development">Web Development</option>
+                <option value="app-development">App Development</option>
+                <option value="ai-ml">AI / ML</option>
+                <option value="programming">Programming Language</option>
+                <option value="testing">Testing</option>
+                <option value="database">Database</option>
+                <option value="security">Security</option>
+                <option value="devOps">DevOps</option>
+                <option value="theory">Theory Concepts</option>
+              </select>
+              {errors.category && <p className="text-sm text-red-500">{errors.category}</p>}
+            </div>
 
-        <label className="font-medium">Level</label>
-        <select
-          name="level"
-          value={courseData.level}
-          onChange={handleChange}
-          className="w-full border px-3 py-2 rounded "
-        >
-          <option value="">Select</option>
-          <option value="beginner">Beginner</option>
-          <option value="intermediate">Intermediate</option>
-          <option value="advanced">Advanced</option>
-        </select>
-        {errors.category && <p className="text-red-500 mb-2">{errors.category}</p>}
+            <div className="grid gap-2">
+              <label className="text-sm font-semibold text-slate-700">Level</label>
+              <select
+                name="level"
+                value={courseData.level}
+                onChange={handleChange}
+                className="w-full rounded-3xl border border-slate-300 px-4 py-3 text-slate-900 focus:ring-2 focus:ring-[#6f26eb]"
+              >
+                <option value="">Select</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+              {errors.level && <p className="text-sm text-red-500">{errors.level}</p>}
+            </div>
 
-        {/* LANGUAGE DROPDOWN */}
-        <label className="font-medium">Course Language</label>
-        <select
-          name="language"
-          value={courseData.language}
-          onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-1"
-        >
-          <option value="">Select</option>
-          <option value="English">English</option>
-          <option value="Hindi">Hindi</option>
-          <option value="Hindi + English">Hindi + English</option>
-        </select>
-        {errors.language && <p className="text-red-500">{errors.language}</p>}
+            <div className="grid gap-2">
+              <label className="text-sm font-semibold text-slate-700">Course Language</label>
+              <select
+                name="language"
+                value={courseData.language}
+                onChange={handleChange}
+                className="w-full rounded-3xl border border-slate-300 px-4 py-3 text-slate-900 focus:ring-2 focus:ring-[#6f26eb]"
+              >
+                <option value="">Select</option>
+                <option value="English">English</option>
+                <option value="Hindi">Hindi</option>
+                <option value="Hindi + English">Hindi + English</option>
+              </select>
+              {errors.language && <p className="text-sm text-red-500">{errors.language}</p>}
+            </div>
+          </div>
 
-        {/* SYLLABUS */}
-        <label className="font-medium mt-4 block">Course Syllabus</label>
-        <textarea
-          name="syllabus"
-          value={courseData.syllabus}
-          onChange={handleChange}
-          placeholder="1. Introduction
-                          2. Setup & Tools
-                          3. Core Concepts
-                          4. Project"
-          className="w-full border px-3 py-2 rounded "
-        />
-        {errors.syllabus && <p className="text-red-500 mb-2">{errors.syllabus}</p>}
+          <div className="grid gap-2">
+            <label className="text-sm font-semibold text-slate-700">Course Syllabus</label>
+            <textarea
+              name="syllabus"
+              value={courseData.syllabus}
+              onChange={handleChange}
+              placeholder="1. Introduction\n2. Setup & Tools\n3. Core Concepts\n4. Project"
+              className="w-full rounded-3xl border border-slate-300 px-4 py-3 text-slate-900 focus:ring-2 focus:ring-[#6f26eb] min-h-[140px]"
+            />
+            {errors.syllabus && <p className="text-sm text-red-500">{errors.syllabus}</p>}
+          </div>
 
-        {/* COURSE CONTENT */}
-        <label className="font-medium">Total Duration</label>
-        <input
-          name="duration"
-          value={courseData.duration}
-          onChange={handleChange}
-          className="w-full border px-3 py-2 rounded "
-        />
-        {errors.duration && <p className="text-red-500 mb-2">{errors.duration}</p>}
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid gap-2">
+              <label className="text-sm font-semibold text-slate-700">Total Duration</label>
+              <input
+                name="duration"
+                value={courseData.duration}
+                onChange={handleChange}
+                className="w-full rounded-3xl border border-slate-300 px-4 py-3 text-slate-900 focus:ring-2 focus:ring-[#6f26eb]"
+              />
+              {errors.duration && <p className="text-sm text-red-500">{errors.duration}</p>}
+            </div>
 
-        <label className="font-medium">What You Will Learn</label>
-        <textarea
-          name="learn"
-          value={courseData.learn}
-          onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-1"
-        />
+            <div className="grid gap-2">
+              <label className="text-sm font-semibold text-slate-700">Number of Lectures</label>
+              <input
+                type="number"
+                name="lectures"
+                value={courseData.lectures}
+                onChange={handleChange}
+                className="w-full rounded-3xl border border-slate-300 px-4 py-3 text-slate-900 focus:ring-2 focus:ring-[#6f26eb]"
+              />
+              {errors.lectures && <p className="text-sm text-red-500">{errors.lectures}</p>}
+            </div>
+          </div>
 
-        <label className="font-medium">Number of Lectures</label>
-        <input
-          type="number"
-          name="lectures"
-          value={courseData.lectures}
-          onChange={handleChange}
-          className="w-full border px-3 py-2 rounded "
-        />
-        {errors.lectures && <p className="text-red-500 mb-2">{errors.lectures}</p>}
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid gap-2">
+              <label className="text-sm font-semibold text-slate-700">Price</label>
+              <input
+                type="number"
+                name="price"
+                value={courseData.price}
+                onChange={handleChange}
+                className="w-full rounded-3xl border border-slate-300 px-4 py-3 text-slate-900 focus:ring-2 focus:ring-[#6f26eb]"
+              />
+              {errors.price && <p className="text-sm text-red-500">{errors.price}</p>}
+            </div>
 
+            <div className="grid gap-2">
+              <label className="text-sm font-semibold text-slate-700">Course Thumbnail</label>
+              <label
+                htmlFor="thumbnail"
+                className="cursor-pointer rounded-3xl border border-slate-300 bg-slate-100 px-4 py-3 text-center text-slate-700 hover:bg-slate-200 transition"
+              >
+                Upload Thumbnail
+              </label>
+              <input
+                id="thumbnail"
+                name="thumbnail"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setCourseData({ ...courseData, thumbnail: file });
+                  setPreview(URL.createObjectURL(file));
+                }}
+              />
+            </div>
+          </div>
 
-        {/* PRICE */}
-        <label className="font-medium">Price</label>
-        <input
-          type="number"
-          name="price"
-          value={courseData.price}
-          onChange={handleChange}
-          className="w-full border px-3 py-2 rounded mb-2"
-        />
-        {errors.price && <p className="text-red-500 mb-2">{errors.price}</p>}
+          {preview && (
+            <div className="rounded-3xl border border-slate-200 p-4 bg-slate-50">
+              <p className="text-sm font-medium text-slate-700">Preview</p>
+              <img
+                src={preview}
+                alt="Preview"
+                className="mt-3 w-full max-w-sm h-48 object-cover rounded-3xl border border-slate-200"
+              />
+            </div>
+          )}
 
-        {/* THUMBNAIL */}
-        <label className="font-medium block mb-1">Course Thumbnail</label>
-
-        <label
-          htmlFor="thumbnail"
-          className="cursor-pointer bg-gray-200 px-4 py-2 rounded-lg inline-block"
-        >
-          Upload Thumbnail
-        </label>
-
-        <input
-          id="thumbnail"
-          name="thumbnail" 
-          type="file"
-          accept="image/*"
-          className="hidden"
-          onChange={(e) => {
-            const file = e.target.files[0];
-            setCourseData({ ...courseData, thumbnail: file });
-            setPreview(URL.createObjectURL(file));
-          }}
-        />
-
-        {preview && (
-          <img
-            src={preview}
-            alt="Preview"
-            className="mt-4 w-48 h-32 object-cover rounded-lg border"
-          />
-        )}
-
-        <button className="w-full bg-blue-600 text-white py-3 mt-6 rounded-lg">
-          Publish Course
-        </button>
+          <button className="w-full rounded-3xl bg-[#6f26eb] py-3 text-white font-semibold transition hover:bg-purple-700">
+            Publish Course
+          </button>
+        </div>
       </form>
     </div>
   );

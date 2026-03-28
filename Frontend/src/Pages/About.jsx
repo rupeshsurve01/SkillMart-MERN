@@ -3,8 +3,8 @@ import Navbar from "../components/Navbar";
 
 const About = () => {
   return (
-    <div className="bg-gray-200">
-      {/* <Navbar /> */}
+    <div className="min-h-screen bg-slate-50">
+    
 
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* HEADER */}
@@ -66,12 +66,12 @@ const About = () => {
         </div>
 
         {/* FOOTER NOTE */}
-        <div className="mt-10 text-center text-gray-500 text-sm">
+        <div className="mt-10 text-center text-slate-500 text-sm">
           SkillMart is a continuously evolving project built as part of a
           full-stack development journey.
         </div>
       </div>
-      {/* <Footer /> */}
+  
     </div>
   );
 };
