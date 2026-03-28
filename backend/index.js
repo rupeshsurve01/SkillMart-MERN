@@ -46,6 +46,7 @@ app.use("/api/courses", courseRoutes);
 app.use("/api/enroll", enrollRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/contact", require("./routes/contactRoutes"));
 
 app.get("/", (req, res) => {
   res.send("SkillMart Backend Running 🚀");
