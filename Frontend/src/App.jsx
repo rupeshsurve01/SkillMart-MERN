@@ -15,12 +15,13 @@ import AdminDashboard from "./Pages/AdminDashboard";
 import ViewForAdmin from "./Pages/ViewForAdmin";
 import About from "./Pages/About";
 import Wishlist from "./Pages/Wishlist";
-
+import { ToastProvider } from "./components/ToastProvider";
 
 function App() {
   return (
-    <div>
-      <Routes>
+    <ToastProvider>
+      <div>
+        <Routes>
         <Route path="/login" element={<LoginSignup />} />
         <Route path="/" element={<Dashboard />} />
         <Route path="/contact" element={<Contact />} />
@@ -84,6 +85,7 @@ function App() {
         />
       </Routes>
     </div>
+    </ToastProvider>
   );
 }
 

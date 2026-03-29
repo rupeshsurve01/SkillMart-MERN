@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "./ToastContext";
 
 function CourseRegisterForm() {
   const [courseData, setCourseData] = useState({
@@ -22,6 +23,7 @@ function CourseRegisterForm() {
   const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -85,10 +87,10 @@ function CourseRegisterForm() {
       });
 
       const data = await res.json();
-      alert(data.message);
-      navigate("/my-courses");
+      showToast(data.message || "Course submission failed", res.ok ? "success" : "error");
+      if (res.ok) navigate("/my-courses");
     } catch (error) {
-      alert("Something went wrong");
+      showToast("Something went wrong", "error");
     } finally {
       setIsSubmitting(false);
     }

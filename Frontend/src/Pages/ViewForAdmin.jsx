@@ -2,11 +2,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import { useToast } from "../components/ToastContext";
 
 const ViewForAdmin = () => {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const token = localStorage.getItem("token");
 
@@ -25,7 +27,7 @@ const ViewForAdmin = () => {
 
         setCourse(res.data);
     } catch {
-      alert("Unauthorized or course not found");
+      showToast("Unauthorized or course not found", "error");
       navigate("/");
     }
     };
@@ -46,10 +48,10 @@ const ViewForAdmin = () => {
         }
       );
 
-      alert(res.data.message);
+      showToast(res.data.message, "success");
       navigate("/admin");
     } catch {
-      alert("Action failed");
+      showToast("Action failed", "error");
     }
   };
 

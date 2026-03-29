@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
+import { useToast } from "../components/ToastContext";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -9,11 +10,12 @@ const MyLearning = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     if (!token) {
-      alert("Please login first");
+      showToast("Please login first", "error");
       navigate("/login");
       return;
     }
@@ -27,7 +29,7 @@ const MyLearning = () => {
         });
 
         if (res.status === 401) {
-          alert("Session expired. Please login again.");
+          showToast("Session expired. Please login again.", "error");
           localStorage.removeItem("token");
           navigate("/login");
           return;
@@ -48,7 +50,7 @@ const MyLearning = () => {
     };
 
     fetchCourses();
-  }, [token, navigate]);
+  }, [token, navigate, showToast]);
 
   const handleRemove = async (courseId) => {
     try {

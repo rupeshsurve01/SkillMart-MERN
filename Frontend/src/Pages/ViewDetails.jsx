@@ -16,6 +16,12 @@ const ViewDetails = () => {
   const [comment, setComment] = useState("");
   const [reviews, setReviews] = useState([]);
   const [isEnrolled, setIsEnrolled] = useState(false);
+  const [toast, setToast] = useState({ message: "", type: "" });
+
+  const showToast = (message, type = "success") => {
+    setToast({ message, type });
+    setTimeout(() => setToast({ message: "", type: "" }), 3000);
+  };
 
   useEffect(() => {
     const fetchCourseData = async () => {
@@ -54,7 +60,7 @@ const ViewDetails = () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("Please login first");
+      showToast("Please login first", "error");
       navigate("/login");
       return;
     }
@@ -74,14 +80,14 @@ const ViewDetails = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.message || "Enrollment failed");
+        showToast(data.message || "Enrollment failed", "error");
         return;
       }
 
-      alert("Enrolled successfully");
+      showToast("Enrolled successfully", "success");
       navigate("/my-learning");
     } catch {
-      alert("Server error, please try again later");
+      showToast("Server error, please try again later", "error");
     }
   };
 
@@ -108,13 +114,13 @@ const ViewDetails = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.message || "Failed to add to wishlist");
+        showToast(data.message || "Failed to add to wishlist", "error");
         return;
       }
 
-      alert("Added to wishlist");
+      showToast(data.message || "Added to wishlist", "success");
     } catch {
-      alert("Server error");
+      showToast("Server error", "error");
     }
   };
 
@@ -123,7 +129,7 @@ const ViewDetails = () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("Please login to review");
+      showToast("Please login to review", "error");
       navigate("/login");
       return;
     }
@@ -140,7 +146,7 @@ const ViewDetails = () => {
         },
       );
 
-      alert("Review added!");
+      showToast("Review added!", "success");
       setComment("");
       setRating(5);
 
@@ -148,13 +154,19 @@ const ViewDetails = () => {
       setCourse(updated.data);
       setReviews(updated.data.reviews || []);
     } catch (error) {
-      alert(error.response?.data?.message || "Error adding review");
+      showToast(error.response?.data?.message || "Error adding review", "error");
     }
   };
 
   return (
     <div className="bg-gray-300">
       <Navbar />
+
+      {toast.message && (
+        <div className={`fixed bottom-6 right-6 z-50 rounded-2xl px-5 py-3 text-sm font-semibold shadow-2xl transition-all ${toast.type === "success" ? "bg-emerald-500 text-white" : "bg-red-500 text-white"}`}>
+          {toast.message}
+        </div>
+      )}
 
       <div className="max-w-6xl mx-auto px-4 py-10">
         <div className="w-full h-[380px] rounded-2xl overflow-hidden shadow-lg mb-10">

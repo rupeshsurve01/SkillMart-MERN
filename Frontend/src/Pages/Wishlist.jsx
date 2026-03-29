@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "../components/ToastContext";
 
 const Wishlist = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -54,7 +56,7 @@ const Wishlist = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.message);
+        showToast(data.message || "Failed to remove from wishlist", "error");
         return;
       }
 
