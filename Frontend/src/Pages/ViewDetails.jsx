@@ -168,8 +168,8 @@ const ViewDetails = () => {
         </div>
       )}
 
-      <div className="max-w-6xl mx-auto px-4 py-10">
-        <div className="w-full h-[380px] rounded-2xl overflow-hidden shadow-lg mb-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+        <div className="w-full h-64 md:h-[380px] rounded-2xl overflow-hidden shadow-lg mb-10">
           <img
             src={course.thumbnail}
             alt={course.title}
@@ -215,7 +215,7 @@ const ViewDetails = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xl p-6 h-fit sticky top-24">
+          <div className="bg-white rounded-2xl shadow-xl p-6 h-fit md:sticky md:top-24">
             <p className="text-3xl font-extrabold text-gray-900 mb-4">
               Rs. {course.price}
             </p>
@@ -245,7 +245,7 @@ const ViewDetails = () => {
         {isEnrolled && (
           <div className="mt-10">
             <div className="flex flex-col gap-6 md:flex-row md:items-stretch">
-              <div className="md:w-[280px] rounded-[28px] bg-slate-900 px-7 py-8 text-white shadow-[0_20px_60px_rgba(15,23,42,0.24)]">
+              <div className="w-full md:w-[280px] rounded-[28px] bg-slate-900 px-7 py-8 text-white shadow-[0_20px_60px_rgba(15,23,42,0.24)]">
                 <p className="text-xs font-semibold uppercase tracking-[0.35em] text-amber-300/90">
                   Learner Feedback
                 </p>

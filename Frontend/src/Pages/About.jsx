@@ -6,7 +6,7 @@ const About = () => {
     <div className="min-h-screen bg-slate-50">
     
 
-      <div className="max-w-6xl mx-auto px-6 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
         {/* HEADER */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-800">

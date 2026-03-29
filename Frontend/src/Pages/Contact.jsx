@@ -47,7 +47,7 @@ const Contact = () => {
     <div>
       <Navbar />
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-[#120d33] text-white">
-        <div className="max-w-6xl mx-auto px-6 py-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
           <div className="grid gap-10 lg:grid-cols-2 items-center">
             <div className="space-y-6">
               <p className="text-sm uppercase tracking-[0.3em] text-cyan-300">

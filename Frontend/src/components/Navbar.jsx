@@ -21,12 +21,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
-      <div className="max-w-7xl mx-auto px-6">
+    <nav className="sticky top-0 z-50 bg-slate-100 border-b border-slate-300 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
           {/* LOGO */}
           <NavLink to="/" className="flex items-center">
-            <img src="/Skill_Mart.png" alt="SkillMart" className="h-15 w-auto" />
+            <img src="/Skill_Mart_b.png" alt="SkillMart" className="h-14 w-auto" />
           </NavLink>
 
           {/* DESKTOP MENU */}
@@ -69,7 +69,7 @@ const Navbar = () => {
           </div>
 
           {/* RIGHT ICONS */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <NavLink
               to="/wishlist"
               className="p-2 rounded-full hover:bg-gray-100 transition"

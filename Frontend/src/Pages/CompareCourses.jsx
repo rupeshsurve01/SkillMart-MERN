@@ -43,7 +43,7 @@ const CompareCourses = () => {
     return (
       <div className="min-h-screen bg-slate-950 text-slate-100">
         <Navbar />
-        <div className="max-w-7xl mx-auto px-6 py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20">
           <div className="animate-pulse rounded-[32px] border border-white/10 bg-slate-900/80 p-10 shadow-2xl">
             <div className="h-10 w-1/3 rounded-full bg-slate-800" />
             <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
@@ -70,7 +70,7 @@ const CompareCourses = () => {
       <>
         <Navbar />
       <div className="min-h-screen bg-slate-950 text-slate-100">
-        <div className="max-w-4xl mx-auto px-6 py-28 text-center">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-28 text-center">
           <div className="inline-flex flex-col gap-6 rounded-[32px] border border-white/10 bg-white/5 p-10 shadow-2xl backdrop-blur-sm">
             <p className="text-sm uppercase tracking-[0.35em] text-cyan-300">Course comparison</p>
             <h1 className="text-4xl font-bold">Nothing to compare yet</h1>
@@ -96,7 +96,7 @@ const CompareCourses = () => {
       <Navbar />
     <div className="min-h-screen bg-slate-950 text-slate-100">
 
-      <div className="max-w-7xl mx-auto px-6 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
         <section className="rounded-[32px] border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-sm mb-10">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>

@@ -207,7 +207,7 @@ const CheckCourses = () => {
             {filteredCourses.map((course) => (
               <div
                 key={course._id}
-                className="relative w-[300px] h-[500px]
+                className="relative w-full sm:w-[300px] h-auto sm:h-[500px]
                 bg-gray-900
                 border border-white/20
                 rounded-[18px]

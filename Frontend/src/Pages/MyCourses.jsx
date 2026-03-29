@@ -58,7 +58,7 @@ const MyCourses = () => {
     <>
       <Navbar />
 
-      <div className="min-h-screen bg-slate-50 px-6 py-10 text-slate-900">
+      <div className="min-h-screen bg-slate-50 px-4 sm:px-6 py-10 text-slate-900">
         <div className="max-w-7xl mx-auto space-y-8">
           <section className="rounded-[32px] border border-slate-200 bg-gradient-to-br from-white to-slate-100 p-8 shadow-xl">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
