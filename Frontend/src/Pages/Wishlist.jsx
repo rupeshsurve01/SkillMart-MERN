@@ -95,7 +95,7 @@ const Wishlist = () => {
                 <p className="mt-3 text-3xl font-semibold text-white">₹{totalValue}</p>
               </div>
               <Link
-                to="/"
+                to="/allcourses"
                 className="inline-flex items-center justify-center rounded-3xl bg-[#6f26eb] px-5 py-3 text-sm font-semibold text-white transition hover:bg-purple-700"
               >
                 Browse Courses
@@ -128,7 +128,7 @@ const Wishlist = () => {
               <h2 className="mt-4 text-3xl font-semibold text-white">Your wishlist is empty</h2>
               <p className="mt-3 text-slate-300">Find the next course to add to your learning list.</p>
               <Link
-                to="/"
+                to="/allcourses"
                 className="mt-8 inline-flex items-center justify-center rounded-full bg-[#6f26eb] px-8 py-3 text-sm font-semibold text-white transition hover:bg-purple-700"
               >
                 Explore courses

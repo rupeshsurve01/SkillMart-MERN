@@ -54,11 +54,14 @@ function CourseRegisterForm() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validate()) return;
 
+    setIsSubmitting(true);
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
@@ -86,6 +89,8 @@ function CourseRegisterForm() {
       navigate("/my-courses");
     } catch (error) {
       alert("Something went wrong");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -199,6 +204,18 @@ function CourseRegisterForm() {
             {errors.syllabus && <p className="text-sm text-red-500">{errors.syllabus}</p>}
           </div>
 
+          <div className="grid gap-2">
+            <label className="text-sm font-semibold text-slate-700">What Learners Will Learn</label>
+            <textarea
+              name="learn"
+              value={courseData.learn}
+              onChange={handleChange}
+              placeholder="Describe the key outcomes learners will gain from this course"
+              className="w-full rounded-3xl border border-slate-300 px-4 py-3 text-slate-900 focus:ring-2 focus:ring-[#6f26eb] min-h-[120px]"
+            />
+            {errors.learn && <p className="text-sm text-red-500">{errors.learn}</p>}
+          </div>
+
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="grid gap-2">
               <label className="text-sm font-semibold text-slate-700">Total Duration</label>
@@ -271,8 +288,13 @@ function CourseRegisterForm() {
             </div>
           )}
 
-          <button className="w-full rounded-3xl bg-[#6f26eb] py-3 text-white font-semibold transition hover:bg-purple-700">
-            Publish Course
+          <button
+            type="submit"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            className="w-full rounded-3xl bg-[#6f26eb] py-3 text-white font-semibold transition hover:bg-purple-700 disabled:cursor-not-allowed disabled:bg-slate-400"
+          >
+            {isSubmitting ? "Publishing..." : "Publish Course"}
           </button>
         </div>
       </form>

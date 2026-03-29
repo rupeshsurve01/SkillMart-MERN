@@ -104,7 +104,7 @@ const MyLearning = () => {
                 <p className="mt-3 text-3xl font-semibold text-white">₹{totalSpent}</p>
               </div>
               <Link
-                to="/"
+                to="/allcourses"
                 className="inline-flex items-center justify-center rounded-3xl bg-[#6f26eb] px-5 py-3 text-sm font-semibold text-white transition hover:bg-purple-700"
               >
                 Discover more
@@ -137,7 +137,7 @@ const MyLearning = () => {
               <h2 className="mt-4 text-3xl font-semibold text-white">You haven’t enrolled in any course yet</h2>
               <p className="mt-3 text-slate-300">Pick a course and start learning today.</p>
               <Link
-                to="/"
+                to="/allcourses"
                 className="mt-8 inline-flex items-center justify-center rounded-full bg-[#6f26eb] px-8 py-3 text-sm font-semibold text-white transition hover:bg-purple-700"
               >
                 Browse courses

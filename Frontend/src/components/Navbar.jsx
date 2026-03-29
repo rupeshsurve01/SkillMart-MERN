@@ -26,7 +26,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* LOGO */}
           <NavLink to="/" className="flex items-center">
-            <img src="/SkillMart-Logo.svg" alt="SkillMart" className="h-10 w-auto" />
+            <img src="/Skill_Mart.png" alt="SkillMart" className="h-15 w-auto" />
           </NavLink>
 
           {/* DESKTOP MENU */}
